@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Pombe</string>
+    <string name="title_home">Pombe</string>
+    <string name="title_dashboard">About</string>
+    <string name="theme">theme</string>
+    <string name="everyday_is_cocktail_day">Everyday is Cocktail Day !!</string>
+    <string name="search_cocktail">Search cocktail</string>
+    <string name="recommended">Recommended</string>
+    <string name="view_all">view all</string>
+    <string name="recent">Recent</string>
+    <string name="popular">Popular</string>
+    <string name="latest">Latest</string>
+    <string name="a_long_description_of_what_this_cocktail_is">A long description of what this cocktail is.</string>
+    <string name="_100">100</string>
+</resources>
