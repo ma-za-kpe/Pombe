@@ -6,6 +6,9 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
 }
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -23,6 +26,8 @@ android {
                                       "$projectDir/schemas".toString()]
             }
         }
+
+        buildConfigField "String", "API_KEY",localProperties['apiKey']
     }
 
     buildTypes {
