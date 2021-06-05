@@ -1,20 +1,26 @@
 package com.maku.pombe.ui.fragments.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maku.pombe.databinding.FragmentHomeBinding
 import com.maku.pombe.ui.fragments.home.adapters.RecentCocktailAdapter
+import com.maku.pombe.utils.NetworkListener
 import com.maku.pombe.utils.NetworkResult
+import com.maku.pombe.utils.observeOnce
 import com.maku.pombe.vm.HomeViewModel
 import com.maku.pombe.vm.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -27,6 +33,9 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private val mAdapter by lazy { RecentCocktailAdapter() }
 
+    @ExperimentalCoroutinesApi
+    private lateinit var networkListener: NetworkListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
@@ -34,6 +43,7 @@ class HomeFragment : Fragment() {
     }
 
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,9 +59,38 @@ class HomeFragment : Fragment() {
                 ViewModelProvider(this).get(MainViewModel::class.java)
 
         setupRecyclerView()
-        requestApiData()
+
+        homeViewModel.readBackOnline.observe(viewLifecycleOwner, {
+            homeViewModel.backOnline = it
+        })
+
+
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect { status ->
+                    Timber.d(status.toString())
+                    homeViewModel.networkStatus = status
+                    homeViewModel.showNetworkStatus()
+                    readDatabase()
+                }
+        }
 
         return binding.root
+    }
+
+    private fun readDatabase() {
+        lifecycleScope.launch {
+            mainViewModel.readRecentCocktails.observeOnce(viewLifecycleOwner, { database ->
+                if (database.isNotEmpty()) {
+                    Timber.d("readDatabase called!")
+                    mAdapter.setData(database[0].recent)
+                    hideShimmerEffect()
+                } else {
+                    requestApiData()
+                }
+            })
+        }
     }
 
     private fun requestApiData() {
@@ -69,12 +108,23 @@ class HomeFragment : Fragment() {
                         response.message.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
+                    loadDataFromCache()
                 }
                 is NetworkResult.Loading -> {
                     showShimmerEffect()
                 }
             }
         })
+    }
+
+    private fun loadDataFromCache() {
+        lifecycleScope.launch {
+            mainViewModel.readRecentCocktails.observe(viewLifecycleOwner, {database->
+                if (database.isNotEmpty()) {
+                    mAdapter.setData(database[0].recent)
+                }
+            })
+        }
     }
 
     private fun setupRecyclerView() {

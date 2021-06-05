@@ -4,6 +4,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import java.io.IOException
 
 // extension function to get bitmap from assets
@@ -15,6 +18,15 @@ fun Context.assetsToBitmap(fileName:String): Bitmap?{
         e.printStackTrace()
         null
     }
+}
+
+fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+    observe(lifecycleOwner, object : Observer<T> {
+        override fun onChanged(t: T?) {
+            removeObserver(this)
+            observer.onChanged(t)
+        }
+    })
 }
 
 // extension function to decode base64 string to bitmap

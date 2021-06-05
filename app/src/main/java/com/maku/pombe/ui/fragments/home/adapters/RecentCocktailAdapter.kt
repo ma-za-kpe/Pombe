@@ -4,18 +4,16 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.maku.pombe.R
+import com.maku.pombe.data.models.recent.Drink
 import com.maku.pombe.databinding.RecentItemLayoutBinding
-import com.maku.pombe.models.recent.Drink
-import com.maku.pombe.models.recent.Recent
+import com.maku.pombe.data.models.recent.Recent
 import com.maku.pombe.utils.CocktailsDiffUtil
-import de.hdodenhof.circleimageview.CircleImageView
 import timber.log.Timber
 import java.io.IOException
 import java.net.URL
@@ -73,7 +71,7 @@ class RecentCocktailAdapter internal constructor(
                         ContextCompat.getColor(card.context, R.color.cardBackgroundColor)
                     )
                 } catch(e: NumberFormatException){ // handle your exception
-                    Timber.e(e)
+                    Timber.e("error "+e.localizedMessage)
                 }
 
             }

@@ -1,9 +1,9 @@
-package com.maku.pombe.models.recent
+package com.maku.pombe.data.models.popular
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Recent(
+data class Popular(
     @SerializedName("drinks")
     val drinks: List<Drink>
 )

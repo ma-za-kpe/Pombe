@@ -5,10 +5,12 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.*
+import com.maku.pombe.data.local.entities.RecentCocktailsEntity
 import com.maku.pombe.data.repo.CocktailRepository
-import com.maku.pombe.models.recent.Recent
+import com.maku.pombe.data.models.recent.Recent
 import com.maku.pombe.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import timber.log.Timber
@@ -20,6 +22,15 @@ class MainViewModel @Inject constructor(
     application: Application)
     : AndroidViewModel(application) {
 
+    /** ROOM DATABASE */
+    val readRecentCocktails: LiveData<List<RecentCocktailsEntity>> = repository.local.readRecentCocktails().asLiveData()
+
+    private fun insertRecentCocktails(recentCocktailsEntity: RecentCocktailsEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.insertRecentCocktails(recentCocktailsEntity)
+        }
+
+    /** RETROFIT */
     var recentCocktailResponse: MutableLiveData<NetworkResult<Recent>> = MutableLiveData()
 
     fun getRecentCocktails() = viewModelScope.launch {
@@ -33,12 +44,24 @@ class MainViewModel @Inject constructor(
                 val response = repository.remote.getRecentCocktails()
                 Timber.d("response$response")
                 recentCocktailResponse.value = handleRecentCocktailResponse(response)
+
+                // offline
+                val recentRecentCocktails = recentCocktailResponse.value!!.data
+                if(recentRecentCocktails != null) {
+                    offlineCacheRecentCocktails(recentRecentCocktails)
+                }
+
             } catch (e: Exception) {
                 recentCocktailResponse.value = NetworkResult.Error("Recent cocktails not found.")
             }
         } else {
             recentCocktailResponse.value = NetworkResult.Error("No Internet Connection.")
         }
+    }
+
+    private fun offlineCacheRecentCocktails(recent: Recent) {
+        val recentEntity = RecentCocktailsEntity(recent)
+        insertRecentCocktails(recentEntity)
     }
 
     private fun handleRecentCocktailResponse(response: Response<Recent>): NetworkResult<Recent>? {

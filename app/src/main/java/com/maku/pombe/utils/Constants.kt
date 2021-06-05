@@ -9,6 +9,16 @@ class Constants {
 
         // api query keys
         const val query_api_key = "apiKey"
+
+        // room
+        const val DATABASE = "cocktails_db"
+        const val RECENT_COCKTAIL_TABLE = "recent_cocktail_table"
+
+        // preferences
+        const val PREFERENCES_NAME = "cocktail_preferences"
+
+        //INTERNET
+        const val PREFERENCES_BACK_ONLINE = "back online"
     }
 
 }

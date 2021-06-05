@@ -1,9 +1,9 @@
-package com.maku.pombe.models.latest
+package com.maku.pombe.data.models.TenRandom
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Latest(
+data class TenRandom(
     @SerializedName("drinks")
     val drinks: List<Drink>
 )

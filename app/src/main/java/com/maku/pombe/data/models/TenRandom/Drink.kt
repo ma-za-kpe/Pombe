@@ -1,4 +1,4 @@
-package com.maku.pombe.models.TenRandom
+package com.maku.pombe.data.models.TenRandom
 
 
 import com.google.gson.annotations.SerializedName

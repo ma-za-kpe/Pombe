@@ -1,4 +1,4 @@
-package com.maku.pombe.models.popular
+package com.maku.pombe.data.models.popular
 
 
 import com.google.gson.annotations.SerializedName

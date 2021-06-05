@@ -7,7 +7,7 @@
     <data>
         <variable
             name="result"
-            type="com.maku.pombe.models.recent.Drink" />
+            type="com.maku.pombe.data.models.recent.Drink" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,6 +18,7 @@
             android:id="@+id/farmer_dashboard_card"
             android:layout_width="0dp"
             android:layout_height="128dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
@@ -84,9 +85,9 @@
                     android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="3"
-                    android:textStyle="bold"
                     android:text="@{result.strInstructions}"
                     android:textColor="@color/descriptionColor"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/category"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"

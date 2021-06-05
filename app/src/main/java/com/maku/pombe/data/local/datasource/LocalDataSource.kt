@@ -1,0 +1,18 @@
+package com.maku.pombe.data.local.datasource
+
+import com.maku.pombe.data.local.dao.CocktailsDao
+import com.maku.pombe.data.local.entities.RecentCocktailsEntity
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+
+class LocalDataSource  @Inject constructor(private val dao: CocktailsDao) {
+
+    fun readRecentCocktails(): Flow<List<RecentCocktailsEntity>> {
+        return dao.readRecentCocktails()
+    }
+
+    suspend fun insertRecentCocktails(recentCocktailsEntity: RecentCocktailsEntity) {
+        dao.insertRecentCocktails(recentCocktailsEntity)
+    }
+
+}

@@ -1,8 +1,7 @@
 package com.maku.pombe.data.remote.datasource
 
 import com.maku.pombe.data.remote.api.CocktailsApi
-import com.maku.pombe.models.recent.Drink
-import com.maku.pombe.models.recent.Recent
+import com.maku.pombe.data.models.recent.Recent
 import retrofit2.Response
 import javax.inject.Inject
 

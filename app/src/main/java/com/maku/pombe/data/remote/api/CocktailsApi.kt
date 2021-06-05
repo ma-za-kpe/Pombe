@@ -1,10 +1,8 @@
 package com.maku.pombe.data.remote.api
 
-import com.maku.pombe.models.recent.Drink
-import com.maku.pombe.models.recent.Recent
+import com.maku.pombe.data.models.recent.Recent
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Query
 
 interface CocktailsApi {
 

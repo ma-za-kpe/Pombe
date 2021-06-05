@@ -1,4 +1,4 @@
-package com.maku.pombe.models.recent
+package com.maku.pombe.data.models.recent
 
 
 import com.google.gson.annotations.SerializedName

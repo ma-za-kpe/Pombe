@@ -12,12 +12,17 @@ android {
 
     defaultConfig {
         applicationId "com.maku.pombe"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation":
+                                      "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
@@ -44,7 +49,7 @@ dependencies {
     implementation 'androidx.palette:palette:1.0.0'
 
     // Room components
-    def room_version = "2.4.0-alpha01"
+    def room_version = "2.4.0-alpha02"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
@@ -53,9 +58,11 @@ dependencies {
     // circular image
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-    //glide
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    // glide
+    def glide_version = "4.12.0"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     // retrofit
     def retrofitVersion = '2.9.0'
@@ -103,6 +110,9 @@ dependencies {
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
+
+    // DataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha02"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
