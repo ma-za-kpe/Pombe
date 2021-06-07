@@ -9,11 +9,43 @@
         android:id="@+id/navigation_home"
         android:name="com.maku.pombe.ui.fragments.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_recentFragment"
+            app:destination="@id/recentFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_recentBottomSheetFragment"
+            app:destination="@id/recentBottomSheetFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_about"
         android:name="com.maku.pombe.ui.fragments.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/recentFragment"
+        android:name="com.maku.pombe.ui.fragments.home.recent.RecentFragment"
+        android:label="Recent Cocktails"
+        tools:layout="@layout/fragment_recent" >
+        <action
+            android:id="@+id/action_recentFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <dialog
+        android:id="@+id/recentBottomSheetFragment"
+        android:name="com.maku.pombe.ui.fragments.home.recent.RecentBottomSheetFragment"
+        android:label="fragment_recent_bottom_sheet"
+        tools:layout="@layout/fragment_recent_bottom_sheet" >
+        <action
+            android:id="@+id/action_recentBottomSheetFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="true"/>
+        <argument
+            android:name="drink"
+            app:argType="com.maku.pombe.data.models.recent.Drink" />
+    </dialog>
 </navigation>

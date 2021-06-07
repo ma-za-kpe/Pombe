@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.*
 import com.maku.pombe.data.local.entities.RecentCocktailsEntity
+import com.maku.pombe.data.models.recent.Drink
 import com.maku.pombe.data.repo.CocktailRepository
 import com.maku.pombe.data.models.recent.Recent
 import com.maku.pombe.utils.NetworkResult

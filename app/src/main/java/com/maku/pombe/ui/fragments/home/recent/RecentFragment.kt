@@ -5,54 +5,135 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.maku.pombe.R
+import com.maku.pombe.data.models.recent.Drink
+import com.maku.pombe.databinding.FragmentHomeBinding
+import com.maku.pombe.databinding.FragmentRecentBinding
+import com.maku.pombe.ui.base.BaseFragment
+import com.maku.pombe.ui.fragments.home.adapters.RecentCocktailAdapter
+import com.maku.pombe.ui.fragments.home.adapters.ViewAllAdapter
+import com.maku.pombe.utils.NetworkListener
+import com.maku.pombe.utils.NetworkResult
+import com.maku.pombe.utils.observeOnce
+import com.maku.pombe.vm.HomeViewModel
+import com.maku.pombe.vm.MainViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class RecentFragment : BaseFragment() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RecentFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class RecentFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentRecentBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var homeViewModel: HomeViewModel
+
+    @ExperimentalCoroutinesApi
+    private lateinit var networkListener: NetworkListener
+
+    private val mAdapter by lazy { ViewAllAdapter()    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
     }
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recent, container, false)
+        _binding =  FragmentRecentBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+
+        setupRecyclerView()
+
+        homeViewModel.readBackOnline.observe(viewLifecycleOwner, {
+            homeViewModel.backOnline = it
+        })
+
+
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                    .collect { status ->
+                        Timber.d(status.toString())
+                        homeViewModel.networkStatus = status
+                        homeViewModel.showNetworkStatus()
+                        readDatabase()
+                    }
+        }
+
+       return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RecentFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                RecentFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
+    private fun readDatabase() {
+        lifecycleScope.launch {
+            mainViewModel.readRecentCocktails.observeOnce(viewLifecycleOwner, { database ->
+                if (database.isNotEmpty()) {
+                    Timber.d("readDatabase called!")
+                    mAdapter.setData(database[0].recent)
+                    hideShimmerEffect()
+                } else {
+                    requestApiData()
                 }
+            })
+        }
     }
+
+    private fun requestApiData() {
+        mainViewModel.getRecentCocktails()
+        mainViewModel.recentCocktailResponse.observe(viewLifecycleOwner, { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    hideShimmerEffect()
+                    response.data?.let { mAdapter.setData(it) }
+                }
+                is NetworkResult.Error -> {
+                    hideShimmerEffect()
+                    Toast.makeText(
+                            requireContext(),
+                            response.message.toString(),
+                            Toast.LENGTH_SHORT
+                    ).show()
+                    loadDataFromCache()
+                }
+                is NetworkResult.Loading -> {
+                    showShimmerEffect()
+                }
+            }
+        })
+    }
+
+    private fun loadDataFromCache() {
+        lifecycleScope.launch {
+            mainViewModel.readRecentCocktails.observe(viewLifecycleOwner, {database->
+                if (database.isNotEmpty()) {
+                    mAdapter.setData(database[0].recent)
+                }
+            })
+        }
+    }
+
+
+    private fun setupRecyclerView() {
+        binding.recentviewall.adapter = mAdapter
+        binding.recentviewall.layoutManager =   LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        showShimmerEffect()
+    }
+
+    private fun showShimmerEffect() {
+        binding.recentviewall.showShimmer()
+    }
+
+    private fun hideShimmerEffect(){
+        binding.recentviewall.hideShimmer()
+    }
+
 }

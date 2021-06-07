@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -11,11 +10,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        onRecentCocktailOnClickListener="@{result}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/farmer_dashboard_card"
+            android:id="@+id/recent_dashboard_card"
             android:layout_width="0dp"
             android:layout_height="128dp"
             android:layout_marginStart="4dp"

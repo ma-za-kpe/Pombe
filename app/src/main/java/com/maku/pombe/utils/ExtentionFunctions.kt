@@ -4,10 +4,19 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.widget.ImageView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import coil.load
 import java.io.IOException
+
+
+        fun ImageView.loadImageFromUrl(imageUrl: String) {
+            this.load(imageUrl) {
+                crossfade(0)
+            }
+        }
 
 // extension function to get bitmap from assets
 fun Context.assetsToBitmap(fileName:String): Bitmap?{

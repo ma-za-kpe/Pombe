@@ -6,9 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.maku.pombe.R
+import com.maku.pombe.data.models.recent.Drink
 import com.maku.pombe.databinding.FragmentHomeBinding
 import com.maku.pombe.ui.fragments.home.adapters.RecentCocktailAdapter
 import com.maku.pombe.utils.NetworkListener
@@ -16,6 +20,7 @@ import com.maku.pombe.utils.NetworkResult
 import com.maku.pombe.utils.observeOnce
 import com.maku.pombe.vm.HomeViewModel
 import com.maku.pombe.vm.MainViewModel
+import com.maku.pombe.vm.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -25,13 +30,25 @@ import timber.log.Timber
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var homeViewModel: HomeViewModel
-    private val mAdapter by lazy { RecentCocktailAdapter() }
+    private val model: SharedViewModel by activityViewModels()
+    private val mAdapter by lazy { RecentCocktailAdapter { item ->
+        openBottomSheet(item as Drink)
+    }
+    }
+
+    private fun openBottomSheet(recentDrink: Drink) {
+        if ( homeViewModel.networkStatus){
+            model.select(recentDrink)
+            findNavController().navigate(R.id.action_navigation_home_to_recentBottomSheetFragment)
+        } else {
+            homeViewModel.showNetworkStatus()
+        }
+    }
 
     @ExperimentalCoroutinesApi
     private lateinit var networkListener: NetworkListener
@@ -41,7 +58,6 @@ class HomeFragment : Fragment() {
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
     }
-
 
     @ExperimentalCoroutinesApi
     override fun onCreateView(
@@ -59,6 +75,9 @@ class HomeFragment : Fragment() {
                 ViewModelProvider(this).get(MainViewModel::class.java)
 
         setupRecyclerView()
+        binding.viewone.setOnClickListener {
+            openRecentViewAllFragment()
+        }
 
         homeViewModel.readBackOnline.observe(viewLifecycleOwner, {
             homeViewModel.backOnline = it
@@ -77,6 +96,14 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun openRecentViewAllFragment() {
+        if ( homeViewModel.networkStatus){
+            findNavController().navigate(R.id.action_navigation_home_to_recentFragment)
+        } else {
+            homeViewModel.showNetworkStatus()
+        }
     }
 
     private fun readDatabase() {

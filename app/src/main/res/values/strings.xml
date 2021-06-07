@@ -12,4 +12,16 @@
     <string name="latest">Latest</string>
     <string name="a_long_description_of_what_this_cocktail_is">A long description of what this cocktail is.</string>
     <string name="_100">100</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cocktailcategory">cocktailCategory</string>
+    <string name="alcoholichdrink">alcoholichDrink</string>
+    <string name="instructions">Instructions</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="glass_type">Glass Type</string>
+    <string name="hurricane_glass">Hurricane Glass</string>
+    <string name="ing_1">Ing 1</string>
+    <string name="butterflies_cock">Butterflies Cock</string>
+    <string name="cocktail_image">Cocktail Image</string>
+    <string name="butterfly_something">Butterfly something</string>
 </resources>

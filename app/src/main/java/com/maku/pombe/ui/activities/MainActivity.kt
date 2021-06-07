@@ -33,4 +33,10 @@ class MainActivity : AppCompatActivity() {
 //        menuInflater.inflate(R.menu.menu, menu)
 //        return true
 //    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
 }

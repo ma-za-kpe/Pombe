@@ -1,58 +1,52 @@
 package com.maku.pombe.ui.fragments.home.recent
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.maku.pombe.R
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.maku.pombe.bindingadapter.RecentRowBinding.Companion.loadImageFromUrl
+import com.maku.pombe.data.models.recent.Drink
+import com.maku.pombe.databinding.FragmentRecentBottomSheetBinding
+import com.maku.pombe.vm.HomeViewModel
+import com.maku.pombe.vm.MainViewModel
+import com.maku.pombe.vm.SharedViewModel
+import timber.log.Timber
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class RecentBottomSheetFragment : BottomSheetDialogFragment() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RecentBottomSheetFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class RecentBottomSheetFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val model: SharedViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentRecentBottomSheetBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recent_bottom_sheet, container, false)
+        _binding =  FragmentRecentBottomSheetBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+
+        model.selected.observe(viewLifecycleOwner, { item ->
+            // Update the UI
+            Timber.d("recent drink %s",  item)
+            loadImageFromUrl(binding.mainImageView, item.strDrinkThumb)
+            binding.recentTitle.text = item.strDrink
+            binding.srtAlcoholic.text = item.strAlcoholic
+            binding.strCategory.text = item.strCategory
+            binding.instructionsResult.text = item.strInstructions
+            binding.ingone.text = item.strIngredient1
+            binding.ingtwo.text = item.strIngredient2
+            binding.ingthree.text = item.strIngredient3
+            binding.ingFour.text = item.strIngredient4
+            binding.glass.text = item.strGlass
+
+        })
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RecentBottomSheetFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                RecentBottomSheetFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
-    }
 }
