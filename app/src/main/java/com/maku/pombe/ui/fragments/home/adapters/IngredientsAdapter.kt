@@ -18,9 +18,9 @@ import timber.log.Timber
 import java.io.IOException
 import java.net.URL
 
-class IngredientsAdapter internal constructor(
+class RecentCocktailAdapter internal constructor(
     private val openBottomSheet: (Any) -> Unit
-)  : RecyclerView.Adapter<IngredientsAdapter.ListViewHolder>(){
+)  : RecyclerView.Adapter<RecentCocktailAdapter.ListViewHolder>(){
 
     private var cocktails = emptyList<Drink>()
 
