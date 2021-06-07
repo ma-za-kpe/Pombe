@@ -14,10 +14,10 @@
 
 
         <com.todkars.shimmer.ShimmerRecyclerView
+            android:layout_marginBottom="?android:attr/actionBarSize"
             android:id="@+id/recentviewall"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
