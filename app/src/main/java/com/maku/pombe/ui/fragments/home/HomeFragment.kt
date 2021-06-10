@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.maku.pombe.R
 import com.maku.pombe.data.models.recent.Drink
 import com.maku.pombe.databinding.FragmentHomeBinding
+import com.maku.pombe.ui.fragments.home.adapters.PopularCocktailAdapter
 import com.maku.pombe.ui.fragments.home.adapters.RecentCocktailAdapter
 import com.maku.pombe.utils.NetworkListener
 import com.maku.pombe.utils.NetworkResult
@@ -21,6 +22,7 @@ import com.maku.pombe.utils.observeOnce
 import com.maku.pombe.vm.HomeViewModel
 import com.maku.pombe.vm.MainViewModel
 import com.maku.pombe.vm.SharedViewModel
+import com.todkars.shimmer.ShimmerRecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -39,6 +41,15 @@ class HomeFragment : Fragment() {
     private val mAdapter by lazy { RecentCocktailAdapter { item ->
         openBottomSheet(item as Drink)
     }
+    }
+
+    private val mPopularAdapter by lazy { PopularCocktailAdapter { item ->
+        openDialog(item as com.maku.pombe.data.models.popular.Drink)
+    }
+    }
+
+    private fun openDialog(drink: com.maku.pombe.data.models.popular.Drink) {
+        Toast.makeText(requireContext(), "popular : ${drink.strDrink}", Toast.LENGTH_SHORT).show()
     }
 
     private fun openBottomSheet(recentDrink: Drink) {
@@ -75,6 +86,8 @@ class HomeFragment : Fragment() {
                 ViewModelProvider(this).get(MainViewModel::class.java)
 
         setupRecyclerView()
+        setupPopularRecyclerView()
+
         binding.viewone.setOnClickListener {
             openRecentViewAllFragment()
         }
@@ -108,6 +121,17 @@ class HomeFragment : Fragment() {
 
     private fun readDatabase() {
         lifecycleScope.launch {
+
+            mainViewModel.readPopularCocktails.observeOnce(viewLifecycleOwner, { database ->
+                if (database.isNotEmpty()) {
+                    Timber.d("readDatabase called!")
+                    mPopularAdapter.setData(database[0].popular)
+                    hideShimmerEffect()
+                } else {
+                    requestPopularApiData()
+                }
+            })
+
             mainViewModel.readRecentCocktails.observeOnce(viewLifecycleOwner, { database ->
                 if (database.isNotEmpty()) {
                     Timber.d("readDatabase called!")
@@ -115,6 +139,40 @@ class HomeFragment : Fragment() {
                     hideShimmerEffect()
                 } else {
                     requestApiData()
+                }
+            })
+        }
+    }
+
+    private fun requestPopularApiData() {
+        mainViewModel.getPopularCocktails()
+        mainViewModel.popularCocktailResponse.observe(viewLifecycleOwner, { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    hideShimmerEffect()
+                    response.data?.let { mPopularAdapter.setData(it) }
+                }
+                is NetworkResult.Error -> {
+                    hideShimmerEffect()
+                    Toast.makeText(
+                            requireContext(),
+                            response.message.toString(),
+                            Toast.LENGTH_SHORT
+                    ).show()
+                    loadPopularDataFromCache()
+                }
+                is NetworkResult.Loading -> {
+                    showShimmerEffect()
+                }
+            }
+        })
+    }
+
+    private fun loadPopularDataFromCache() {
+        lifecycleScope.launch {
+            mainViewModel.readRecentCocktails.observe(viewLifecycleOwner, {database->
+                if (database.isNotEmpty()) {
+                    mAdapter.setData(database[0].recent)
                 }
             })
         }
@@ -158,6 +216,12 @@ class HomeFragment : Fragment() {
         binding.recent.adapter = mAdapter
         binding.recent.layoutManager =   LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         showShimmerEffect()
+    }
+
+    private fun setupPopularRecyclerView() {
+        binding.popular.adapter = mPopularAdapter
+        binding.popular.layoutManager =   LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
     }
 
     private fun showShimmerEffect() {

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/recent_dashboard_card"
+            android:id="@+id/latest_dashboard_card"
             android:layout_width="0dp"
             android:layout_height="128dp"
             android:layout_marginStart="4dp"

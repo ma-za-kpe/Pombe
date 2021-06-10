@@ -8,12 +8,12 @@ import retrofit2.http.GET
 interface CocktailsApi {
 
     // get recent cocktails
-    @GET("/api/json/v2/xyz/recent.php")
+    @GET("/api/json/v2/9973533/recent.php")
     suspend fun getRecentCocktail(
     ): Response<Recent>
 
-//    // get popular cocktails
-//    @GET("/api/json/v2/9973533/popular.php")
-//    suspend fun getPopularCocktail(
-//    ): Response<Popular>
+    // get popular cocktails 9973533
+    @GET("/api/json/v2/9973533/popular.php")
+    suspend fun getPopularCocktail(
+    ): Response<Popular>
 }

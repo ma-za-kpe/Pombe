@@ -7,16 +7,16 @@
     <data>
         <variable
             name="result"
-            type="com.maku.pombe.data.models.recent.Drink" />
+            type="com.maku.pombe.data.models.popular.Drink" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/latest_dashboard_card"
-            android:layout_width="0dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
@@ -29,6 +29,7 @@
             app:cardCornerRadius="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -37,16 +38,16 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    loadImageFromUrl="@{result.strDrinkThumb}"
                     android:id="@+id/lastest_imageView"
+                    loadImageFromUrl="@{result.strDrinkThumb}"
                     android:layout_width="0dp"
                     android:layout_height="250dp"
+                    android:contentDescription="@string/cocktail_image"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@tools:sample/avatars"
-                    android:contentDescription="@string/cocktail_image" />
+                    tools:src="@tools:sample/avatars" />
 
                 <View
                     android:id="@+id/gradient_overlay"

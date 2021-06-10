@@ -3,6 +3,7 @@ package com.maku.pombe.data.local.Typeconvertors
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.maku.pombe.data.models.popular.Popular
 import com.maku.pombe.data.models.recent.Recent
 
 class RecentRecipeConvertor {
@@ -15,6 +16,16 @@ class RecentRecipeConvertor {
     @TypeConverter
     fun stringToRecentCocktail(data: String): Recent{
         val listType = object: TypeToken<Recent>(){}.type
+        return gson.fromJson(data, listType)
+    }
+
+    @TypeConverter
+    fun popularCocktailToString(popular: Popular): String{
+        return gson.toJson(popular)
+    }
+    @TypeConverter
+    fun stringToPopularCocktail(data: String): Popular{
+        val listType = object: TypeToken<Popular>(){}.type
         return gson.fromJson(data, listType)
     }
 

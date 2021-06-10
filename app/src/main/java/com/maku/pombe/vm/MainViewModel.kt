@@ -5,7 +5,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.*
+import com.maku.pombe.data.local.entities.PopularCocktailsEntity
 import com.maku.pombe.data.local.entities.RecentCocktailsEntity
+import com.maku.pombe.data.models.popular.Popular
 import com.maku.pombe.data.models.recent.Drink
 import com.maku.pombe.data.repo.CocktailRepository
 import com.maku.pombe.data.models.recent.Recent
@@ -24,6 +26,13 @@ class MainViewModel @Inject constructor(
     : AndroidViewModel(application) {
 
     /** ROOM DATABASE */
+    val readPopularCocktails: LiveData<List<PopularCocktailsEntity>> = repository.local.readPopularCocktails().asLiveData()
+
+    private fun insertRecentCocktails(popularCocktailsEntity: PopularCocktailsEntity) =
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.local.insertPopularCocktails(popularCocktailsEntity)
+            }
+
     val readRecentCocktails: LiveData<List<RecentCocktailsEntity>> = repository.local.readRecentCocktails().asLiveData()
 
     private fun insertRecentCocktails(recentCocktailsEntity: RecentCocktailsEntity) =
@@ -32,12 +41,69 @@ class MainViewModel @Inject constructor(
         }
 
     /** RETROFIT */
+    var popularCocktailResponse: MutableLiveData<NetworkResult<Popular>> = MutableLiveData()
+
+    fun getPopularCocktails() = viewModelScope.launch {
+        getPopularCocktailsSafeCall()
+    }
+
     var recentCocktailResponse: MutableLiveData<NetworkResult<Recent>> = MutableLiveData()
 
     fun getRecentCocktails() = viewModelScope.launch {
         getRecentCocktailsSafeCall()
     }
 
+    // popular
+    private suspend fun getPopularCocktailsSafeCall() {
+        popularCocktailResponse.value = NetworkResult.Loading()
+        if (hasInternetConnection()) {
+            try {
+                val response = repository.remote.getPopularCocktails()
+                Timber.d("response$response")
+                popularCocktailResponse.value = handlePopularCocktailResponse(response)
+
+                // offline
+                val recentPopularCocktails = popularCocktailResponse.value!!.data
+                if(recentPopularCocktails != null) {
+                    offlineCacheRecentCocktails(recentPopularCocktails)
+                }
+
+            } catch (e: Exception) {
+                popularCocktailResponse.value = NetworkResult.Error("Recent cocktails not found.")
+            }
+        } else {
+            popularCocktailResponse.value = NetworkResult.Error("No Internet Connection.")
+        }
+    }
+
+    private fun offlineCacheRecentCocktails(popular: Popular) {
+        val popularEntity = PopularCocktailsEntity(popular)
+        insertRecentCocktails(popularEntity)
+    }
+
+    private fun handlePopularCocktailResponse(response: Response<Popular>): NetworkResult<Popular>? {
+        when {
+            response.message().toString().contains("timeout") -> {
+                return NetworkResult.Error("Timeout")
+            }
+            response.code() == 402 -> {
+                return NetworkResult.Error("API Key Limited.")
+            }
+            response.body()!!.drinks.isNullOrEmpty() -> {
+                return NetworkResult.Error("Cocktails not found.")
+            }
+            response.isSuccessful -> {
+                val popularCocktails = response.body()
+                return NetworkResult.Success(popularCocktails!!)
+            }
+            else -> {
+                return NetworkResult.Error(response.message())
+            }
+        }
+    }
+
+
+    // recent
     private suspend fun getRecentCocktailsSafeCall() {
         recentCocktailResponse.value = NetworkResult.Loading()
         if (hasInternetConnection()) {
@@ -53,7 +119,7 @@ class MainViewModel @Inject constructor(
                 }
 
             } catch (e: Exception) {
-                recentCocktailResponse.value = NetworkResult.Error("Recent cocktails not found.")
+                recentCocktailResponse.value = NetworkResult.Error("Recent cocktails not found.$e")
             }
         } else {
             recentCocktailResponse.value = NetworkResult.Error("No Internet Connection.")

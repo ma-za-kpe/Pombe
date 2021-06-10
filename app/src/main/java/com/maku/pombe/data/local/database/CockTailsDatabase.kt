@@ -5,10 +5,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.maku.pombe.data.local.Typeconvertors.RecentRecipeConvertor
 import com.maku.pombe.data.local.dao.CocktailsDao
+import com.maku.pombe.data.local.entities.PopularCocktailsEntity
 import com.maku.pombe.data.local.entities.RecentCocktailsEntity
 
 @Database(
-    entities = [RecentCocktailsEntity::class],
+    entities = [RecentCocktailsEntity::class, PopularCocktailsEntity::class],
     version = 1,
     exportSchema = true,
 )
