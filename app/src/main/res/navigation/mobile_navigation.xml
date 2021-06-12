@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_home_to_recentBottomSheetFragment"
             app:destination="@id/recentBottomSheetFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
 
     <fragment
@@ -48,4 +51,13 @@
             android:name="drink"
             app:argType="com.maku.pombe.data.models.recent.Drink" />
     </dialog>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.maku.pombe.ui.fragments.home.popular.DetailsFragment"
+        android:label="DetailsFragment"
+        tools:layout="@layout/fragment_details">
+        <action
+            android:id="@+id/action_detailsFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 </navigation>

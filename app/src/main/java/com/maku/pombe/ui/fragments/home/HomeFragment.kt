@@ -49,7 +49,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun openDialog(drink: com.maku.pombe.data.models.popular.Drink) {
-        Toast.makeText(requireContext(), "popular : ${drink.strDrink}", Toast.LENGTH_SHORT).show()
+        // Toast.makeText(requireContext(), "popular : ${drink.strDrink}", Toast.LENGTH_SHORT).show()
+        if ( homeViewModel.networkStatus){
+            model.selectPopular(drink)
+            findNavController().navigate(R.id.action_navigation_home_to_detailsFragment)
+        } else {
+            homeViewModel.showNetworkStatus()
+        }
     }
 
     private fun openBottomSheet(recentDrink: Drink) {
