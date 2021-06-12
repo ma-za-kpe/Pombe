@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/latest_dashboard_card"
+            android:id="@+id/view_all_dashboard_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -38,7 +38,7 @@
 
                 <ImageView
                     loadImageFromUrl="@{result.strDrinkThumb}"
-                    android:id="@+id/lastest_imageView"
+                    android:id="@+id/main_bottom_imageView"
                     android:layout_width="0dp"
                     android:layout_height="250dp"
                     android:scaleType="centerCrop"
@@ -53,10 +53,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:background="@drawable/gradient_overlay"
-                    app:layout_constraintBottom_toBottomOf="@+id/lastest_imageView"
-                    app:layout_constraintEnd_toEndOf="@+id/lastest_imageView"
-                    app:layout_constraintStart_toStartOf="@+id/lastest_imageView"
-                    app:layout_constraintTop_toTopOf="@+id/lastest_imageView"
+                    app:layout_constraintBottom_toBottomOf="@+id/main_bottom_imageView"
+                    app:layout_constraintEnd_toEndOf="@+id/main_bottom_imageView"
+                    app:layout_constraintStart_toStartOf="@+id/main_bottom_imageView"
+                    app:layout_constraintTop_toTopOf="@+id/main_bottom_imageView"
                     app:layout_constraintVertical_bias="1.0" />
 
                 <TextView
@@ -68,9 +68,9 @@
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/lastest_imageView"
-                    app:layout_constraintEnd_toEndOf="@+id/lastest_imageView"
-                    app:layout_constraintStart_toStartOf="@+id/lastest_imageView"
+                    app:layout_constraintBottom_toBottomOf="@+id/main_bottom_imageView"
+                    app:layout_constraintEnd_toEndOf="@+id/main_bottom_imageView"
+                    app:layout_constraintStart_toStartOf="@+id/main_bottom_imageView"
                     app:layout_constraintTop_toTopOf="@+id/gradient_overlay"
                     app:layout_constraintVertical_bias="0.76" />
 

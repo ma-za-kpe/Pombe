@@ -33,7 +33,7 @@ class RecentBottomSheetFragment : BottomSheetDialogFragment() {
         model.selected.observe(viewLifecycleOwner, { item ->
             // Update the UI
             Timber.d("recent drink %s",  item)
-            loadImageFromUrl(binding.mainImageView, item.strDrinkThumb)
+            loadImageFromUrl(binding.mainBottomImageView, item.strDrinkThumb)
             binding.recentTitle.text = item.strDrink
             binding.srtAlcoholic.text = item.strAlcoholic
             binding.strCategory.text = item.strCategory

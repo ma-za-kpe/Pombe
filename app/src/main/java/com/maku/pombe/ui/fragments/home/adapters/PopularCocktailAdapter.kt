@@ -33,7 +33,7 @@ class PopularCocktailAdapter internal constructor(
         fun setPopularCocktailItem(result: com.maku.pombe.data.models.popular.Drink, openBottomSheet: (Any) -> Unit){
             binding.result = result
 
-            binding.recentDashboardCard.setOnClickListener {
+            binding.popularDashboardCard.setOnClickListener {
                 openBottomSheet(result)
             }
 
