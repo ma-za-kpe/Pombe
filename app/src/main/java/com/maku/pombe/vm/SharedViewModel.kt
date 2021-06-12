@@ -19,4 +19,11 @@ class SharedViewModel : ViewModel() {
     fun selectPopular(item: com.maku.pombe.data.models.popular.Drink) {
         selectedPopular.value = item
     }
+
+    // popular bottom
+    val selectedBtmPopular = MutableLiveData<com.maku.pombe.data.models.popular.Drink>()
+
+    fun selectBtmPopular(item: com.maku.pombe.data.models.popular.Drink) {
+        selectedBtmPopular.value = item
+    }
 }

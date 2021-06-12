@@ -98,6 +98,10 @@ class HomeFragment : Fragment() {
             openRecentViewAllFragment()
         }
 
+        binding.viewtwo.setOnClickListener {
+            openPopularViewAllBottomFragment()
+        }
+
         homeViewModel.readBackOnline.observe(viewLifecycleOwner, {
             homeViewModel.backOnline = it
         })
@@ -115,6 +119,14 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun openPopularViewAllBottomFragment() {
+        if ( homeViewModel.networkStatus){
+            findNavController().navigate(R.id.action_navigation_home_to_popularBottomFragment)
+        } else {
+            homeViewModel.showNetworkStatus()
+        }
     }
 
     private fun openRecentViewAllFragment() {

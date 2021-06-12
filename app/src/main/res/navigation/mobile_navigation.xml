@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_navigation_home_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_popularBottomFragment"
+            app:destination="@id/popularBottomFragment" />
     </fragment>
 
     <fragment
@@ -60,4 +63,13 @@
             android:id="@+id/action_detailsFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
+    <dialog
+        tools:layout="@layout/fragment_details"
+        android:id="@+id/popularBottomFragment"
+        android:name="com.maku.pombe.ui.fragments.home.popular.PopularBottomFragment"
+        android:label="PopularBottomFragment" >
+        <action
+            android:id="@+id/action_popularBottomFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </dialog>
 </navigation>
