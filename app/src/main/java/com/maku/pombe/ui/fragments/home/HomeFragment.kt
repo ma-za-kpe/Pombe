@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.maku.pombe.R
 import com.maku.pombe.data.models.recent.Drink
 import com.maku.pombe.databinding.FragmentHomeBinding
+import com.maku.pombe.ui.fragments.home.adapters.LatestCocktailAdapter
 import com.maku.pombe.ui.fragments.home.adapters.PopularCocktailAdapter
 import com.maku.pombe.ui.fragments.home.adapters.RecentCocktailAdapter
 import com.maku.pombe.utils.NetworkListener
@@ -38,6 +39,15 @@ class HomeFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var homeViewModel: HomeViewModel
     private val model: SharedViewModel by activityViewModels()
+    private val mLatestAdapter by lazy { LatestCocktailAdapter { item ->
+        openLatest(item as Drink)
+    }
+    }
+
+    private fun openLatest(drink: Drink) {
+        Timber.d("latest : $drink")
+    }
+
     private val mAdapter by lazy { RecentCocktailAdapter { item ->
         openBottomSheet(item as Drink)
     }
@@ -90,6 +100,7 @@ class HomeFragment : Fragment() {
 
         setupRecyclerView()
         setupPopularRecyclerView()
+        setupLatestRecyclerView()
 
         binding.viewone.setOnClickListener {
             openRecentViewAllFragment()
@@ -137,11 +148,21 @@ class HomeFragment : Fragment() {
     private fun readDatabase() {
         lifecycleScope.launch {
 
+            mainViewModel.readLatestCocktails.observeOnce(viewLifecycleOwner, { database ->
+                if (database.isNotEmpty()) {
+                    Timber.d("readDatabase called!")
+                    mLatestAdapter.setData(database[0].latest)
+                    hideShimmerEffect(binding.latest)
+                } else {
+                    requestLatestApiData()
+                }
+            })
+
             mainViewModel.readPopularCocktails.observeOnce(viewLifecycleOwner, { database ->
                 if (database.isNotEmpty()) {
                     Timber.d("readDatabase called!")
                     mPopularAdapter.setData(database[0].popular)
-                    hideShimmerEffect()
+                    hideShimmerEffect(binding.popular)
                 } else {
                     requestPopularApiData()
                 }
@@ -151,7 +172,7 @@ class HomeFragment : Fragment() {
                 if (database.isNotEmpty()) {
                     Timber.d("readDatabase called!")
                     mAdapter.setData(database[0].recent)
-                    hideShimmerEffect()
+                    hideShimmerEffect(binding.recent)
                 } else {
                     requestApiData()
                 }
@@ -159,16 +180,51 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun requestLatestApiData() {
+        mainViewModel.getLatestCocktails()
+        mainViewModel.latestCocktailResponse.observe(viewLifecycleOwner, { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    hideShimmerEffect(binding.latest)
+                    response.data?.let { mLatestAdapter.setData(it) }
+                }
+                is NetworkResult.Error -> {
+                    hideShimmerEffect(binding.latest)
+                    Toast.makeText(
+                        requireContext(),
+                        response.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    loadLatestDataFromCache()
+                }
+                is NetworkResult.Loading -> {
+                    showShimmerEffect(binding.latest)
+                }
+            }
+        })
+    }
+
+    private fun loadLatestDataFromCache() {
+        lifecycleScope.launch {
+            mainViewModel.readLatestCocktails.observe(viewLifecycleOwner, {database->
+                if (database.isNotEmpty()) {
+                    mLatestAdapter.setData(database[0].latest)
+                }
+            })
+        }
+    }
+
+    // popular
     private fun requestPopularApiData() {
         mainViewModel.getPopularCocktails()
         mainViewModel.popularCocktailResponse.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is NetworkResult.Success -> {
-                    hideShimmerEffect()
+                    hideShimmerEffect(binding.popular)
                     response.data?.let { mPopularAdapter.setData(it) }
                 }
                 is NetworkResult.Error -> {
-                    hideShimmerEffect()
+                    hideShimmerEffect(binding.popular)
                     Toast.makeText(
                             requireContext(),
                             response.message.toString(),
@@ -177,7 +233,7 @@ class HomeFragment : Fragment() {
                     loadPopularDataFromCache()
                 }
                 is NetworkResult.Loading -> {
-                    showShimmerEffect()
+                    showShimmerEffect(binding.popular)
                 }
             }
         })
@@ -198,11 +254,11 @@ class HomeFragment : Fragment() {
         mainViewModel.recentCocktailResponse.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is NetworkResult.Success -> {
-                    hideShimmerEffect()
+                    hideShimmerEffect(binding.recent)
                     response.data?.let { mAdapter.setData(it) }
                 }
                 is NetworkResult.Error -> {
-                    hideShimmerEffect()
+                    hideShimmerEffect(binding.recent)
                     Toast.makeText(
                         requireContext(),
                         response.message.toString(),
@@ -211,7 +267,7 @@ class HomeFragment : Fragment() {
                     loadDataFromCache()
                 }
                 is NetworkResult.Loading -> {
-                    showShimmerEffect()
+                    showShimmerEffect(binding.recent)
                 }
             }
         })
@@ -230,20 +286,26 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         binding.recent.adapter = mAdapter
         binding.recent.layoutManager =   LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        showShimmerEffect()
+        showShimmerEffect(binding.recent)
     }
 
     private fun setupPopularRecyclerView() {
         binding.popular.adapter = mPopularAdapter
         binding.popular.layoutManager =   LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
+        showShimmerEffect(binding.popular)
     }
 
-    private fun showShimmerEffect() {
-        binding.recent.showShimmer()
+    private fun setupLatestRecyclerView() {
+        binding.latest.adapter = mLatestAdapter
+        binding.latest.layoutManager =   LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        showShimmerEffect(binding.latest)
     }
 
-    private fun hideShimmerEffect(){
-        binding.recent.hideShimmer()
+    private fun showShimmerEffect(recyclerView: ShimmerRecyclerView) {
+        recyclerView.showShimmer()
+    }
+
+    private fun hideShimmerEffect(recyclerView: ShimmerRecyclerView) {
+        recyclerView.hideShimmer()
     }
 }

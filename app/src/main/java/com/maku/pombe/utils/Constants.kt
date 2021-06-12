@@ -15,6 +15,7 @@ class Constants {
         const val DATABASE = "cocktails_db"
         const val RECENT_COCKTAIL_TABLE = "recent_cocktail_table"
         const val POPULAR_COCKTAIL_TABLE = "popular_cocktail_table"
+        const val LATEST_COCKTAIL_TABLE = "latest_cocktail_table"
 
         // preferences
         const val PREFERENCES_NAME = "cocktail_preferences"

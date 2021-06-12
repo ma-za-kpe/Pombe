@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.maku.pombe.data.local.entities.LatestCocktailsEntity
 import com.maku.pombe.data.local.entities.PopularCocktailsEntity
 import com.maku.pombe.data.local.entities.RecentCocktailsEntity
 import kotlinx.coroutines.flow.Flow
@@ -23,5 +24,12 @@ interface CocktailsDao {
 
     @Query("SELECT * FROM POPULAR_COCKTAIL_TABLE ORDER BY id ASC")
     fun readPopularCocktails(): Flow<List<PopularCocktailsEntity>>
+
+    // latest
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLatestCocktails(latestCocktailsEntity: LatestCocktailsEntity)
+
+    @Query("SELECT * FROM LATEST_COCKTAIL_TABLE ORDER BY id ASC")
+    fun readLatestCocktails(): Flow<List<LatestCocktailsEntity>>
 
 }

@@ -1,6 +1,7 @@
 package com.maku.pombe.data.local.datasource
 
 import com.maku.pombe.data.local.dao.CocktailsDao
+import com.maku.pombe.data.local.entities.LatestCocktailsEntity
 import com.maku.pombe.data.local.entities.PopularCocktailsEntity
 import com.maku.pombe.data.local.entities.RecentCocktailsEntity
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +23,14 @@ class LocalDataSource  @Inject constructor(private val dao: CocktailsDao) {
 
     suspend fun insertPopularCocktails(popularCocktailsEntity: PopularCocktailsEntity) {
         dao.insertPopularCocktails(popularCocktailsEntity)
+    }
+
+    fun readLatestCocktails(): Flow<List<LatestCocktailsEntity>> {
+        return dao.readLatestCocktails()
+    }
+
+    suspend fun insertLatestCocktails(latestCocktailsEntity: LatestCocktailsEntity) {
+        dao.insertLatestCocktails(latestCocktailsEntity)
     }
 
 }

@@ -5,8 +5,10 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.*
+import com.maku.pombe.data.local.entities.LatestCocktailsEntity
 import com.maku.pombe.data.local.entities.PopularCocktailsEntity
 import com.maku.pombe.data.local.entities.RecentCocktailsEntity
+import com.maku.pombe.data.models.latest.Latest
 import com.maku.pombe.data.models.popular.Popular
 import com.maku.pombe.data.models.recent.Drink
 import com.maku.pombe.data.repo.CocktailRepository
@@ -26,6 +28,13 @@ class MainViewModel @Inject constructor(
     : AndroidViewModel(application) {
 
     /** ROOM DATABASE */
+    val readLatestCocktails: LiveData<List<LatestCocktailsEntity>> = repository.local.readLatestCocktails().asLiveData()
+
+    private fun insertLatestCocktails(latestCocktailsEntity: LatestCocktailsEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.insertLatestCocktails(latestCocktailsEntity)
+        }
+
     val readPopularCocktails: LiveData<List<PopularCocktailsEntity>> = repository.local.readPopularCocktails().asLiveData()
 
     private fun insertRecentCocktails(popularCocktailsEntity: PopularCocktailsEntity) =
@@ -41,6 +50,12 @@ class MainViewModel @Inject constructor(
         }
 
     /** RETROFIT */
+    var latestCocktailResponse: MutableLiveData<NetworkResult<Latest>> = MutableLiveData()
+
+    fun getLatestCocktails() = viewModelScope.launch {
+        getLatestCocktailsSafeCall()
+    }
+
     var popularCocktailResponse: MutableLiveData<NetworkResult<Popular>> = MutableLiveData()
 
     fun getPopularCocktails() = viewModelScope.launch {
@@ -51,6 +66,55 @@ class MainViewModel @Inject constructor(
 
     fun getRecentCocktails() = viewModelScope.launch {
         getRecentCocktailsSafeCall()
+    }
+
+    // latest
+    private suspend fun getLatestCocktailsSafeCall() {
+        latestCocktailResponse.value = NetworkResult.Loading()
+        if (hasInternetConnection()) {
+            try {
+                val response = repository.remote.getLatestCocktails()
+                Timber.d("response$response")
+                latestCocktailResponse.value = handleLatestCocktailResponse(response)
+
+                // offline
+                val latestCocktails = latestCocktailResponse.value!!.data
+                if(latestCocktails != null) {
+                    offlineCacheLatestCocktails(latestCocktails)
+                }
+
+            } catch (e: Exception) {
+                popularCocktailResponse.value = NetworkResult.Error("Recent cocktails not found.")
+            }
+        } else {
+            popularCocktailResponse.value = NetworkResult.Error("No Internet Connection.")
+        }
+    }
+
+    private fun offlineCacheLatestCocktails(latestCocktails: Latest) {
+        val latestEntity = LatestCocktailsEntity(latestCocktails)
+        insertLatestCocktails(latestEntity)
+    }
+
+    private fun handleLatestCocktailResponse(response: Response<Latest>): NetworkResult<Latest>? {
+        when {
+            response.message().toString().contains("timeout") -> {
+                return NetworkResult.Error("Timeout")
+            }
+            response.code() == 402 -> {
+                return NetworkResult.Error("API Key Limited.")
+            }
+            response.body()!!.drinks.isNullOrEmpty() -> {
+                return NetworkResult.Error("Cocktails not found.")
+            }
+            response.isSuccessful -> {
+                val latestCocktails = response.body()
+                return NetworkResult.Success(latestCocktails!!)
+            }
+            else -> {
+                return NetworkResult.Error(response.message())
+            }
+        }
     }
 
     // popular
@@ -65,7 +129,7 @@ class MainViewModel @Inject constructor(
                 // offline
                 val recentPopularCocktails = popularCocktailResponse.value!!.data
                 if(recentPopularCocktails != null) {
-                    offlineCacheRecentCocktails(recentPopularCocktails)
+                    offlineCachePopularCocktails(recentPopularCocktails)
                 }
 
             } catch (e: Exception) {
@@ -76,7 +140,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun offlineCacheRecentCocktails(popular: Popular) {
+    private fun offlineCachePopularCocktails(popular: Popular) {
         val popularEntity = PopularCocktailsEntity(popular)
         insertRecentCocktails(popularEntity)
     }
