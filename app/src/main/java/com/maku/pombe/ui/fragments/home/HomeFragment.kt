@@ -88,9 +88,6 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.main = mainViewModel
 
-        mainViewModel =
-                ViewModelProvider(this).get(MainViewModel::class.java)
-
         setupRecyclerView()
         setupPopularRecyclerView()
 
@@ -188,9 +185,9 @@ class HomeFragment : Fragment() {
 
     private fun loadPopularDataFromCache() {
         lifecycleScope.launch {
-            mainViewModel.readRecentCocktails.observe(viewLifecycleOwner, {database->
+            mainViewModel.readPopularCocktails.observe(viewLifecycleOwner, {database->
                 if (database.isNotEmpty()) {
-                    mAdapter.setData(database[0].recent)
+                    mPopularAdapter.setData(database[0].popular)
                 }
             })
         }
