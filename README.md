@@ -1,21 +1,14 @@
 # Pombe
-***Warning** Alcohol alert, this is a cocktails app.
-# ma-pesa
-![](media/mapesa.png)
+![](media/pombez.png)
 
 ## About
- An app that gives users free airtime for watching google ADS. Using Africa's Talking Airtime API.
+***Warning** Alcohol alert, this is a cocktails app.
  - [Playstore](https://play.google.com/store/apps/details?id=com.maku.easydata) - Download and test it.
-
-*Africa's Talking Airtime API used in this app can be found [here](https://africastalking.com/)*.
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
 - [ViewBinding](https://developer.android.com/topic/libraries/view-binding) - Generates a binding class for each XML layout file present in that module and allows you to more easily write code that interacts with views.
 - [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
-- [Google Admob](https://admob.google.com/home/) - lets you show ads from google
-- [In-app Updates](https://developer.android.com/guide/playcore/in-app-updates) - Lets the app download updates seemlessly with out interrupting the user experince with the app.
-- [Firebase](https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwj80qes2djoAhWIse0KHVaNCxcYABAAGgJkZw&ohost=www.google.com&cid=CAESQeD2EgruEoXXKi17yB0SsKnsXyLZlgFF-2n7hn8qZ6PBYwkqIvNl2QWqk2pz2fLH2pO5IDaMWgWKXUgw0bqB5-s2&sig=AOD64_36dXngwifIMuG83n5r97uDJx1JmQ&q=&ved=2ahUKEwio-J-s2djoAhWSSxUIHUH7ARYQ0Qx6BAgbEAE&adurl=)
 
 ### FIREBASE FEATURES HEAVILY USED IN THIS PROJECT
 - [Phonenumber Authentication](https://firebase.google.com/docs/auth) - Firebase Authentication provides backend services, easy-to-use SDKs, and ready-made UI libraries to authenticate users to your app. It supports authentication using passwords, phone numbers etc...
@@ -23,12 +16,12 @@
 - [Dynamic Links](https://firebase.google.com/docs/dynamic-links) - Firebase Dynamic Links are links that work the way you want, on multiple platforms, and whether or not your app is already installed.
 - [AdMob and Firebase](https://firebase.google.com/docs/admob) - Google AdMob is an easy way to monetize mobile apps with targeted, in-app advertising.
 - [Analitics](https://firebase.google.com/docs/analytics) - Google Analytics is a free app measurement solution that provides insight on app usage and user engagement.
+- [Pallet API](https://developer.android.com/training/material/palette-colors) - Extracting colors for use as background colors in the respective alcohol cards.
 
 ## How to use this project
-- ADD YOUR OWN gOOGLE Admobs ad units in the gradle.properties file
-
-## TODO
-- Make the code **DRIER** using Dipendecy Injection
+- Clone this repo.
+- Go to https://www.thecocktaildb.com/, create an account get the api key.
+- Create a new file called key.properties and add API_KEY=xxxx run the app.
 
 ## Contact
 If you need any help, you can connect with me.
