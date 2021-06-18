@@ -3,7 +3,7 @@
 
 ## About
 ***Warning** Alcohol alert, this is a cocktails app.
- - [Playstore](https://play.google.com/store/apps/details?id=com.maku.easydata) - Download and test it.
+ - [Playstore](https://play.google.com/store/apps/details?id=com.maku.pombe) - Download and test it.
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
