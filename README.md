@@ -1,5 +1,5 @@
 # Pombe
-![](media/pombez.png)
+![](pombez.png)
 
 ## About
 ***Warning** Alcohol alert, this is a cocktails app.
