@@ -9,14 +9,9 @@
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
 - [ViewBinding](https://developer.android.com/topic/libraries/view-binding) - Generates a binding class for each XML layout file present in that module and allows you to more easily write code that interacts with views.
 - [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
-
-### FIREBASE FEATURES HEAVILY USED IN THIS PROJECT
-- [Phonenumber Authentication](https://firebase.google.com/docs/auth) - Firebase Authentication provides backend services, easy-to-use SDKs, and ready-made UI libraries to authenticate users to your app. It supports authentication using passwords, phone numbers etc...
-- [Cloud messaging](https://firebase.google.com/docs/cloud-messaging) - Firebase Cloud Messaging (FCM) is a cross-platform messaging solution that lets you reliably send messages at no cost.
-- [Dynamic Links](https://firebase.google.com/docs/dynamic-links) - Firebase Dynamic Links are links that work the way you want, on multiple platforms, and whether or not your app is already installed.
-- [AdMob and Firebase](https://firebase.google.com/docs/admob) - Google AdMob is an easy way to monetize mobile apps with targeted, in-app advertising.
-- [Analitics](https://firebase.google.com/docs/analytics) - Google Analytics is a free app measurement solution that provides insight on app usage and user engagement.
 - [Pallet API](https://developer.android.com/training/material/palette-colors) - Extracting colors for use as background colors in the respective alcohol cards.
+- [Data Store](https://developer.android.com/topic/libraries/architecture/datastore)
+- [Dagger Hilt](https://dagger.dev/hilt/)
 
 ## How to use this project
 - Clone this repo.
