@@ -1,5 +1,41 @@
+# IDEA/Android Studio ignores
 *.iml
+*.ipr
+*.iws
 .gradle
+/.idea/*
+
+# Built application files
+*.apk
+*.ap_
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+
+# Custom
+.DS_Store
+.idea/vcs.xml
+.idea/misc.xml
+.idea/modules.xml
+
+# IDEA/Android Studio Ignore exceptions
+!/.idea/vcs.xml
+!/.idea/fileTemplates/
+!/.idea/inspectionProfiles/
+!/.idea/scopes/
+!/.idea/codeStyles/
+!/.idea/encodings.xml
+!/.idea/copyright/
+!/.idea/compiler.xml
+
 /local.properties
 /.idea/caches
 /.idea/libraries
@@ -7,10 +43,13 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
+
+
 local.properties
 key.properties
