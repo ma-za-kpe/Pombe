@@ -13,8 +13,9 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Pombe">
-        <activity android:name=".ui.base.BaseActivity" />
+        <activity android:exported="true" android:name=".ui.base.BaseActivity" />
         <activity
+            android:exported="true"
             android:name=".ui.activities.MainActivity"
             android:label="@string/app_name">
             <intent-filter>

@@ -1,7 +1,6 @@
 package com.maku.pombe.ui.fragments.home.recent
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +8,12 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.maku.pombe.R
-import com.maku.pombe.data.models.recent.Drink
-import com.maku.pombe.databinding.FragmentHomeBinding
 import com.maku.pombe.databinding.FragmentRecentBinding
 import com.maku.pombe.ui.base.BaseFragment
-import com.maku.pombe.ui.fragments.home.adapters.RecentCocktailAdapter
 import com.maku.pombe.ui.fragments.home.adapters.ViewAllAdapter
-import com.maku.pombe.utils.NetworkListener
-import com.maku.pombe.utils.NetworkResult
-import com.maku.pombe.utils.observeOnce
+import com.maku.core.utils.NetworkListener
+import com.maku.core.utils.NetworkResult
+import com.maku.core.utils.observeOnce
 import com.maku.pombe.vm.HomeViewModel
 import com.maku.pombe.vm.MainViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,6 +28,7 @@ class RecentFragment : BaseFragment() {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var recentViewModel: RecentViewModel
 
     @ExperimentalCoroutinesApi
     private lateinit var networkListener: NetworkListener
@@ -41,16 +37,25 @@ class RecentFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
+        recentViewModel = ViewModelProvider(requireActivity())[RecentViewModel::class.java]
     }
 
-    @ExperimentalCoroutinesApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         _binding =  FragmentRecentBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+
+        lifecycleScope.launch {
+            recentViewModel.observeRecentLocalCocktails().observe(viewLifecycleOwner, {database->
+                if (database.isNotEmpty()) {
+                    Timber.d("recent use case ${database[0].recent}")
+                }
+            })
+        }
+        Timber.d("recent use case ")
 
         setupRecyclerView()
 

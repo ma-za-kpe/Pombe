@@ -5,15 +5,14 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.*
-import com.maku.pombe.data.local.entities.LatestCocktailsEntity
-import com.maku.pombe.data.local.entities.PopularCocktailsEntity
-import com.maku.pombe.data.local.entities.RecentCocktailsEntity
-import com.maku.pombe.data.models.latest.Latest
-import com.maku.pombe.data.models.popular.Popular
-import com.maku.pombe.data.models.recent.Drink
-import com.maku.pombe.data.repo.CocktailRepository
-import com.maku.pombe.data.models.recent.Recent
-import com.maku.pombe.utils.NetworkResult
+import com.maku.core.data.local.entities.LatestCocktailsEntity
+import com.maku.core.data.local.entities.PopularCocktailsEntity
+import com.maku.core.data.local.entities.RecentCocktailsEntity
+import com.maku.core.domain.latest.Latest
+import com.maku.core.domain.popular.Popular
+import com.maku.core.data.repo.CocktailRepository
+import com.maku.core.domain.recent.Recent
+import com.maku.core.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -229,7 +228,5 @@ class MainViewModel @Inject constructor(
             else -> false
         }
     }
-
-
 
 }

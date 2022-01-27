@@ -1,15 +1,21 @@
 package com.maku.pombe
 
 import android.app.Application
+import com.maku.logging.Logger
 import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
 
 @HiltAndroidApp
 class Pombe: Application() {
 
+    // initiate analytics, crashlytics, etc
+
     override fun onCreate() {
         super.onCreate()
-        //timber
-        Timber.plant(Timber.DebugTree())
+
+        initLogger()
+    }
+
+    private fun initLogger() {
+        Logger.init()
     }
 }

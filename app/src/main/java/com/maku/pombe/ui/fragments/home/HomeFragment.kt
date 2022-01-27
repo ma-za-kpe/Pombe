@@ -12,14 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maku.pombe.R
-import com.maku.pombe.data.models.recent.Drink
+import com.maku.core.domain.recent.Drink
 import com.maku.pombe.databinding.FragmentHomeBinding
 import com.maku.pombe.ui.fragments.home.adapters.LatestCocktailAdapter
 import com.maku.pombe.ui.fragments.home.adapters.PopularCocktailAdapter
 import com.maku.pombe.ui.fragments.home.adapters.RecentCocktailAdapter
-import com.maku.pombe.utils.NetworkListener
-import com.maku.pombe.utils.NetworkResult
-import com.maku.pombe.utils.observeOnce
+import com.maku.core.utils.NetworkListener
+import com.maku.core.utils.NetworkResult
+import com.maku.core.utils.observeOnce
 import com.maku.pombe.vm.HomeViewModel
 import com.maku.pombe.vm.MainViewModel
 import com.maku.pombe.vm.SharedViewModel
@@ -54,11 +54,11 @@ class HomeFragment : Fragment() {
     }
 
     private val mPopularAdapter by lazy { PopularCocktailAdapter { item ->
-        openDialog(item as com.maku.pombe.data.models.popular.Drink)
+        openDialog(item as com.maku.core.domain.popular.Drink)
     }
     }
 
-    private fun openDialog(drink: com.maku.pombe.data.models.popular.Drink) {
+    private fun openDialog(drink: com.maku.core.domain.popular.Drink) {
         // Toast.makeText(requireContext(), "popular : ${drink.strDrink}", Toast.LENGTH_SHORT).show()
         if ( homeViewModel.networkStatus){
             model.selectPopular(drink)

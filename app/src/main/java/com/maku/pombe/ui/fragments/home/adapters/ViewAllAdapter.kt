@@ -1,23 +1,13 @@
 package com.maku.pombe.ui.fragments.home.adapters
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
-import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.maku.pombe.R
-import com.maku.pombe.data.models.recent.Drink
-import com.maku.pombe.databinding.RecentItemLayoutBinding
-import com.maku.pombe.data.models.recent.Recent
+import com.maku.core.domain.recent.Drink
+import com.maku.core.domain.recent.Recent
 import com.maku.pombe.databinding.RecentViewItemLayoutBinding
-import com.maku.pombe.utils.CocktailsDiffUtil
-import timber.log.Timber
-import java.io.IOException
-import java.net.URL
+import com.maku.core.utils.CocktailsDiffUtil
 
 class ViewAllAdapter internal constructor(): RecyclerView.Adapter<ViewAllAdapter.ListViewHolder>(){
 

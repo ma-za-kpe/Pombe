@@ -5,15 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.maku.pombe.bindingadapter.RecentRowBinding.Companion.loadImageFromUrl
-import com.maku.pombe.data.models.recent.Drink
 import com.maku.pombe.databinding.FragmentRecentBottomSheetBinding
-import com.maku.pombe.vm.HomeViewModel
-import com.maku.pombe.vm.MainViewModel
 import com.maku.pombe.vm.SharedViewModel
 import timber.log.Timber
 

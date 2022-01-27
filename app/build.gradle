@@ -4,29 +4,23 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
-    id 'kotlin-parcelize'
 }
 
 def localProperties = new Properties()
 localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 31
+    buildToolsVersion "31.0.0"
 
     defaultConfig {
         applicationId "com.maku.pombe"
-        minSdkVersion 24
-        targetSdkVersion 30
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += ["room.schemaLocation":
-                                      "$projectDir/schemas".toString()]
-            }
-        }
+
 
         buildConfigField "String", "API_KEY",localProperties['apiKey']
     }
@@ -50,26 +44,9 @@ android {
 }
 
 dependencies {
-
-    // pallet
-    implementation 'androidx.palette:palette:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
-    // Room components
-    def room_version = "2.4.0-alpha02"
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    androidTestImplementation "androidx.room:room-testing:$room_version"
-
-    // circular image
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
-
-    // glide
-    def glide_version = "4.12.0"
-    implementation "com.github.bumptech.glide:glide:$glide_version"
-    implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
-    kapt "com.github.bumptech.glide:compiler:$glide_version"
+    // Shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'com.todkars:shimmer-recyclerview:0.4.0'
 
     // retrofit
     def retrofitVersion = '2.9.0'
@@ -78,17 +55,13 @@ dependencies {
 
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.5.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-
-    //timber
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation project(':core')
+    implementation project(':logging')
 
     // material
-    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.android.material:material:1.4.0'
 
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
     // navigation
     def nav_version = "2.3.5"
@@ -96,30 +69,19 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     // life cycle viewmodel
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
 
-    // Gson
-    implementation 'com.google.code.gson:gson:2.8.6'
-
-    // Shimmer
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
-    implementation 'com.todkars:shimmer-recyclerview:0.4.0'
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
     // Image Loading library Coil
     implementation "io.coil-kt:coil:0.13.0"
 
-
     //Dagger - Hilt
-    implementation 'com.google.dagger:hilt-android:2.34-beta'
-    kapt 'com.google.dagger:hilt-compiler:2.34-beta'
-
-    // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
-
-    // DataStore
-    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha02"
+    implementation 'com.google.dagger:hilt-android:2.40'
+    kapt 'com.google.dagger:hilt-compiler:2.40'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

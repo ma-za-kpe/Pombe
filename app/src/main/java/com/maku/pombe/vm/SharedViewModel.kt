@@ -2,7 +2,7 @@ package com.maku.pombe.vm
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.maku.pombe.data.models.recent.Drink
+import com.maku.core.domain.recent.Drink
 
 class SharedViewModel : ViewModel() {
 
@@ -14,16 +14,16 @@ class SharedViewModel : ViewModel() {
     }
 
     // popular
-    val selectedPopular = MutableLiveData<com.maku.pombe.data.models.popular.Drink>()
+    val selectedPopular = MutableLiveData<com.maku.core.domain.popular.Drink>()
 
-    fun selectPopular(item: com.maku.pombe.data.models.popular.Drink) {
+    fun selectPopular(item: com.maku.core.domain.popular.Drink) {
         selectedPopular.value = item
     }
 
     // popular bottom
-    val selectedBtmPopular = MutableLiveData<com.maku.pombe.data.models.popular.Drink>()
+    val selectedBtmPopular = MutableLiveData<com.maku.core.domain.popular.Drink>()
 
-    fun selectBtmPopular(item: com.maku.pombe.data.models.popular.Drink) {
+    fun selectBtmPopular(item: com.maku.core.domain.popular.Drink) {
         selectedBtmPopular.value = item
     }
 }

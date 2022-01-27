@@ -10,12 +10,9 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.maku.pombe.R
-import com.maku.pombe.data.models.latest.Latest
-import com.maku.pombe.data.models.recent.Drink
-import com.maku.pombe.databinding.RecentItemLayoutBinding
-import com.maku.pombe.data.models.recent.Recent
+import com.maku.core.domain.latest.Latest
 import com.maku.pombe.databinding.LatestItemLayoutBinding
-import com.maku.pombe.utils.CocktailsDiffUtil
+import com.maku.core.utils.CocktailsDiffUtil
 import timber.log.Timber
 import java.io.IOException
 import java.net.URL
@@ -24,13 +21,13 @@ class LatestCocktailAdapter internal constructor(
     private val openBottomSheet: (Any) -> Unit
 )  : RecyclerView.Adapter<LatestCocktailAdapter.ListViewHolder>(){
 
-    private var cocktails = emptyList<com.maku.pombe.data.models.latest.Drink>()
+    private var cocktails = emptyList<com.maku.core.domain.latest.Drink>()
 
     class ListViewHolder(private val binding: LatestItemLayoutBinding): RecyclerView.ViewHolder(
         binding.root
     ) {
 
-        fun setLatestCocktailItem(result: com.maku.pombe.data.models.latest.Drink, openBottomSheet: (Any) -> Unit){
+        fun setLatestCocktailItem(result: com.maku.core.domain.latest.Drink, openBottomSheet: (Any) -> Unit){
             binding.result = result
 
             binding.latestDashboardCard.setOnClickListener {

@@ -10,10 +10,10 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.maku.pombe.R
-import com.maku.pombe.data.models.recent.Drink
+import com.maku.core.domain.recent.Drink
 import com.maku.pombe.databinding.RecentItemLayoutBinding
-import com.maku.pombe.data.models.recent.Recent
-import com.maku.pombe.utils.CocktailsDiffUtil
+import com.maku.core.domain.recent.Recent
+import com.maku.core.utils.CocktailsDiffUtil
 import timber.log.Timber
 import java.io.IOException
 import java.net.URL

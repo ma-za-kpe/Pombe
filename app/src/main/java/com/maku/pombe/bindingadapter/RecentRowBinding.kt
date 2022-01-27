@@ -2,7 +2,6 @@ package com.maku.pombe.bindingadapter
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.util.Log
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -10,12 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import androidx.palette.graphics.Palette
-import coil.load
 import com.bumptech.glide.Glide
 import com.maku.pombe.R
-import com.maku.pombe.data.models.recent.Drink
+import com.maku.core.domain.recent.Drink
 import com.maku.pombe.ui.fragments.home.HomeFragmentDirections
-import de.hdodenhof.circleimageview.CircleImageView
 import timber.log.Timber
 
 class RecentRowBinding {

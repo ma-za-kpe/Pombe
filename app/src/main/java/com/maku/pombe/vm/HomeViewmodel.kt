@@ -5,8 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.maku.pombe.BuildConfig.API_KEY
-import com.maku.pombe.data.repo.DataStoreRepository
+import com.maku.core.data.repo.DataStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
