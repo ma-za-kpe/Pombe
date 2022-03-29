@@ -3,26 +3,28 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-    id 'androidx.navigation.safeargs.kotlin'
 }
 
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("local.properties")))
-
 android {
-    compileSdkVersion 31
-    buildToolsVersion "31.0.0"
+    compileSdk 31
 
     defaultConfig {
-        applicationId "com.maku.pombe"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        applicationId "com.maku.interviewweatherapp"
+        minSdk 23
+        targetSdk 31
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-
-        buildConfigField "String", "API_KEY",localProperties['apiKey']
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"]
+            }
+        }
     }
 
     buildTypes {
@@ -39,51 +41,77 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
+        viewBinding true
         dataBinding true
     }
 }
 
 dependencies {
-    // Shimmer
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
-    implementation 'com.todkars:shimmer-recyclerview:0.4.0'
 
-    // retrofit
-    def retrofitVersion = '2.9.0'
+    // Kotlin + coroutines
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    implementation "androidx.core:core-ktx:$core_ktx"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_ktx"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$livedata_ktx"
+
+
+    // Support Libraries
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+//    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+
+
+    // TUTORIAL DEPENDENCIES HERE
+
+    // Modules: if available
+
+    // Network
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
-    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
+    implementation "com.squareup.okhttp3:okhttp:$okHttp_version"
 
-    implementation project(':core')
-    implementation project(':logging')
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttp_version"
 
-    // material
-    implementation 'com.google.android.material:material:1.4.0'
+    // Cache
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    kapt "androidx.room:room-compiler:$room_version"
 
-    // navigation
-    def nav_version = "2.3.5"
+    testImplementation "androidx.room:room-testing:$room_version"
+
+    // Concurrency
+
+    // DI
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$androidx_hilt_version"
+    kapt "androidx.hilt:hilt-compiler:$androidx_hilt_version"
+
+    // UI
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    implementation "com.google.android.material:material:$material_version"
+
+    // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    // life cycle viewmodel
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
-    // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
-    // Image Loading library Coil
-    implementation "io.coil-kt:coil:0.13.0"
+    // utils
+    // implementation "com.jakewharton.timber:timber:$timber"
 
-    //Dagger - Hilt
-    implementation 'com.google.dagger:hilt-android:2.40'
-    kapt 'com.google.dagger:hilt-compiler:2.40'
-
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    // Testing Dependencies
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
 }
