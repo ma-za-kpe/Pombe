@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
     compileSdk 31
@@ -25,6 +27,7 @@ android {
                         "room.expandProjection":"true"]
             }
         }
+        buildConfigField "String", "API_KEY",localProperties['apiKey']
     }
 
     buildTypes {
@@ -60,12 +63,11 @@ dependencies {
 
     // Support Libraries
     implementation "androidx.appcompat:appcompat:$appcompat_version"
-//    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    // implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
 
 
-    // TUTORIAL DEPENDENCIES HERE
 
-    // Modules: if available
+    implementation project(":logging")
 
     // Network
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -106,9 +108,8 @@ dependencies {
 
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
-
-    // utils
-    // implementation "com.jakewharton.timber:timber:$timber"
+    // Utils
+    implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp_version"
 
     // Testing Dependencies
     testImplementation "junit:junit:$junit_version"
