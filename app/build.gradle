@@ -18,7 +18,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        "com.maku.pombe.HiltTestRunner"
+        testOptions {
+            unitTests {
+                includeAndroidResources = true
+            }
+        }
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += [
@@ -51,6 +56,11 @@ android {
 
 dependencies {
 
+    // Concurrency
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+
     // Kotlin + coroutines
     implementation "androidx.work:work-runtime-ktx:$work_version"
 
@@ -64,8 +74,6 @@ dependencies {
     // Support Libraries
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     // implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
-
-
 
     implementation project(":logging")
 
@@ -95,6 +103,9 @@ dependencies {
 
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$androidx_hilt_version"
     kapt "androidx.hilt:hilt-compiler:$androidx_hilt_version"
+
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // UI
     implementation "com.github.bumptech.glide:glide:$glide_version"

@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.maku.pombe.common.data.cache.Cache
 import com.maku.pombe.common.data.cache.PombeDatabase
 import com.maku.pombe.common.data.cache.RoomCache
+import com.maku.pombe.common.data.cache.daos.LatestDao
 import com.maku.pombe.common.data.cache.daos.PopularDao
 import dagger.Binds
 import dagger.Module
@@ -23,26 +24,28 @@ abstract class CacheModule {
 
   companion object {
 
-    @Provides
-    @Singleton
-    fun provideDatabase(
-        @ApplicationContext context: Context
-    ): PombeDatabase {
-      return Room.databaseBuilder(
-          context,
-          PombeDatabase::class.java,
-          "pombe.db"
-      )
-          .build()
-    }
+      @Provides
+      @Singleton
+      fun provideDatabase(
+          @ApplicationContext context: Context
+      ): PombeDatabase {
+          return Room.databaseBuilder(
+              context,
+              PombeDatabase::class.java,
+              "pombe.db"
+          )
+              .build()
+      }
 
-    @Provides
-    fun provideAnimalsDao(
-        pombeDatabase: PombeDatabase
-    ): PopularDao = pombeDatabase.popularDao()
+      @Provides
+      fun providePopularDrinksDao(
+          pombeDatabase: PombeDatabase
+      ): PopularDao = pombeDatabase.popularDao()
 
-    @Provides
-    fun provideOrganizationsDao( pombeDatabase: PombeDatabase): PopularDao =
-        pombeDatabase.popularDao()
+      @Provides
+      fun provideLatestDrinksDao(
+          pombeDatabase: PombeDatabase
+      ): LatestDao = pombeDatabase.latestDao()
+
   }
 }

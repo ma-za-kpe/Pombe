@@ -1,4 +1,4 @@
-package com.maku.pombe
+package com.maku.pombe.common.presentation.m
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -7,8 +7,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.maku.pombe.R
 import com.maku.pombe.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration

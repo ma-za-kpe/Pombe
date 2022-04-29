@@ -1,4 +1,4 @@
-package com.maku.pombe.common.domain.model.popular
+package com.maku.pombe.common.domain.model.shared
 
 enum class Category(private val displayName: String) {
     Ordinary_Drink("Ordinary Drink"),

@@ -1,6 +1,4 @@
-package com.maku.pombe.common.domain.model.popular
-
-import com.google.gson.annotations.SerializedName
+package com.maku.pombe.common.domain.model.shared
 
 data class Instructions(
     val strInstructions: String?,

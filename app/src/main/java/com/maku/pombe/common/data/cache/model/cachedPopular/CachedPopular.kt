@@ -2,7 +2,8 @@ package com.maku.pombe.common.data.cache.model.cachedPopular
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.maku.pombe.common.domain.model.popular.*
+import com.maku.pombe.common.domain.model.popular.PopularDrink
+import com.maku.pombe.common.domain.model.shared.*
 import com.maku.pombe.common.utils.DateTimeUtils
 
 @Entity(tableName = "popular")
@@ -67,9 +68,9 @@ data class CachedPopular(
       return CachedPopular(
           idDrink = domainModel.idDrink,
           dateModified = domainModel.dateModified.toString(),
-          strAlcoholic = details.alcoholic.name,
+          strAlcoholic = domainModel.strAlcoholic.toString(),
           strCategory = domainModel.strCategory,
-          strCreativeCommonsConfirmed = details.commons.name,
+          strCreativeCommonsConfirmed = domainModel.strCreativeCommonsConfirmed.toString(),
           strDrink= domainModel.strDrink,
           strDrinkAlternate= domainModel.strDrinkAlternate,
           strDrinkThumb= domainModel.strDrinkThumb,
@@ -124,6 +125,8 @@ data class CachedPopular(
     return PopularDrink(
         idDrink,
       strCategory,
+        strAlcoholic,
+        strCreativeCommonsConfirmed,
       strDrink,
       strDrinkAlternate,
       strDrinkThumb,
@@ -133,7 +136,7 @@ data class CachedPopular(
       strImageSource,
       strTags,
       strVideo,
-      Details(Alcoholic.valueOf(strAlcoholic), Commons.valueOf(strCreativeCommonsConfirmed),
+      Details(
           Ingredients(
               strIngredient1,
                       strIngredient10,

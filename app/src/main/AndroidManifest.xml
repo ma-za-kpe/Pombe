@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pombe">
         <activity
-            android:name=".MainActivity"
+            android:name=".common.presentation.m.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Pombe.NoActionBar"
             android:label="@string/app_name">

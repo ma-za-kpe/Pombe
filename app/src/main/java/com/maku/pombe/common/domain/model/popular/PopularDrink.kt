@@ -1,8 +1,12 @@
 package com.maku.pombe.common.domain.model.popular
 
+import com.maku.pombe.common.domain.model.shared.Details
+
 data class PopularDrink(
     val idDrink: String,
     val strCategory: String,
+    val strAlcoholic: String?,
+    val strCreativeCommonsConfirmed: String?,
     val strDrink: String,
     val strDrinkAlternate: String,
     val strDrinkThumb: String,

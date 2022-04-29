@@ -1,17 +1,19 @@
 package com.maku.pombe.common.data.api.model.mappers
 
-import com.maku.pombe.common.data.api.model.Drink
-import com.maku.pombe.common.domain.model.popular.*
+import com.maku.pombe.common.data.api.model.popular.DrinkPopular
+import com.maku.pombe.common.domain.model.popular.PopularDrink
+import com.maku.pombe.common.domain.model.shared.*
 import com.maku.pombe.common.utils.DateTimeUtils
-import java.util.*
 import javax.inject.Inject
 
 class ApiPopularDrinkMapper @Inject constructor(
-): ApiMapper<Drink, PopularDrink> {
-    override fun mapToDomain(apiEntity: Drink): PopularDrink {
+): ApiMapper<DrinkPopular, PopularDrink> {
+    override fun mapToDomain(apiEntity: DrinkPopular): PopularDrink {
         return PopularDrink(
             idDrink = apiEntity.idDrink ?: throw MappingException("Popular drink ID cannot be null"),
             strCategory = apiEntity.strCategory.orEmpty(),
+            strAlcoholic = apiEntity.strAlcoholic.orEmpty(),
+            strCreativeCommonsConfirmed = apiEntity.strCreativeCommonsConfirmed.orEmpty(),
             strDrink = apiEntity.strDrink.orEmpty(),
             strDrinkAlternate = apiEntity.strDrinkAlternate.toString(),
             strDrinkThumb = apiEntity.strDrinkThumb.orEmpty(),
@@ -26,10 +28,10 @@ class ApiPopularDrinkMapper @Inject constructor(
         )
     }
 
-    private fun parseDetails(apiEntity: Drink): Details {
+    private fun parseDetails(apiEntity: DrinkPopular): Details {
         return Details(
-            alcoholic = parseAlcoholic(apiEntity.strAlcoholic),
-            commons = parseCommonsConfirmed(apiEntity.strCreativeCommonsConfirmed),
+//            alcoholic = apiEntity.strAlcoholic,
+//            commons = apiEntity.strCreativeCommonsConfirmed,
             ingredients = mapIngredients(
                 apiEntity.strIngredient1,
                 apiEntity.strIngredient2,
@@ -170,18 +172,18 @@ class ApiPopularDrinkMapper @Inject constructor(
         )
     }
 
-    private fun parseCommonsConfirmed(strCreativeCommonsConfirmed: String?): Commons {
-        if (strCreativeCommonsConfirmed.isNullOrEmpty()) return Commons.UNKNOWN
-
-        // will throw IllegalStateException if the string does not match String? enum value
-        return Commons.valueOf(strCreativeCommonsConfirmed.uppercase(Locale.ROOT))
-    }
-
-    private fun parseAlcoholic(strAlcoholic: String?): Alcoholic {
-        if (strAlcoholic.isNullOrEmpty()) return Alcoholic.UNKNOWN
-
-        // will throw IllegalStateException if the string does not match String? enum value
-        return Alcoholic.valueOf(strAlcoholic.uppercase(Locale.ROOT))
-    }
+//    private fun parseCommonsConfirmed(strCreativeCommonsConfirmed: String?): Commons? {
+//        if (strCreativeCommonsConfirmed.isNullOrEmpty()) return null
+//
+//        // will throw IllegalStateException if the string does not match String? enum value
+//        return Commons.valueOf(strCreativeCommonsConfirmed.uppercase(Locale.ROOT))
+//    }
+//
+//    private fun parseAlcoholic(strAlcoholic: String?): Alcoholic? {
+//        if (strAlcoholic.isNullOrEmpty()) return null
+//
+//        // will throw IllegalStateException if the string does not match String? enum value
+//        return Alcoholic.valueOf(strAlcoholic.uppercase(Locale.ROOT))
+//    }
     
 }

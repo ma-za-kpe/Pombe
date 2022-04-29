@@ -8,7 +8,7 @@ object DateTimeUtils {
   fun parse(dateTimeString: String): LocalDateTime = try {
       LocalDateTime.parse(dateTimeString)
     } catch (e: Exception) {
-      val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ")
+      val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
       LocalDateTime.parse(dateTimeString, dateFormatter)
     }
 }
