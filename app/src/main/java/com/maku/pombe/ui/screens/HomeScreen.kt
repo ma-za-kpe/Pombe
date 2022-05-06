@@ -3,8 +3,12 @@ package com.maku.pombe.ui.screens
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,50 +25,77 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.maku.logging.Logger
 import com.maku.pombe.common.presentation.model.latest.UILatestDrink
-import com.maku.pombe.latestfeature.LatestDrinkEvent
 import com.maku.pombe.latestfeature.LatestDrinkViewState
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.ui.components.LatestCard
+import com.maku.pombe.ui.components.LoadingLatestPombeListShimmer
 
 @Composable
 fun HomeScreen() {
     val context = LocalContext.current
     val latestFragmentViewModel: LatestFragmentViewModel = viewModel()
-    // trigger the initial animals list
-    requestInitialLatestPombeList(latestFragmentViewModel)
     val state =  latestFragmentViewModel.state.observeAsState()
     Column(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState()),
     ) {
         // TODO: 1. carousel
         // TODO: 2. Category
         // TODO: 4. Latest view all
         TitleItem("Latest",
             viewAll = { Toast.makeText(context,
-                "Likes",
+                "More latest Pombe",
                 Toast.LENGTH_SHORT).show()
             }
         )
-
-        Text(latestFragmentViewModel.state.value?.drinks.toString())
-        ObserveLatestPombeScreenState(state.value)
+        Spacer(modifier = Modifier.height(5.dp))
         // TODO: 5. Latest List
+        ObserveLatestPombeScreenState(state.value!!)
         // TODO: 6. Popular view all
+        Spacer(modifier = Modifier.height(10.dp))
+        TitleItem("Popular",
+            viewAll = { Toast.makeText(context,
+                "More Popular Pombe",
+                Toast.LENGTH_SHORT).show()
+            }
+        )
         // TODO: 7. Popular List
     }
 }
 
-fun requestInitialLatestPombeList(latestFragmentViewModel: LatestFragmentViewModel) {
-    latestFragmentViewModel.onEvent(LatestDrinkEvent.RequestLatestDrinksList)
-}
+//@Composable
+//fun ObserveLatestPombeScreenState(value: LatestDrinkViewState) {
+//    val drinks: List<UILatestDrink> = value.drinks
+//    Logger.d("Got more drinks! $drinks")
+//
+//    LazyRow(
+//        horizontalArrangement = Arrangement.spacedBy(8.dp),
+//        ) {
+//        items(drinks){ drink ->
+//           LatestCard(drink = drink) {
+//
+//           }
+//        }
+//    }
+//}
 
 @Composable
-fun ObserveLatestPombeScreenState(value: LatestDrinkViewState?) {
-    val drinks: List<UILatestDrink>? = value?.drinks
-    LazyRow {
-        if (value != null) {
-//            items(drinks) { item -> LatestCard(item) }
+fun ObserveLatestPombeScreenState(value: LatestDrinkViewState) {
+    if (value.loading){
+        LinearProgressIndicator(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(15.dp)
+        )
+    // LoadingLatestPombeListShimmer(imageHeight = 220.dp)
+    } else {
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            items(value.drinks){ drink ->
+                LatestCard(drink = drink) {}
+            }
         }
     }
 }

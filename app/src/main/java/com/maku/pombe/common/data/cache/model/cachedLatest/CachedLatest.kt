@@ -184,7 +184,7 @@ data class CachedLatest(
                       strMeasure15
           )
       ),
-        DateTimeUtils.parse(dateModified)
+        dateModified
     )
   }
 }

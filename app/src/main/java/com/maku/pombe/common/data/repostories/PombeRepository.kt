@@ -1,5 +1,6 @@
 package com.maku.pombe.common.data.repostories
 
+import com.maku.logging.Logger
 import com.maku.pombe.common.data.api.ApiParameters
 import com.maku.pombe.common.data.api.PombeApi
 import com.maku.pombe.common.data.api.model.mappers.ApiLatestDrinkMapper
@@ -63,10 +64,11 @@ class PombeRepository @Inject constructor(
             // get the data from server
             val (apiLatestDrinks) = api.getLatestDrinks(ApiParameters.KEY.toInt())
 
-            // map it to the domain modeled data
-            return LatestDomainResponse(
+            val x =  LatestDomainResponse(
                 apiLatestDrinks.map {apiLatestDrinkMapper.mapToDomain(it) },
             )
+            // map it to the domain modeled data
+            return x
         } catch (exception: HttpException) {
             throw NetworkException(exception.message ?: "Code ${exception.code()}")
         }
