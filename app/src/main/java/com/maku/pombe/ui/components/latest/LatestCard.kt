@@ -1,4 +1,4 @@
-package com.maku.pombe.ui.components
+package com.maku.pombe.ui.components.latest
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -13,6 +13,10 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.maku.pombe.common.presentation.model.latest.UILatestDrink
+import com.maku.pombe.ui.components.common.CardBottom
+import com.maku.pombe.ui.components.common.CardImage
+import com.maku.pombe.ui.components.common.CategoryCard
+import com.maku.pombe.ui.components.common.Like
 
 @Composable
 fun LatestCard(drink: UILatestDrink,
@@ -63,10 +67,14 @@ fun LatestCard(drink: UILatestDrink,
                     start.linkTo(drinkImage.start)
                     top.linkTo(drinkImage.top)
                     width = Dimension.fillToConstraints
-                },  topEnd = 20.dp ,
-                    topStart = 0.dp,
-                    bottomEnd = 20.dp,
-                    bottomStart = 0.dp,drink.category, colors.onPrimary, Color(0xFFFFA500)
+                },
+                    topStart = 20.dp ,
+                    topEnd = 0.dp,
+                    bottomEnd = 0.dp,
+                    bottomStart = 0.dp,
+                    drink.category,
+                    colors.onPrimary,
+                    Color(0xFFFFA500)
                 )
 
                 Like(modifier.constrainAs(like) {

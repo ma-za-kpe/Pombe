@@ -1,4 +1,4 @@
-package com.maku.pombe.ui.components
+package com.maku.pombe.ui.components.latest
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

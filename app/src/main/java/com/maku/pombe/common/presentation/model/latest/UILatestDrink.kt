@@ -1,12 +1,14 @@
 package com.maku.pombe.common.presentation.model.latest
 
 import com.maku.pombe.common.domain.model.shared.Details
+import com.maku.pombe.common.presentation.model.UiDrinks
 
 data class UILatestDrink(
-    val id: String,
-    val name: String,
-    val alcoholic: String?,
-    val category: String,
-    val photo: String,
-    val details: Details
-)
+    override val id: String,
+    override val name: String,
+    override val alcoholic: String?,
+    override val category: String,
+    override val photo: String,
+    override val details: Details
+) : UiDrinks
+

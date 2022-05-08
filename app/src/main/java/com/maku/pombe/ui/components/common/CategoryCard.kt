@@ -1,4 +1,4 @@
-package com.maku.pombe.ui.components
+package com.maku.pombe.ui.components.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun CategoryCard(
     modifier: Modifier = Modifier,
-    topEnd: Dp,
     topStart: Dp,
+    topEnd: Dp,
     bottomEnd: Dp,
     bottomStart: Dp,
     category: String,
@@ -29,7 +29,10 @@ fun CategoryCard(
     bgColor: Color
 ) {
     Card(
-        shape = RoundedCornerShape(topEnd, topStart, bottomEnd, bottomStart),
+        shape = RoundedCornerShape(
+            topStart, topEnd,
+            bottomEnd,
+            bottomStart),
         elevation = 10.dp,
         backgroundColor = bgColor,
         contentColor = onPrimary

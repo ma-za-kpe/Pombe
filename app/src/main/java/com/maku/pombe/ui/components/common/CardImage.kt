@@ -1,4 +1,4 @@
-package com.maku.pombe.ui.components
+package com.maku.pombe.ui.components.common
 
 import android.content.Context
 import androidx.compose.foundation.layout.Row
@@ -15,17 +15,18 @@ import androidx.compose.ui.unit.Dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.maku.pombe.R
+import com.maku.pombe.common.presentation.model.UiDrinks
 import com.maku.pombe.common.presentation.model.latest.UILatestDrink
 
 @Composable
 fun CardImage(
     modifier: Modifier = Modifier,
-    topEnd: Dp,
     topStart: Dp,
+    topEnd: Dp,
     bottomEnd: Dp,
     bottomStart: Dp,
     imageHeight: Dp,
-    drink: UILatestDrink,
+    drink: UiDrinks,
     context: Context
 ){
     Row(modifier) {
@@ -44,14 +45,3 @@ fun CardImage(
         )
     }
 }
-
-//CardImage(
-//modifier,
-//topEnd = 20.dp ,
-//topStart = 20.dp,
-//bottomEnd = 0.dp,
-//bottomStart = 0.dp,
-//imageHeight = 220.dp,
-//drink = drink,
-//context = context
-//)

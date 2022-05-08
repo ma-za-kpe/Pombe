@@ -1,4 +1,4 @@
-package com.maku.pombe.ui.components
+package com.maku.pombe.ui.components.common
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
