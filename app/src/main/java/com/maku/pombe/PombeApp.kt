@@ -10,35 +10,52 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
+import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
 import com.maku.pombe.ui.appdrawer.AppDrawer
 import com.maku.pombe.ui.routing.PombeRouter.currentScreen
 import com.maku.pombe.ui.routing.Screen
 import com.maku.pombe.ui.screens.FavoritesScreen
 import com.maku.pombe.ui.screens.HomeScreen
-import com.maku.pombe.ui.screens.MyProfileScreen
 import com.maku.pombe.ui.theme.PombeTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun PombeApp() {
+fun PombeApp(
+    latestFragmentViewModel: LatestFragmentViewModel,
+    popularFragmentViewModel: PopularFragmentViewModel
+) {
     PombeTheme {
-        AppContent()
+        AppContent(latestFragmentViewModel, popularFragmentViewModel)
     }
 }
 
 @Composable
-fun AppContent() {
+fun AppContent(
+    latestFragmentViewModel: LatestFragmentViewModel,
+    popularFragmentViewModel: PopularFragmentViewModel
+) {
+    val navController = rememberNavController()
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
     Crossfade(targetState = currentScreen) { screenState: MutableState<Screen> ->
         Scaffold(
-            topBar = drawTopBar(screenState.value, scaffoldState, coroutineScope, onSearchPombeClick = { }),
+            topBar = drawTopBar(
+                screenState.value,
+                scaffoldState,
+                coroutineScope,
+                onSearchPombeClick = { }),
             drawerContent = {
                 AppDrawer(
                     closeDrawerAction = { coroutineScope.launch { scaffoldState.drawerState.close() } }
@@ -46,17 +63,79 @@ fun AppContent() {
             },
             scaffoldState = scaffoldState,
             bottomBar = {
-                BottomNavigationComponent(screenState = screenState)
-            },
-            content = {
-                MainScreenContainer(
-                    modifier = Modifier.padding(bottom = 56.dp),
-                    screenState = screenState,
-                )
+                BottomNavigation {
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val currentDestination = navBackStackEntry?.destination
+                    items.forEach { screen ->
+                        BottomNavigationItem(
+                            icon = { Icon(painterResource(id = screen.icon), contentDescription = screen.route) },
+                            label = { Text(text = screen.route, fontSize = 9.sp) },
+                            selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                            alwaysShowLabel = true,
+                            onClick = {
+                                navController.navigate(screen.route) {
+                                    // Pop up to the start destination of the graph to
+                                    // avoid building up a large stack of destinations
+                                    // on the back stack as users select items
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    // Avoid multiple copies of the same destination when
+                                    // reselecting the same item
+                                    launchSingleTop = true
+                                    // Restore state when reselecting a previously selected item
+                                    restoreState = true
+                                }
+                            }
+                        )
+                    }
+                }
             }
-        )
+        ) { innerPadding ->
+            NavHost(
+                navController,
+                startDestination = Screen.Home.route,
+                Modifier.padding(innerPadding)
+            ) {
+                composable(Screen.Home.route) { HomeScreen(navController, latestFragmentViewModel, popularFragmentViewModel) }
+                composable(Screen.Favorites.route) { FavoritesScreen(navController) }
+            }
+        }
     }
 }
+
+val items = listOf(
+    Screen.Home,
+    Screen.Favorites
+)
+
+
+
+//@Composable
+//fun AppContent() {
+//    val scaffoldState: ScaffoldState = rememberScaffoldState()
+//    val coroutineScope: CoroutineScope = rememberCoroutineScope()
+//    Crossfade(targetState = currentScreen) { screenState: MutableState<Screen> ->
+//        Scaffold(
+//            topBar = drawTopBar(screenState.value, scaffoldState, coroutineScope, onSearchPombeClick = { }),
+//            drawerContent = {
+//                AppDrawer(
+//                    closeDrawerAction = { coroutineScope.launch { scaffoldState.drawerState.close() } }
+//                )
+//            },
+//            scaffoldState = scaffoldState,
+//            bottomBar = {
+//                BottomNavigationComponent(screenState = screenState)
+//            },
+//            content = {
+//                MainScreenContainer(
+//                    modifier = Modifier.padding(bottom = 56.dp),
+//                    screenState = screenState,
+//                )
+//            }
+//        )
+//    }
+//}
 
 fun drawTopBar(value: Screen, scaffoldState: ScaffoldState, coroutineScope: CoroutineScope, onSearchPombeClick: () -> Unit)
 : @Composable (() -> Unit) {
@@ -76,7 +155,7 @@ fun TopAppBar(scaffoldState: ScaffoldState, coroutineScope: CoroutineScope,  onS
     TopAppBar(
         title = {
             Text(
-                text = stringResource(currentScreen.value.titleResId),
+                text = stringResource(currentScreen.value.resourceId),
             )
         },
         navigationIcon = {
@@ -149,15 +228,15 @@ private fun MainScreenContainer(
          color = colors.background
     ) {
         when (screenState.value) {
-            Screen.Home -> HomeScreen()
-            Screen.Favorites -> FavoritesScreen()
-            Screen.MyProfile -> MyProfileScreen()
+//            Screen.Home -> HomeScreen(navController)
+//            Screen.Favorites -> FavoritesScreen(navController)
+//            Screen.MyProfile -> MyProfileScreen()
         }
     }
 }
 
-@Composable
-@Preview
-fun AppContentPreview() {
-    AppContent()
-}
+//@Composable
+//@Preview
+//fun AppContentPreview() {
+//    AppContent()
+//}

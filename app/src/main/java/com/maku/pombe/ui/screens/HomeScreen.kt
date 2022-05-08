@@ -3,7 +3,6 @@ package com.maku.pombe.ui.screens
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.lazy.items
@@ -28,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.maku.pombe.latestfeature.LatestDrinkViewState
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.popularfeature.presentation.PopularDrinkViewState
@@ -39,10 +39,14 @@ private const val COLUMN_COUNT = 2
 private val GRID_SPACING = 8.dp
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: NavHostController,
+    latestFragmentViewModel: LatestFragmentViewModel,
+    popularFragmentViewModel: PopularFragmentViewModel
+) {
     val context = LocalContext.current
-    val latestFragmentViewModel: LatestFragmentViewModel = viewModel()
-    val popularFragmentViewModel: PopularFragmentViewModel = viewModel()
+//    val latestFragmentViewModel: LatestFragmentViewModel = viewModel()
+//    val popularFragmentViewModel: PopularFragmentViewModel = viewModel()
     val state = latestFragmentViewModel.state.observeAsState()
     val popularState = popularFragmentViewModel.state.observeAsState()
     Column(modifier = Modifier.verticalScroll(rememberScrollState()).padding(16.dp)){
@@ -186,12 +190,6 @@ fun TitleItem(title: String, viewAll: () -> Unit) {
                     }
             )
         }
-}
-
-@Composable
-@Preview
-fun PombeCardPreview() {
-    HomeScreen()
 }
 
 @Composable
