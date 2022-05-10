@@ -12,8 +12,9 @@ class UiLatestDrinkMapper @Inject constructor(): UiMapper<LatestDrink, UILatestD
     return UILatestDrink(
         id = input.idDrink,
         name = input.strDrink,
+        alcoholic = input.strAlcoholic,
+        category = input.strCategory,
         photo = input.strDrinkThumb,
-        details = input.details
-    )
+        details = input.details)
   }
 }

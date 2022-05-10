@@ -11,4 +11,16 @@ object DateTimeUtils {
       val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
       LocalDateTime.parse(dateTimeString, dateFormatter)
     }
+
+//  fun dbStringToLocalDateTime(text: String?): LocalDateTime? {
+//    return if (text != null && text.isNotEmpty() && text != "null") {
+//      try {
+//        LocalDateTime.parse(text, text)
+//      } catch (ex: Exception) {
+//        throw IllegalArgumentException("Cannot parse date time text: $text", ex)
+//      }
+//    } else {
+//      null
+//    }
+//  }
 }

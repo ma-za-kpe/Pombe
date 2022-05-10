@@ -10,7 +10,6 @@ import com.maku.pombe.common.domain.model.NetworkUnavailableException
 import com.maku.pombe.common.domain.model.NoDrinksException
 import com.maku.pombe.common.domain.model.popular.PopularDrink
 import com.maku.pombe.common.presentation.Event
-import com.maku.pombe.common.presentation.model.popular.UIPopularDrink
 import com.maku.pombe.common.presentation.model.mappers.UiPopularDrinkMapper
 import com.maku.pombe.common.utils.DispatchersProvider
 import com.maku.pombe.common.utils.createExceptionHandler
@@ -29,7 +28,6 @@ class PopularFragmentViewModel @Inject constructor(
     private val getPopularDrinks: GetPopularDrinks,
     private val requestPopularDrinksList: RequestPopularDrinksList,
     private val uiPopularDrinkMapper: UiPopularDrinkMapper,
-    // Always inject coroutine dispatchers. They help with testing!
     private val dispatchersProvider: DispatchersProvider,
     private val compositeDisposable: CompositeDisposable
 ): ViewModel() {
@@ -58,16 +56,15 @@ class PopularFragmentViewModel @Inject constructor(
             .addTo(compositeDisposable)
     }
 
-    private fun onNewDrinksList(list: List<PopularDrink>?) {
-        Logger.d("Got more drinks!")
-        val drinks = list?.map{ uiPopularDrinkMapper.mapToView(it) }
+
+    private fun onNewDrinksList(drink: List<PopularDrink>) {
+        _state.value = state.value!!.copy( loading = true)
+        val popularDrinks = drink.map { uiPopularDrinkMapper.mapToView(it) }
         val currentList = state.value!!.drinks
-        val newAnimals = drinks?.subtract(currentList)
+        val newAnimals = popularDrinks.subtract(currentList)
         val updatedList = currentList + newAnimals
-        _state.value = state.value!!.copy(
-            loading = false,
-            drinks = updatedList as List<UIPopularDrink>
-        )
+
+        _state.value = state.value!!.copy( loading = false, drinks = updatedList)
     }
 
     private fun loadPopularDrinks() {
@@ -102,7 +99,6 @@ class PopularFragmentViewModel @Inject constructor(
             }
             is NoDrinksException -> {
                 _state.value = state.value!!.copy(
-                    noMoreDrinks = true,
                     failure = Event(failure)
                 )
             }

@@ -10,6 +10,8 @@ class UiPopularDrinkMapper @Inject constructor(): UiMapper<PopularDrink, UIPopul
     return UIPopularDrink(
         id = input.idDrink,
         name = input.strDrink,
+        alcoholic = input.strAlcoholic,
+        category = input.strCategory,
         photo = input.strDrinkThumb,
         details = input.details
     )

@@ -27,7 +27,7 @@ class ApiLatestDrinkMapper @Inject constructor(
             strTags = apiEntity.strTags.orEmpty(),
             strVideo = apiEntity.strVideo.toString(),
             details = parseDetails(apiEntity),
-            dateModified = DateTimeUtils.parse(apiEntity.dateModified.orEmpty()) // throws exception if empty
+            dateModified = apiEntity.dateModified.orEmpty() // throws exception if empty
         )
     }
 

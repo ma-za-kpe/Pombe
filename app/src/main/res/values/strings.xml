@@ -1,4 +1,19 @@
 <resources>
+
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="account">Account</string>
+    <string name="clock">clock</string>
+    <string name="my_profile">My Profile</string>
+    <string name="settings">Settings</string>
+    <string name="change_theme">Change theme</string>
+    <string name="default_username">Pombe User</string>
+    <string name="default_time">1</string>
+    <string name="hour">hour</string>
+
+    <string name="home_icon">Home Icon</string>
+    <string name="fav_icon">Favorite Icon</string>
+
     <string name="app_name">Pombe</string>
     <string name="title_home">Pombe</string>
     <string name="title_dashboard">About</string>

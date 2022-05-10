@@ -3,8 +3,10 @@ package com.maku.pombe.common.data.cache
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.maku.pombe.common.data.cache.daos.CategoryDao
 import com.maku.pombe.common.data.cache.daos.LatestDao
 import com.maku.pombe.common.data.cache.daos.PopularDao
+import com.maku.pombe.common.data.cache.model.cachedCategory.CategoryDbModel
 import com.maku.pombe.common.data.cache.model.cachedLatest.CachedLatest
 import com.maku.pombe.common.data.cache.model.cachedPopular.CachedPopular
 import com.maku.pombe.common.data.cache.typeconvertor.PombeConvertor
@@ -12,7 +14,8 @@ import com.maku.pombe.common.data.cache.typeconvertor.PombeConvertor
 @Database(
     entities = [
         CachedPopular::class,
-        CachedLatest::class
+        CachedLatest::class,
+        CategoryDbModel::class
     ],
     version = 1
 )
@@ -20,6 +23,7 @@ import com.maku.pombe.common.data.cache.typeconvertor.PombeConvertor
 abstract class PombeDatabase : RoomDatabase() {
     abstract fun popularDao(): PopularDao
     abstract fun latestDao(): LatestDao
+    abstract fun categoryDao(): CategoryDao
 }
 
 /**

@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.maku.pombe.common.data.cache.Cache
 import com.maku.pombe.common.data.cache.PombeDatabase
 import com.maku.pombe.common.data.cache.RoomCache
+import com.maku.pombe.common.data.cache.daos.CategoryDao
 import com.maku.pombe.common.data.cache.daos.LatestDao
 import com.maku.pombe.common.data.cache.daos.PopularDao
 import dagger.Binds
@@ -46,6 +47,12 @@ abstract class CacheModule {
       fun provideLatestDrinksDao(
           pombeDatabase: PombeDatabase
       ): LatestDao = pombeDatabase.latestDao()
+
+      @Provides
+      fun provideCategoryDao(
+          pombeDatabase: PombeDatabase
+      ): CategoryDao = pombeDatabase.categoryDao()
+
 
   }
 }

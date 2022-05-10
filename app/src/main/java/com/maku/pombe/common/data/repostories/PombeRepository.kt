@@ -1,13 +1,18 @@
 package com.maku.pombe.common.data.repostories
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.maku.pombe.common.data.api.ApiParameters
 import com.maku.pombe.common.data.api.PombeApi
 import com.maku.pombe.common.data.api.model.mappers.ApiLatestDrinkMapper
 import com.maku.pombe.common.data.api.model.mappers.ApiPopularDrinkMapper
 import com.maku.pombe.common.data.cache.Cache
+import com.maku.pombe.common.data.cache.model.cachedCategory.dbmapper.DbMapper
+import com.maku.pombe.common.data.cache.model.cachedCategory.dbmapper.DbMapperImpl
 import com.maku.pombe.common.data.cache.model.cachedLatest.CachedLatest
 import com.maku.pombe.common.data.cache.model.cachedPopular.CachedPopular
 import com.maku.pombe.common.domain.model.NetworkException
+import com.maku.pombe.common.domain.model.category.CategoryModel
 import com.maku.pombe.common.domain.model.latest.LatestDomainResponse
 import com.maku.pombe.common.domain.model.latest.LatestDrink
 import com.maku.pombe.common.domain.model.popular.PopularDomainResponse
@@ -22,7 +27,8 @@ class PombeRepository @Inject constructor(
     private val api: PombeApi,
     private val cache: Cache,
     private val apiPopularDrinkMapper: ApiPopularDrinkMapper,
-    private val apiLatestDrinkMapper: ApiLatestDrinkMapper
+    private val apiLatestDrinkMapper: ApiLatestDrinkMapper,
+    private val dbMapper: DbMapperImpl
 ): DrinkRepository {
     override fun getPopularDrinks(): Flowable<List<PopularDrink>> {
         return cache.getPopularDrinks()
@@ -63,10 +69,11 @@ class PombeRepository @Inject constructor(
             // get the data from server
             val (apiLatestDrinks) = api.getLatestDrinks(ApiParameters.KEY.toInt())
 
-            // map it to the domain modeled data
-            return LatestDomainResponse(
+            val x =  LatestDomainResponse(
                 apiLatestDrinks.map {apiLatestDrinkMapper.mapToDomain(it) },
             )
+            // map it to the domain modeled data
+            return x
         } catch (exception: HttpException) {
             throw NetworkException(exception.message ?: "Code ${exception.code()}")
         }
@@ -76,4 +83,20 @@ class PombeRepository @Inject constructor(
         val latestPombe = drinks.map { CachedLatest.fromDomain(it) }
         cache.storeLatestDrinks(latestPombe)
     }
+
+    override fun getAllCategory(): Flowable<List<CategoryModel>> {
+        return cache.getAllCategory()
+            .distinctUntilChanged() //  This is important because it ensures only events with new
+            // information get to the subscriber.
+            .map { drinkList ->
+                dbMapper.mapCategories(drinkList)
+            }
+    }
+
+    override fun getAllCategorySync(): List<CategoryModel> = dbMapper.mapCategories(cache.getAllCategorySync())
+    override fun findCategoryById(id: Long): LiveData<CategoryModel> =
+        Transformations.map(cache.findCategoryById(id)) { dbMapper.mapCategory(it) }
+
+    override fun findCategoryByIdSync(id: Long): CategoryModel = dbMapper.mapCategory(cache.findCategoryByIdSync(id))
+
 }

@@ -2,10 +2,12 @@
 buildscript {
 
     ext {
-        kotlin_version = '1.6.0'
+        kotlin_version = '1.6.20'
         compileSdkVersion = 31
         targetSdkVersion = compileSdkVersion
         minSdkVersion = 21
+        compose_version = '1.2.0-alpha08'
+        compose_ui_version = '1.4.0'
 
         // dependency versions
         work_version = "2.7.1"
@@ -39,8 +41,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.3"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0"
+        classpath 'com.android.tools.build:gradle:7.1.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
 

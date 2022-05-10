@@ -17,5 +17,5 @@ data class LatestDrink(
     val strTags: String,
     val strVideo: String,
     val details: Details,
-    val dateModified: org.threeten.bp.LocalDateTime
+    val dateModified: String
     )

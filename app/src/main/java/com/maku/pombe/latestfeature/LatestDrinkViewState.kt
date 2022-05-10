@@ -8,7 +8,6 @@ import com.maku.pombe.common.presentation.model.popular.UIPopularDrink
 data class LatestDrinkViewState(
     val loading: Boolean = true,
     val drinks: List<UILatestDrink> = emptyList(),
-    val noMoreDrinks: Boolean = false,
     // Using Event prevents your app from handling the error more than once.
     val failure: Event<Throwable>? = null
 )
