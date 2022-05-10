@@ -1,5 +1,8 @@
 package com.maku.pombe.common.domain.repositories
 
+import androidx.lifecycle.LiveData
+import com.maku.pombe.common.data.cache.model.cachedCategory.CategoryDbModel
+import com.maku.pombe.common.domain.model.category.CategoryModel
 import com.maku.pombe.common.domain.model.latest.LatestDomainResponse
 import com.maku.pombe.common.domain.model.latest.LatestDrink
 import com.maku.pombe.common.domain.model.popular.PopularDomainResponse
@@ -20,7 +23,14 @@ interface DrinkRepository {
    * */
   suspend fun storePopularDrinks(drinks: List<PopularDrink>)
 
+  // latest pombe
   fun getLatestDrinks(): Flowable<List<LatestDrink>>
   suspend fun requestLatestNetworkData(): LatestDomainResponse
   suspend fun storeLatestDrinks(drinks: List<LatestDrink>)
+
+  // categories
+  fun getAllCategory(): Flowable<List<CategoryModel>>
+  fun getAllCategorySync(): List<CategoryModel>
+  fun findCategoryById(id: Long): LiveData<CategoryModel>
+  fun findCategoryByIdSync(id: Long): CategoryModel
 }

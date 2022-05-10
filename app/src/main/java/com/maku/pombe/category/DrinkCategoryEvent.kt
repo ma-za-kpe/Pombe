@@ -1,6 +1,6 @@
-package com.maku.pombe.latestfeature
+package com.maku.pombe.category
 
 // this is an action that the UI triggers
-sealed class LatestDrinkEvent {
-  object RequestLatestDrinksList: LatestDrinkEvent()
+sealed class DrinkCategoryEvent {
+  object RequestDrinkCategoryList: DrinkCategoryEvent()
 }

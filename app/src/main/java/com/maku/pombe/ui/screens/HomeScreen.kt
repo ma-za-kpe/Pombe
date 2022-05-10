@@ -26,14 +26,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.maku.pombe.category.DrinkCategoryViewModel
 import com.maku.pombe.latestfeature.LatestDrinkViewState
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.popularfeature.presentation.PopularDrinkViewState
 import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
+import com.maku.pombe.ui.components.carousel.PombeCarousel
 import com.maku.pombe.ui.components.latest.LatestCard
 import com.maku.pombe.ui.components.popular.PopularCard
+import com.maku.pombe.ui.components.search.PombeCategoryChip
 
 private const val COLUMN_COUNT = 2
 private val GRID_SPACING = 8.dp
@@ -42,14 +44,29 @@ private val GRID_SPACING = 8.dp
 fun HomeScreen(
     navController: NavHostController,
     latestFragmentViewModel: LatestFragmentViewModel,
-    popularFragmentViewModel: PopularFragmentViewModel
+    popularFragmentViewModel: PopularFragmentViewModel,
+    drinkCategoryViewModel: DrinkCategoryViewModel
 ) {
     val context = LocalContext.current
-//    val latestFragmentViewModel: LatestFragmentViewModel = viewModel()
-//    val popularFragmentViewModel: PopularFragmentViewModel = viewModel()
     val state = latestFragmentViewModel.state.observeAsState()
+    val categoryState = drinkCategoryViewModel.state.observeAsState()
     val popularState = popularFragmentViewModel.state.observeAsState()
-    Column(modifier = Modifier.verticalScroll(rememberScrollState()).padding(16.dp)){
+
+    Column(modifier = Modifier
+        .verticalScroll(rememberScrollState())
+        .padding(16.dp)){
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            items(categoryState.value!!.categories){ category ->
+                PombeCategoryChip(
+                    category = category.name,
+                    onExecuteSearch = {
+                    },
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
         TitleItem("Latest",
             viewAll = {
                 Toast.makeText(
@@ -137,6 +154,7 @@ fun ObserveLatestPombeScreenState(value: LatestDrinkViewState) {
             }
         }
     }
+
 }
 
 @Composable

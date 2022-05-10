@@ -3,16 +3,16 @@ package com.maku.pombe
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -20,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.maku.pombe.category.DrinkCategoryViewModel
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
 import com.maku.pombe.ui.appdrawer.AppDrawer
@@ -34,17 +35,19 @@ import kotlinx.coroutines.launch
 @Composable
 fun PombeApp(
     latestFragmentViewModel: LatestFragmentViewModel,
-    popularFragmentViewModel: PopularFragmentViewModel
+    popularFragmentViewModel: PopularFragmentViewModel,
+    drinkCategoryViewModel: DrinkCategoryViewModel
 ) {
     PombeTheme {
-        AppContent(latestFragmentViewModel, popularFragmentViewModel)
+        AppContent(latestFragmentViewModel, popularFragmentViewModel, drinkCategoryViewModel)
     }
 }
 
 @Composable
 fun AppContent(
     latestFragmentViewModel: LatestFragmentViewModel,
-    popularFragmentViewModel: PopularFragmentViewModel
+    popularFragmentViewModel: PopularFragmentViewModel,
+    drinkCategoryViewModel: DrinkCategoryViewModel
 ) {
     val navController = rememberNavController()
     val scaffoldState: ScaffoldState = rememberScaffoldState()
@@ -97,7 +100,8 @@ fun AppContent(
                 startDestination = Screen.Home.route,
                 Modifier.padding(innerPadding)
             ) {
-                composable(Screen.Home.route) { HomeScreen(navController, latestFragmentViewModel, popularFragmentViewModel) }
+                composable(Screen.Home.route) { HomeScreen(navController, latestFragmentViewModel,
+                    popularFragmentViewModel, drinkCategoryViewModel) }
                 composable(Screen.Favorites.route) { FavoritesScreen(navController) }
             }
         }
@@ -108,34 +112,6 @@ val items = listOf(
     Screen.Home,
     Screen.Favorites
 )
-
-
-
-//@Composable
-//fun AppContent() {
-//    val scaffoldState: ScaffoldState = rememberScaffoldState()
-//    val coroutineScope: CoroutineScope = rememberCoroutineScope()
-//    Crossfade(targetState = currentScreen) { screenState: MutableState<Screen> ->
-//        Scaffold(
-//            topBar = drawTopBar(screenState.value, scaffoldState, coroutineScope, onSearchPombeClick = { }),
-//            drawerContent = {
-//                AppDrawer(
-//                    closeDrawerAction = { coroutineScope.launch { scaffoldState.drawerState.close() } }
-//                )
-//            },
-//            scaffoldState = scaffoldState,
-//            bottomBar = {
-//                BottomNavigationComponent(screenState = screenState)
-//            },
-//            content = {
-//                MainScreenContainer(
-//                    modifier = Modifier.padding(bottom = 56.dp),
-//                    screenState = screenState,
-//                )
-//            }
-//        )
-//    }
-//}
 
 fun drawTopBar(value: Screen, scaffoldState: ScaffoldState, coroutineScope: CoroutineScope, onSearchPombeClick: () -> Unit)
 : @Composable (() -> Unit) {
@@ -149,8 +125,6 @@ fun drawTopBar(value: Screen, scaffoldState: ScaffoldState, coroutineScope: Coro
 @Composable
 fun TopAppBar(scaffoldState: ScaffoldState, coroutineScope: CoroutineScope,  onSearchPombeClick: () -> Unit
 ) {
-
-    val colors = MaterialTheme.colors
 
     TopAppBar(
         title = {
@@ -177,62 +151,6 @@ fun TopAppBar(scaffoldState: ScaffoldState, coroutineScope: CoroutineScope,  onS
             }
         }
     )
-}
-
-@Composable
-private fun BottomNavigationComponent(
-    modifier: Modifier = Modifier,
-    screenState: MutableState<Screen>
-) {
-    var selectedItem by remember { mutableStateOf(0) }
-    val colors = MaterialTheme.colors
-
-    val items = listOf(
-        NavigationItem(0, R.drawable.ic_home_black_24dp, R.string.home_icon, Screen.Home),
-        NavigationItem(1, R.drawable.ic_fav_blac, R.string.fav_icon, Screen.Favorites),
-    )
-    BottomNavigation(
-        modifier = modifier
-    ) {
-        items.forEach {
-            BottomNavigationItem(
-                icon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = it.vectorResourceId),
-                        contentDescription = stringResource(id = it.contentDescriptionResourceId),
-                    )
-                },
-                selected = selectedItem == it.index,
-                onClick = {
-                    selectedItem = it.index
-                    screenState.value = it.screen
-                }
-            )
-        }
-    }
-}
-
-private data class NavigationItem(
-    val index: Int,
-    val vectorResourceId: Int,
-    val contentDescriptionResourceId: Int,
-    val screen: Screen
-)
-
-@Composable
-private fun MainScreenContainer(
-    modifier: Modifier = Modifier,
-    screenState: MutableState<Screen>
-) {
-    Surface(
-         color = colors.background
-    ) {
-        when (screenState.value) {
-//            Screen.Home -> HomeScreen(navController)
-//            Screen.Favorites -> FavoritesScreen(navController)
-//            Screen.MyProfile -> MyProfileScreen()
-        }
-    }
 }
 
 //@Composable

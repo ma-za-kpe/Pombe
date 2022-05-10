@@ -1,94 +1,55 @@
-package com.maku.pombe.latestfeature
+package com.maku.pombe.category
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.maku.logging.Logger
+import com.maku.pombe.category.usecases.GetDrinksCategory
 import com.maku.pombe.common.domain.model.NetworkException
 import com.maku.pombe.common.domain.model.NetworkUnavailableException
 import com.maku.pombe.common.domain.model.NoDrinksException
-import com.maku.pombe.common.domain.model.latest.LatestDrink
+import com.maku.pombe.common.domain.model.category.CategoryModel
 import com.maku.pombe.common.presentation.Event
-import com.maku.pombe.common.presentation.model.mappers.UiLatestDrinkMapper
+import com.maku.pombe.common.presentation.model.mappers.UiDrinkCategoryMapper
 import com.maku.pombe.common.utils.DispatchersProvider
-import com.maku.pombe.common.utils.createExceptionHandler
-import com.maku.pombe.latestfeature.domain.usecases.GetLatestDrinks
-import com.maku.pombe.latestfeature.domain.usecases.RequestLatestDrinksList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LatestFragmentViewModel @Inject constructor(
-    private val getLatestDrinks: GetLatestDrinks,
-    private val requestLatestDrinksList: RequestLatestDrinksList,
-    private val uiLatestDrinkMapper: UiLatestDrinkMapper,
-    private val dispatchersProvider: DispatchersProvider,
+class DrinkCategoryViewModel @Inject constructor(
+    private val getDrinksCategory: GetDrinksCategory,
+    private val uiDrinkCategory: UiDrinkCategoryMapper,
     private val compositeDisposable: CompositeDisposable
 ): ViewModel() {
 
-    val state: LiveData<LatestDrinkViewState> get() = _state
-    private val _state = MutableLiveData<LatestDrinkViewState>()
+    val state: LiveData<DrinkCategoryViewState> get() = _state
+    private val _state = MutableLiveData<DrinkCategoryViewState>()
     init {
-        _state.value = LatestDrinkViewState()
+        _state.value = DrinkCategoryViewState()
         subscribeToPombeDbUpdates()
     }
 
     private fun subscribeToPombeDbUpdates() {
-        getLatestDrinks()
+        getDrinksCategory()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { onNewPombeList(it) },
+                { onNewCategoryList(it) },
                 { onFailure(it) }
             )
             .addTo(compositeDisposable)
     }
 
-    private fun onNewPombeList(drink: List<LatestDrink>) {
-        _state.value = state.value!!.copy( loading = true)
-        val latestDrinks = drink.map { uiLatestDrinkMapper.mapToView(it) }
-        // TODO: add updates at value while inserting into room db
-        // This ensures that new items are added below the already existing ones, thus avoiding
-        // repositioning of items that are already visible, as it can provide for a confusing UX. A
-        // nice alternative to this would be to add an "updatedAt" field to the Room entities, so
-        // that we could actually order them by something that we completely control.
-        val currentList = state.value!!.drinks
-        val newAnimals = latestDrinks.subtract(currentList)
+    private fun onNewCategoryList(it: List<CategoryModel>?) {
+        val catDrinks = it?.map { uiDrinkCategory.mapToView(it) }
+        val currentList = state.value!!.categories
+        Logger.d("categories $currentList")
+        val newAnimals = catDrinks!!.subtract(currentList)
         val updatedList = currentList + newAnimals
 
-        _state.value = state.value!!.copy( loading = false, drinks = updatedList)
-    }
-
-    fun onEvent(event: LatestDrinkEvent) {
-        when(event) {
-            is LatestDrinkEvent.RequestLatestDrinksList ->
-                loadLatestDrinks()
-        }
-    }
-
-    private fun loadLatestDrinks() {
-        if (state.value!!.drinks.isEmpty()) {
-            loadDrinks()
-        }
-    }
-
-    private fun loadDrinks() {
-        _state.value = state.value!!.copy( loading = true)
-        val errorMessage = "Failed to fetch pombes"
-        val exceptionHandler = viewModelScope.createExceptionHandler(errorMessage){
-            onFailure(it)
-        }
-        viewModelScope.launch(exceptionHandler) {
-            delay(3000)
-            requestLatestDrinksList()
-            // request drinks!
-            _state.value = state.value!!.copy( loading = false)
-        }
+        _state.value = state.value!!.copy( loading = false, categories = updatedList)
     }
 
     private fun onFailure(failure: Throwable) {
@@ -112,5 +73,4 @@ class LatestFragmentViewModel @Inject constructor(
         super.onCleared()
         compositeDisposable.clear() // 4
     }
-
 }
