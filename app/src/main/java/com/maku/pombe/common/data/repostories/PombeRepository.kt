@@ -18,6 +18,7 @@ import com.maku.pombe.common.domain.model.latest.LatestDrink
 import com.maku.pombe.common.domain.model.popular.PopularDomainResponse
 import com.maku.pombe.common.domain.model.popular.PopularDrink
 import com.maku.pombe.common.domain.repositories.DrinkRepository
+import com.maku.pombe.searchfeature.domain.models.SearchResults
 import io.reactivex.Flowable
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -98,5 +99,13 @@ class PombeRepository @Inject constructor(
         Transformations.map(cache.findCategoryById(id)) { dbMapper.mapCategory(it) }
 
     override fun findCategoryByIdSync(id: Long): CategoryModel = dbMapper.mapCategory(cache.findCategoryByIdSync(id))
+    override fun searchCachedCocktailsBy(searchParameters: String): Flowable<SearchResults> {
+        return cache.searchCocktailsBy(searchParameters)
+            .distinctUntilChanged()
+            .map { cocktails ->
+                cocktails.map { it.toDomain() }
+            }
+            .map{ SearchResults(it, searchParameters) }
+    }
 
 }

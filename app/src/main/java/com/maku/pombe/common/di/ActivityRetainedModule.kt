@@ -21,7 +21,7 @@ abstract class ActivityRetainedModule {
   /**
   You want to retain the repository when you swap Fragments. You also want it to survive
   configuration changes. To enable this, you add the @ActivityRetainedScoped
-  annotation to the binding method. It makes PetFinderAnimalRepository live as
+  annotation to the binding method. It makes Repository live as
   long as the Activity, surviving configuration changes
    **/
   abstract fun bindPopularDrinkRepository(repository: PombeRepository): DrinkRepository

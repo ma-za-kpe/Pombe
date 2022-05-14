@@ -7,6 +7,8 @@ import com.maku.pombe.common.domain.model.latest.LatestDomainResponse
 import com.maku.pombe.common.domain.model.latest.LatestDrink
 import com.maku.pombe.common.domain.model.popular.PopularDomainResponse
 import com.maku.pombe.common.domain.model.popular.PopularDrink
+import com.maku.pombe.searchfeature.domain.models.SearchParameters
+import com.maku.pombe.searchfeature.domain.models.SearchResults
 import io.reactivex.Flowable
 
 interface DrinkRepository {
@@ -33,4 +35,8 @@ interface DrinkRepository {
   fun getAllCategorySync(): List<CategoryModel>
   fun findCategoryById(id: Long): LiveData<CategoryModel>
   fun findCategoryByIdSync(id: Long): CategoryModel
+
+  // search
+  fun searchCachedCocktailsBy(searchParameters: String): Flowable<SearchResults>
+
 }

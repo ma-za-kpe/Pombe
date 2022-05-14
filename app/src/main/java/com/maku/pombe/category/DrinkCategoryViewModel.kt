@@ -46,8 +46,8 @@ class DrinkCategoryViewModel @Inject constructor(
         val catDrinks = it?.map { uiDrinkCategory.mapToView(it) }
         val currentList = state.value!!.categories
         Logger.d("categories $currentList")
-        val newAnimals = catDrinks!!.subtract(currentList)
-        val updatedList = currentList + newAnimals
+        val newCats = catDrinks!!.subtract(currentList)
+        val updatedList = currentList + newCats
 
         _state.value = state.value!!.copy( loading = false, categories = updatedList)
     }

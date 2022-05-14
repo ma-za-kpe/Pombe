@@ -20,4 +20,7 @@ interface Cache {
     fun getAllCategorySync(): List<CategoryDbModel>
     fun findCategoryById(id: Long): LiveData<CategoryDbModel>
     fun findCategoryByIdSync(id: Long): CategoryDbModel
+
+    // search
+    fun searchCocktailsBy(name: String): Flowable<List<CachedLatest>>
 }

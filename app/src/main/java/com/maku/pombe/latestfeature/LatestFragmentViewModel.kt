@@ -58,8 +58,8 @@ class LatestFragmentViewModel @Inject constructor(
         // nice alternative to this would be to add an "updatedAt" field to the Room entities, so
         // that we could actually order them by something that we completely control.
         val currentList = state.value!!.drinks
-        val newAnimals = latestDrinks.subtract(currentList)
-        val updatedList = currentList + newAnimals
+        val newLatest = latestDrinks.subtract(currentList)
+        val updatedList = currentList + newLatest
 
         _state.value = state.value!!.copy( loading = false, drinks = updatedList)
     }

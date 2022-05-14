@@ -37,9 +37,6 @@ import com.maku.pombe.ui.components.latest.LatestCard
 import com.maku.pombe.ui.components.popular.PopularCard
 import com.maku.pombe.ui.components.search.PombeCategoryChip
 
-private const val COLUMN_COUNT = 2
-private val GRID_SPACING = 8.dp
-
 @Composable
 fun HomeScreen(
     navController: NavHostController,
@@ -101,38 +98,6 @@ fun HomeScreen(
                 PopularCard(it){}
             }
         }
-    }
-}
-
-@Composable
-fun ObservePopularPombeGridScreenState(value: PopularDrinkViewState) {
-    if (value.loading){
-        LinearProgressIndicator(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(15.dp)
-        )
-    } else {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(COLUMN_COUNT),
-            state = rememberLazyGridState(),
-            contentPadding = PaddingValues(
-            start = GRID_SPACING,
-            end = GRID_SPACING,
-            bottom = WindowInsets.navigationBars.getBottom(LocalDensity.current).dp.plus(GRID_SPACING),
-        ),
-            horizontalArrangement = Arrangement.spacedBy(GRID_SPACING, Alignment.CenterHorizontally),
-            content = {
-                items(value.drinks) { drink ->
-                    PopularCard(
-                        drink,
-                        Modifier
-                            .height(120.dp)
-                            .padding(vertical = GRID_SPACING)
-                    ){}
-                }
-            }
-        )
     }
 }
 

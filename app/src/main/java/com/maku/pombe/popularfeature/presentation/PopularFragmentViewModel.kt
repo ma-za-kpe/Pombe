@@ -61,8 +61,8 @@ class PopularFragmentViewModel @Inject constructor(
         _state.value = state.value!!.copy( loading = true)
         val popularDrinks = drink.map { uiPopularDrinkMapper.mapToView(it) }
         val currentList = state.value!!.drinks
-        val newAnimals = popularDrinks.subtract(currentList)
-        val updatedList = currentList + newAnimals
+        val newPopular = popularDrinks.subtract(currentList)
+        val updatedList = currentList + newPopular
 
         _state.value = state.value!!.copy( loading = false, drinks = updatedList)
     }

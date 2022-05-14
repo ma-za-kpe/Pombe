@@ -16,4 +16,9 @@ interface LatestDao {
         cachedLatest: List<CachedLatest>
     )
 
+    @Transaction
+    @Query("SELECT * FROM latest WHERE strDrink LIKE '%' || :name || '%' ")
+    fun searchCocktailsBy(name: String): Flowable<List<CachedLatest>>
+
+
 }

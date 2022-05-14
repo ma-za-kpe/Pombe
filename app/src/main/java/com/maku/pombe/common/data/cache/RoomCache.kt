@@ -64,4 +64,8 @@ class RoomCache @Inject constructor(
     override fun findCategoryByIdSync(id: Long): CategoryDbModel {
         return categoryDao.findByIdSync(id)
     }
+
+    override fun searchCocktailsBy(name: String): Flowable<List<CachedLatest>> {
+        return latestDao.searchCocktailsBy(name)
+    }
 }

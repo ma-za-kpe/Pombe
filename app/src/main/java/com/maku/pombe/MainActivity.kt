@@ -9,6 +9,7 @@ import com.maku.pombe.latestfeature.LatestDrinkEvent
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.popularfeature.presentation.PopularDrinkEvent
 import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
+import com.maku.pombe.searchfeature.presentation.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,12 +17,13 @@ class MainActivity : ComponentActivity() {
     private val latestFragmentViewModel: LatestFragmentViewModel by viewModels()
     private val popularFragmentViewModel: PopularFragmentViewModel by viewModels()
     private val drinkCategoryViewModel: DrinkCategoryViewModel by viewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             initData(latestFragmentViewModel, popularFragmentViewModel)
-            PombeApp(latestFragmentViewModel, popularFragmentViewModel, drinkCategoryViewModel)
+            PombeApp(latestFragmentViewModel, popularFragmentViewModel, drinkCategoryViewModel, searchViewModel)
         }
     }
 
