@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,9 +36,9 @@ fun Like(modifier: Modifier = Modifier, favoriteDrink: () -> Unit,){
             .background(Color(0xFFDDDDDD).copy(alpha = 0.9f), shape = CircleShape)
     ) {
         Image(
-            imageVector = Icons.Outlined.Favorite,
+            imageVector = Icons.Outlined.FavoriteBorder,
             contentDescription = "favorite",
-            colorFilter = ColorFilter.tint(colors.onPrimary),
+            colorFilter = ColorFilter.tint(Color(0xFFFFA500)),
             modifier = modifier
                 .size(30.dp)
                 .clickable {

@@ -31,7 +31,7 @@ import com.maku.pombe.latestfeature.LatestDrinkViewState
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
 import com.maku.pombe.ui.components.latest.LatestCard
-import com.maku.pombe.ui.components.popular.PopularCard
+import com.maku.pombe.ui.components.popular.PopularCardItem
 import com.maku.pombe.ui.components.search.PombeCategoryChip
 
 @Composable
@@ -102,14 +102,9 @@ fun HomeScreen(
         } else {
             popularState.value!!.drinks.forEach {drink ->
                 if (categoryState.value!!.selectedCategory == "All"){
-                     PopularCard(drink){}
+                    PopularCardItem(drink = drink, onItemClick = {}, likedItem = {})
                 } else if(categoryState.value!!.selectedCategory == drink.category){
-                    // if empty, handle that e.g show text or sth
-                    if (drink.category.isEmpty()){
-                        Text(text = "No such Cocktails Yet...")
-                    } else {
-                        PopularCard(drink){}
-                    }
+                    PopularCardItem(drink = drink, onItemClick = {}, likedItem = {})
                 }
             }
         }
@@ -137,12 +132,9 @@ fun ObserveLatestPombeScreenState(
                     LatestCard(drink = drink) {}
                 } else if(categoryState.value!!.selectedCategory == drink.category){
                     // if empty, handle that e.g show text or sth
-                        if (drink.category.isEmpty()){
-                            Text(text = "No such Cocktails Yet...")
-                        } else {
-                            LatestCard(drink = drink) {}
-                        }
+                    LatestCard(drink = drink) {}
                 }
+
             }
         }
     }

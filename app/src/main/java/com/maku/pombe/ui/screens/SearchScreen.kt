@@ -6,10 +6,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -33,8 +31,6 @@ import com.maku.pombe.searchfeature.presentation.SearchEvent
 import com.maku.pombe.searchfeature.presentation.SearchViewModel
 import com.maku.pombe.searchfeature.presentation.SearchViewState
 import com.maku.pombe.ui.PombeAppState
-import com.maku.pombe.ui.components.latest.LatestCard
-import com.maku.pombe.ui.components.popular.PopularCard
 import com.maku.pombe.ui.components.search.SearchItemCard
 
 // code inspiration and source from https://www.youtube.com/watch?v=3oXBnM6fZj0
