@@ -10,8 +10,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
-    primary = PombePrimary,
-    primaryVariant = PombePrimaryDark,
+    primary = PombePrimaryDark,
+    primaryVariant = PombePrimary,
     onPrimary = Color.Black,
     secondary = PombeSecondary,
     onSecondary = Color.White,

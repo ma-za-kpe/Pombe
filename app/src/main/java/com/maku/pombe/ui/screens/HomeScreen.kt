@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,12 +11,11 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -28,11 +26,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import com.maku.pombe.category.DrinkCategoryViewModel
+import com.maku.pombe.category.DrinkCategoryViewState
 import com.maku.pombe.latestfeature.LatestDrinkViewState
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
-import com.maku.pombe.popularfeature.presentation.PopularDrinkViewState
 import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
-import com.maku.pombe.ui.components.carousel.PombeCarousel
 import com.maku.pombe.ui.components.latest.LatestCard
 import com.maku.pombe.ui.components.popular.PopularCard
 import com.maku.pombe.ui.components.search.PombeCategoryChip
@@ -57,10 +54,19 @@ fun HomeScreen(
         ) {
             items(categoryState.value!!.categories){ category ->
                 PombeCategoryChip(
-                    category = category.name,
-                    onExecuteSearch = {
+                    setSelected = { name, selected ->
+                        run {
+                            drinkCategoryViewModel.setSelectedCategory(
+                                name,
+                                selected
+                            )
+                        }
                     },
-                )
+                    selected = categoryState.value!!.selectedCategory == category.name,
+                    category = category.name
+                ) {
+
+                }
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -74,7 +80,7 @@ fun HomeScreen(
             }
         )
         Spacer(modifier = Modifier.height(5.dp))
-        ObserveLatestPombeScreenState(state.value!!)
+        ObserveLatestPombeScreenState(state.value!!, categoryState)
         Spacer(modifier = Modifier.height(10.dp))
         TitleItem("Popular",
             viewAll = {
@@ -94,15 +100,27 @@ fun HomeScreen(
             )
             // LoadingLatestPombeListShimmer(imageHeight = 220.dp)
         } else {
-            popularState.value!!.drinks.forEach {
-                PopularCard(it){}
+            popularState.value!!.drinks.forEach {drink ->
+                if (categoryState.value!!.selectedCategory == "All"){
+                     PopularCard(drink){}
+                } else if(categoryState.value!!.selectedCategory == drink.category){
+                    // if empty, handle that e.g show text or sth
+                    if (drink.category.isEmpty()){
+                        Text(text = "No such Cocktails Yet...")
+                    } else {
+                        PopularCard(drink){}
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun ObserveLatestPombeScreenState(value: LatestDrinkViewState) {
+fun ObserveLatestPombeScreenState(
+    value: LatestDrinkViewState,
+    categoryState: State<DrinkCategoryViewState?>
+) {
     if (value.loading){
         LinearProgressIndicator(
             modifier = Modifier
@@ -115,7 +133,16 @@ fun ObserveLatestPombeScreenState(value: LatestDrinkViewState) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(value.drinks){ drink ->
-                LatestCard(drink = drink) {}
+                if (categoryState.value!!.selectedCategory == "All"){
+                    LatestCard(drink = drink) {}
+                } else if(categoryState.value!!.selectedCategory == drink.category){
+                    // if empty, handle that e.g show text or sth
+                        if (drink.category.isEmpty()){
+                            Text(text = "No such Cocktails Yet...")
+                        } else {
+                            LatestCard(drink = drink) {}
+                        }
+                }
             }
         }
     }

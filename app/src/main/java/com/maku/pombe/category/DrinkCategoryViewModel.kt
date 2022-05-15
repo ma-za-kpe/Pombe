@@ -32,6 +32,10 @@ class DrinkCategoryViewModel @Inject constructor(
         subscribeToPombeDbUpdates()
     }
 
+    fun setSelectedCategory(name: String, selected: Boolean){
+        _state.value = state.value!!.setSelectedCategory(name, selected)
+    }
+
     private fun subscribeToPombeDbUpdates() {
         getDrinksCategory()
             .observeOn(AndroidSchedulers.mainThread())
@@ -49,7 +53,7 @@ class DrinkCategoryViewModel @Inject constructor(
         val newCats = catDrinks!!.subtract(currentList)
         val updatedList = currentList + newCats
 
-        _state.value = state.value!!.copy( loading = false, categories = updatedList)
+        _state.value = state.value!!.copy(categories = updatedList)
     }
 
     private fun onFailure(failure: Throwable) {
@@ -57,7 +61,6 @@ class DrinkCategoryViewModel @Inject constructor(
             is NetworkException,
             is NetworkUnavailableException -> {
                 _state.value = state.value!!.copy(
-                    loading = false,
                     failure = Event(failure)
                 )
             }
