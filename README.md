@@ -24,8 +24,6 @@ data layer, presentation layers, and early stages of jetpack compose UI.
 
 ## Features
 
-This sample contains 1 screen so far: the home screen. It is split into sub-screens for easy re-use:
-
 - __Home__, shows a filter row, latest and popular cocktail lists
   - __Filter__, allowing the user to filter the cocktails according to category
   - __Latest & Popular lists__, show the user a list of cocktails.
