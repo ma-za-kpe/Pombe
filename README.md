@@ -1,27 +1,54 @@
-# Pombe
-![](pombez.png)
+# Pombe App
+![Pombe Video](./docs/vid.gif)
 
-## About
-***Warning** Alcohol alert, this is a cocktails app.
- - [Playstore](https://play.google.com/store/apps/details?id=com.maku.pombe) - Download and test it.
+The previous version of the pombe app can be downloaded here [Playstore](https://play.google.com/store/apps/details?id=com.maku.pombe).
 
-## Built With 🛠
-- [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
-- [ViewBinding](https://developer.android.com/topic/libraries/view-binding) - Generates a binding class for each XML layout file present in that module and allows you to more easily write code that interacts with views.
-- [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
-- [Pallet API](https://developer.android.com/training/material/palette-colors) - Extracting colors for use as background colors in the respective alcohol cards.
-- [Data Store](https://developer.android.com/topic/libraries/architecture/datastore)
-- [Dagger Hilt](https://dagger.dev/hilt/)
+Pombe is a sample cocktail app, built with [Jetpack Compose][compose]. The goal of the app is to
+showcase how parts of clean architecture components work together. Its also a playground to experiment
+with different technologies and collaborate wth other awesome android devs.
 
-## How to use this project
-- Clone this repo.
-- Go to https://www.thecocktaildb.com/, create an account get the api key.
-- Create a new file called key.properties and add API_KEY=xxxx run the app.
+To try out this app, you need to use
+[Android Studio BumbleBee](https://developer.android.com/studio).
+You can clone this repository or import the project from Android Studio following the steps
+[here](https://github.com/ma-za-kpe/Pombe).
 
-## Contact
-If you need any help, you can connect with me.
+### Status: 🚧 In progress 🚧
 
-Visit:- [maku](https://www.linkedin.com/in/maku-mazakpe-700a3a165/)
+Pombe is still in the early stages of development, and as such only three screens have been created
+so far. However, most of the app's architecture has been implemented, as well as the domain layer,
+data layer, presentation layers, and early stages of jetpack compose UI.
+
+## Screenshots
+
+<img src="docs/pic.png"/>
+
+## Features
+
+This sample contains 1 screen so far: the home screen. It is split into sub-screens for easy re-use:
+
+- __Home__, shows a filter row, latest and popular cocktail lists
+  - __Filter__, allowing the user to filter the cocktails according to category
+  - __Latest & Popular lists__, show the user a list of cocktails.
+  - __Search__, allow users to search for specific cocktail.
+
+## Architecture
+- The app has a screaming architecture and is packaged by layered features.
+- Each feature has a domain and presentation layer. In each presentation layer, youll find a [Viewtate][viewstate], [Event][event] and [ViewModel][viewmodel] file.
+- In the domain layer, we have modeled the domain according to feature. As for this particularapp, we have actually reused some data classes, since the the [Pojos][pojos] are the same accross cartain features.
+- Special feature like the filter chips fetch data from the [RoomDB][roomdb], which comes auto populated with the different categories. This is so because creating an api end point for the using [Retrofi][retrofit] is redundant and creates technical debt.
+- The app is built in a Redux-style, where each UI 'screen' / feature has its own [ViewModel][viewmodel], which depends on a feature view state.
+- Each [ViewModel][viewmodel] is responsible for subscribing to any data streams, in this case the the use-cases, required for the view, as well as exposing functions which allow the UI to send events.
+
+## Data
+
+### Cocktails data
+
+The cocktail data is fetched from the [CocktailDB API](https://www.thecocktaildb.com/api.php).
+
+The [`DrinkRepository`][drinkrepository] class is responsible for handling the data fetching of all cocktail information:
+
+ - Each cocktail is fetched using [OkHttp][okhttp], and then parsed using [Gson][gson].
+ - The parsed entities are then added to the local data stores: [`RoomCache`][roomcache], for storage in the local [Room][room] [`PombeDatabase`][db] database.
 
 ## License
 ```

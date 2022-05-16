@@ -155,7 +155,7 @@ private fun NavGraphBuilder.pombeNavGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val drinkId = arguments.getString(MainDestinations.DRINK_ID_KEY.title)
-        DrinkDetail(drinkId.toString(), upPress)
+        DrinkDetail(drinkId.toString())
     }
 }
 
