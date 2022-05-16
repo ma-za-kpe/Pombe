@@ -1,11 +1,13 @@
 package com.maku.pombe.ui
 
 import android.content.res.Resources
+import android.graphics.drawable.Icon
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -16,12 +18,13 @@ import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.maku.logging.Logger
 import com.maku.pombe.R
 import com.maku.pombe.ui.screens.BottomMainScreens
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 /**
- * code inspired and source from https://github.com/android/compose-samples/tree/main/Jetsnack sample app
+ * code source from https://github.com/android/compose-samples/tree/main/Jetsnack sample app
  * */
 
 /**
@@ -30,8 +33,11 @@ import kotlinx.coroutines.launch
 enum class  MainDestinations(
     val title: String,
 ) {
-   MAIN_ROUTE("main") {},
-    SEARCH("search")
+    MAIN_ROUTE("main") {},
+    SEARCH("search"),
+    DRINK_DETAIL_ROUTE("drink"),
+    DRINK_ID_KEY("drinkId")
+
 }
 
 /**
@@ -61,12 +67,19 @@ class PombeAppState(
     // ----------------------------------------------------------
     // TopBar state source of truth
     // ----------------------------------------------------------
+
+
     @Composable
     fun TopAppBar(
-        onSearchClicked: () -> Unit,
-        title: String
+        onIconClicked: () -> Unit,
+        title: String,
+        leadIcon: ImageVector,
+        leadIconDesc: Int,
+        trailingIcon: ImageVector,
+        trailingIconDesc: Int,
+        onLeadingIconClicked: () -> Unit
     ) {
-
+//  coroutineScope.launch { scaffoldState.drawerState.open() }
         TopAppBar(
             title = {
                 Text(
@@ -74,20 +87,18 @@ class PombeAppState(
                 )
             },
             navigationIcon = {
-                IconButton(onClick = {
-                    coroutineScope.launch { scaffoldState.drawerState.open() }
-                }) {
+                IconButton(onLeadingIconClicked) {
                     Icon(
-                        Icons.Filled.AccountCircle,
-                        contentDescription = stringResource(id = R.string.account)
+                        leadIcon,
+                        contentDescription = stringResource(id = leadIconDesc)
                     )
                 }
             },
             actions = {
-                IconButton(onSearchClicked) {
+                IconButton(onIconClicked) {
                     Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Search Pombe"
+                        trailingIcon,
+                        contentDescription = stringResource(id = trailingIconDesc)
                     )
                 }
             }
@@ -129,6 +140,13 @@ class PombeAppState(
                     saveState = true
                 }
             }
+        }
+    }
+
+    fun navigateToDrinkDetail(drinkId: String, from: NavBackStackEntry) {
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${MainDestinations.DRINK_DETAIL_ROUTE.title}/$drinkId")
         }
     }
 }

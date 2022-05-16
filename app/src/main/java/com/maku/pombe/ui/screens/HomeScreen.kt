@@ -30,18 +30,23 @@ import com.maku.pombe.category.DrinkCategoryViewState
 import com.maku.pombe.latestfeature.LatestDrinkViewState
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
+import com.maku.pombe.searchfeature.presentation.SearchViewModel
 import com.maku.pombe.ui.components.latest.LatestCard
 import com.maku.pombe.ui.components.popular.PopularCardItem
 import com.maku.pombe.ui.components.search.PombeCategoryChip
+import com.maku.pombe.ui.rememberPombeAppState
 
 @Composable
 fun HomeScreen(
     navController: NavHostController,
     latestFragmentViewModel: LatestFragmentViewModel,
     popularFragmentViewModel: PopularFragmentViewModel,
-    drinkCategoryViewModel: DrinkCategoryViewModel
+    drinkCategoryViewModel: DrinkCategoryViewModel,
+    onItemClick: (String) -> Unit,
+    searchViewModel: SearchViewModel
 ) {
     val context = LocalContext.current
+    val appState = rememberPombeAppState()
     val state = latestFragmentViewModel.state.observeAsState()
     val categoryState = drinkCategoryViewModel.state.observeAsState()
     val popularState = popularFragmentViewModel.state.observeAsState()
@@ -80,7 +85,7 @@ fun HomeScreen(
             }
         )
         Spacer(modifier = Modifier.height(5.dp))
-        ObserveLatestPombeScreenState(state.value!!, categoryState)
+        ObserveLatestPombeScreenState(state.value!!, categoryState, onItemClick, searchViewModel)
         Spacer(modifier = Modifier.height(10.dp))
         TitleItem("Popular",
             viewAll = {
@@ -114,7 +119,9 @@ fun HomeScreen(
 @Composable
 fun ObserveLatestPombeScreenState(
     value: LatestDrinkViewState,
-    categoryState: State<DrinkCategoryViewState?>
+    categoryState: State<DrinkCategoryViewState?>,
+    onItemClick: (String) -> Unit,
+    searchViewModel: SearchViewModel
 ) {
     if (value.loading){
         LinearProgressIndicator(
@@ -129,10 +136,20 @@ fun ObserveLatestPombeScreenState(
         ) {
             items(value.drinks){ drink ->
                 if (categoryState.value!!.selectedCategory == "All"){
-                    LatestCard(drink = drink) {}
+                    LatestCard(
+                        drink = drink,
+                        favoriteDrink = { /*TODO*/ },
+                        onItemClick = onItemClick,
+                        searchViewModel = searchViewModel
+                    )
                 } else if(categoryState.value!!.selectedCategory == drink.category){
                     // if empty, handle that e.g show text or sth
-                    LatestCard(drink = drink) {}
+                    LatestCard(
+                        drink = drink,
+                        favoriteDrink = { /*TODO*/ },
+                        onItemClick = onItemClick,
+                        searchViewModel = searchViewModel
+                    )
                 }
 
             }

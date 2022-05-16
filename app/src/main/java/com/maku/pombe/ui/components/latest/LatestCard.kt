@@ -1,5 +1,6 @@
 package com.maku.pombe.ui.components.latest
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,7 +13,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.maku.logging.Logger
 import com.maku.pombe.common.presentation.model.latest.UILatestDrink
+import com.maku.pombe.searchfeature.presentation.SearchViewModel
 import com.maku.pombe.ui.components.common.CardBottom
 import com.maku.pombe.ui.components.common.CardImage
 import com.maku.pombe.ui.components.common.CategoryCard
@@ -21,7 +24,10 @@ import com.maku.pombe.ui.components.common.Like
 @Composable
 fun LatestCard(drink: UILatestDrink,
                modifier: Modifier = Modifier,
-               favoriteDrink: () -> Unit) {
+               favoriteDrink: () -> Unit,
+               onItemClick: (String) -> Unit,
+               searchViewModel: SearchViewModel
+) {
     val colors = MaterialTheme.colors
     val context = LocalContext.current
         Card(
@@ -45,7 +51,11 @@ fun LatestCard(drink: UILatestDrink,
                             top.linkTo(parent.top)
                             end.linkTo(parent.end)
                             width = Dimension.fillToConstraints
-                        },
+                        }
+                        .clickable {
+                            onItemClick(drink.id)
+                            searchViewModel.updateSearchWidgetState(newValue = "NOBAR")
+                                   },
                     topEnd = 20.dp ,
                     topStart = 20.dp,
                     bottomEnd = 0.dp,

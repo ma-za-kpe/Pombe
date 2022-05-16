@@ -10,6 +10,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -17,16 +18,29 @@ import com.maku.pombe.R
 import com.maku.pombe.category.DrinkCategoryViewModel
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
+import com.maku.pombe.searchfeature.presentation.SearchViewModel
 
 fun NavGraphBuilder.addBottomMainGraph(
     navController: NavHostController,
     latestFragmentViewModel: LatestFragmentViewModel,
     popularFragmentViewModel: PopularFragmentViewModel,
-    drinkCategoryViewModel: DrinkCategoryViewModel
-) {
-    composable(BottomMainScreens.HomeScreen.route) {
-        HomeScreen(navController, latestFragmentViewModel, popularFragmentViewModel, drinkCategoryViewModel)
+    drinkCategoryViewModel: DrinkCategoryViewModel,
+    onItemClick: (String, NavBackStackEntry) -> Unit,
+    searchViewModel: SearchViewModel,
+    ) {
+    composable(BottomMainScreens.HomeScreen.route) { from ->
+        HomeScreen(navController,
+            latestFragmentViewModel,
+            popularFragmentViewModel,
+            drinkCategoryViewModel,
+            onItemClick = { id -> run {
+                onItemClick(id, from)
+            }
+          },
+            searchViewModel
+        )
     }
+
     composable(BottomMainScreens.FavoritesScreen.route) {
         FavoritesScreen(navController)
     }

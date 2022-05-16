@@ -10,8 +10,11 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -26,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.maku.logging.Logger
+import com.maku.pombe.R
 import com.maku.pombe.common.presentation.Event
 import com.maku.pombe.searchfeature.presentation.SearchEvent
 import com.maku.pombe.searchfeature.presentation.SearchViewModel
@@ -77,7 +81,7 @@ private fun HandleFailures(failure: Event<Throwable>?) {
 @Composable
 fun ObservePopularPombeGridScreenState(value: SearchViewState?) {
     if (value!!.noSearchQuery){
-        Text(text ="Type > 2 characters to get searching")
+        Text(text ="")
     } else {
         LazyVerticalGrid(
             columns = GridCells.Fixed(COLUMN_COUNT),
@@ -105,35 +109,6 @@ fun ObservePopularPombeGridScreenState(value: SearchViewState?) {
 private fun prepareForSearch(searchViewModel: SearchViewModel) {
     searchViewModel.onEvent(SearchEvent.PrepareForSearch)
 }
-
-@Composable
-fun MainAppBar(
-    searchWidgetState: String,
-    searchTextState: String,
-    onTextChange: (String) -> Unit,
-    onCloseClicked: () -> Unit,
-    onSearchClicked: (String) -> Unit,
-    onSearchTriggered: () -> Unit,
-    route: String,
-    appState: PombeAppState,
-    goBack: () -> Unit,
-) {
-    when (searchWidgetState) {
-        "CLOSED" -> {
-            appState.TopAppBar(onSearchClicked = onSearchTriggered , title = route )
-        }
-        "OPENED" -> {
-            SearchAppBar(
-                text = searchTextState,
-                onTextChange = onTextChange,
-                onCloseClicked = onCloseClicked,
-                onSearchClicked = onSearchClicked,
-                goBack = goBack
-            )
-        }
-    }
-}
-
 
 @Composable
 fun SearchAppBar(
