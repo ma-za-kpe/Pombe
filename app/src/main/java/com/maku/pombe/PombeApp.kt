@@ -8,12 +8,12 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.maku.pombe.category.DrinkCategoryViewModel
-import com.maku.pombe.latestfeature.LatestFragmentViewModel
-import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
+import com.maku.logging.Logger
 import com.maku.pombe.searchfeature.presentation.SearchEvent
 import com.maku.pombe.searchfeature.presentation.SearchViewModel
 import com.maku.pombe.ui.MainDestinations
@@ -25,24 +25,18 @@ import com.maku.pombe.ui.theme.PombeTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun PombeApp(
-    latestFragmentViewModel: LatestFragmentViewModel,
-    popularFragmentViewModel: PopularFragmentViewModel,
-    drinkCategoryViewModel: DrinkCategoryViewModel,
-    searchViewModel: SearchViewModel
-) {
+fun PombeApp() {
     PombeTheme {
-        AppContent(latestFragmentViewModel, popularFragmentViewModel, drinkCategoryViewModel, searchViewModel)
+        AppContent()
     }
 }
 
 @Composable
 fun AppContent(
-    latestFragmentViewModel: LatestFragmentViewModel,
-    popularFragmentViewModel: PopularFragmentViewModel,
-    drinkCategoryViewModel: DrinkCategoryViewModel,
-    searchViewModel: SearchViewModel
+    searchViewModel: SearchViewModel = viewModel(),
 ) {
+
+    val modifier = Modifier
 
     val searchWidgetState by searchViewModel.state.observeAsState()
     val searchTextState by searchViewModel.state.observeAsState()
@@ -84,7 +78,7 @@ fun AppContent(
                     },
                     onLeadingIconClicked = {
                         if (it == "search"){
-                            // open drawar because we are in the home screen
+                            // open drawer because we are in the home screen
                             appState.coroutineScope.launch { appState.scaffoldState.drawerState.open() }
                         } else {
                             // go back
@@ -114,15 +108,11 @@ fun AppContent(
             NavHost(
                 navController = appState.navController,
                 startDestination = MainDestinations.MAIN_ROUTE.title,
-                modifier = Modifier.padding(innerPadding)
+                modifier = modifier.padding(innerPadding)
             ) {
                 pombeNavGraph(
                     appState.navController,
                     upPress = appState::upPress,
-                    latestFragmentViewModel,
-                    popularFragmentViewModel,
-                    drinkCategoryViewModel,
-                    searchViewModel,
                     onItemClick = appState::navigateToDrinkDetail,
                 )
             }
@@ -133,20 +123,15 @@ fun AppContent(
 private fun NavGraphBuilder.pombeNavGraph(
     navController: NavHostController,
     upPress: () -> Unit,
-    latestFragmentViewModel: LatestFragmentViewModel,
-    popularFragmentViewModel: PopularFragmentViewModel,
-    drinkCategoryViewModel: DrinkCategoryViewModel,
-    searchViewModel: SearchViewModel,
     onItemClick: (String, NavBackStackEntry) -> Unit,
     ) {
     navigation(
         route = MainDestinations.MAIN_ROUTE.title,
         startDestination = BottomMainScreens.HomeScreen.route
     ) {
-        addBottomMainGraph(navController, latestFragmentViewModel, popularFragmentViewModel,
-            drinkCategoryViewModel, onItemClick, searchViewModel)
+        addBottomMainGraph(navController, onItemClick)
     }
-    composable(MainDestinations.SEARCH.title) { SearchScreen(navController, searchViewModel) }
+    composable(MainDestinations.SEARCH.title) { SearchScreen(navController) }
 
     // URLEncoder.encode(YOUR_URL, StandardCharsets.UTF_8.toString())
     composable(
@@ -159,8 +144,8 @@ private fun NavGraphBuilder.pombeNavGraph(
     }
 }
 
-//@Composable
-//@Preview
-//fun AppContentPreview() {
-//    AppContent()
-//}
+@Composable
+@Preview
+fun AppContentPreview() {
+    AppContent()
+}

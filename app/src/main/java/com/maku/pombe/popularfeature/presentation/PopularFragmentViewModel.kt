@@ -1,5 +1,6 @@
 package com.maku.pombe.popularfeature.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -59,12 +60,12 @@ class PopularFragmentViewModel @Inject constructor(
 
     private fun onNewDrinksList(drink: List<PopularDrink>) {
         _state.value = state.value!!.copy( loading = true)
-        val popularDrinks = drink.map { uiPopularDrinkMapper.mapToView(it) }
-        val currentList = state.value!!.drinks
-        val newPopular = popularDrinks.subtract(currentList)
-        val updatedList = currentList + newPopular
+            val popularDrinks = drink.map { uiPopularDrinkMapper.mapToView(it) }
+            val currentList = state.value!!.drinks
+            val newPopular = popularDrinks.subtract(currentList)
+            val updatedList = currentList + newPopular
 
-        _state.value = state.value!!.copy( loading = false, drinks = updatedList)
+            _state.value = state.value!!.copy( loading = false, drinks = updatedList)
     }
 
     private fun loadPopularDrinks() {

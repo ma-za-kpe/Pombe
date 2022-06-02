@@ -10,11 +10,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -27,14 +24,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.maku.logging.Logger
-import com.maku.pombe.R
 import com.maku.pombe.common.presentation.Event
 import com.maku.pombe.searchfeature.presentation.SearchEvent
 import com.maku.pombe.searchfeature.presentation.SearchViewModel
 import com.maku.pombe.searchfeature.presentation.SearchViewState
-import com.maku.pombe.ui.PombeAppState
 import com.maku.pombe.ui.components.search.SearchItemCard
 
 // code inspiration and source from https://www.youtube.com/watch?v=3oXBnM6fZj0
@@ -43,7 +39,7 @@ private const val COLUMN_COUNT = 2
 private val GRID_SPACING = 8.dp
 
 @Composable
-fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewModel) {
+fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewModel = viewModel()) {
     prepareForSearch(searchViewModel)
     val state = searchViewModel.state.observeAsState()
     // TODO: handle atleast 2 events

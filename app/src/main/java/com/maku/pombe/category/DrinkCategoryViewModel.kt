@@ -49,7 +49,7 @@ class DrinkCategoryViewModel @Inject constructor(
     private fun onNewCategoryList(it: List<CategoryModel>?) {
         val catDrinks = it?.map { uiDrinkCategory.mapToView(it) }
         val currentList = state.value!!.categories
-        Logger.d("categories $currentList")
+        Logger.d("categories list $currentList")
         val newCats = catDrinks!!.subtract(currentList)
         val updatedList = currentList + newCats
 

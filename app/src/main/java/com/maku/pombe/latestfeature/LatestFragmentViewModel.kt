@@ -28,7 +28,6 @@ class LatestFragmentViewModel @Inject constructor(
     private val getLatestDrinks: GetLatestDrinks,
     private val requestLatestDrinksList: RequestLatestDrinksList,
     private val uiLatestDrinkMapper: UiLatestDrinkMapper,
-    private val dispatchersProvider: DispatchersProvider,
     private val compositeDisposable: CompositeDisposable
 ): ViewModel() {
 
@@ -51,17 +50,19 @@ class LatestFragmentViewModel @Inject constructor(
 
     private fun onNewPombeList(drink: List<LatestDrink>) {
         _state.value = state.value!!.copy( loading = true)
-        val latestDrinks = drink.map { uiLatestDrinkMapper.mapToView(it) }
-        // TODO: add updates at value while inserting into room db
-        // This ensures that new items are added below the already existing ones, thus avoiding
-        // repositioning of items that are already visible, as it can provide for a confusing UX. A
-        // nice alternative to this would be to add an "updatedAt" field to the Room entities, so
-        // that we could actually order them by something that we completely control.
-        val currentList = state.value!!.drinks
-        val newLatest = latestDrinks.subtract(currentList)
-        val updatedList = currentList + newLatest
+        Logger.d("vm onNewPombeList: ${drink.size}")
 
-        _state.value = state.value!!.copy( loading = false, drinks = updatedList)
+            val latestDrinks = drink.map { uiLatestDrinkMapper.mapToView(it) }
+            // TODO: add updates at value while inserting into room db
+            // This ensures that new items are added below the already existing ones, thus avoiding
+            // repositioning of items that are already visible, as it can provide for a confusing UX. A
+            // nice alternative to this would be to add an "updatedAt" field to the Room entities, so
+            // that we could actually order them by something that we completely control.
+            val currentList = state.value!!.drinks
+            val newLatest = latestDrinks.subtract(currentList)
+            val updatedList = currentList + newLatest
+
+            _state.value = state.value!!.copy( loading = false, drinks = updatedList)
     }
 
     fun onEvent(event: LatestDrinkEvent) {
@@ -78,6 +79,8 @@ class LatestFragmentViewModel @Inject constructor(
     }
 
     private fun loadDrinks() {
+        Logger.d("vm loadDrinks:")
+
         _state.value = state.value!!.copy( loading = true)
         val errorMessage = "Failed to fetch pombes"
         val exceptionHandler = viewModelScope.createExceptionHandler(errorMessage){
@@ -110,7 +113,7 @@ class LatestFragmentViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        compositeDisposable.clear() // 4
+        compositeDisposable.clear()
     }
 
 }
