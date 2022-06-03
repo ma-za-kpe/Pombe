@@ -12,3 +12,4 @@ data class UILatestDrink(
     override val details: Details
 ) : UiDrinks
 
+

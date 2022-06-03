@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -13,6 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -25,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
-import com.maku.logging.Logger
+import com.google.accompanist.placeholder.placeholder
 import com.maku.pombe.category.DrinkCategoryViewModel
 import com.maku.pombe.category.DrinkCategoryViewState
 import com.maku.pombe.latestfeature.LatestDrinkViewState
@@ -33,9 +35,13 @@ import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
 import com.maku.pombe.searchfeature.presentation.SearchViewModel
 import com.maku.pombe.ui.components.latest.LatestCard
+import com.maku.pombe.ui.components.latest.LatestCardPlaceHolder
 import com.maku.pombe.ui.components.popular.PopularCardItem
+import com.maku.pombe.ui.components.popular.PopularCardItemPlaceHolder
 import com.maku.pombe.ui.components.search.PombeCategoryChip
+import com.maku.pombe.ui.components.search.PombeCategoryChipPlaceHolder
 import com.maku.pombe.ui.rememberPombeAppState
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun HomeScreen(
@@ -48,6 +54,8 @@ fun HomeScreen(
 ) {
     val context = LocalContext.current
     val appState = rememberPombeAppState()
+    val scope = rememberCoroutineScope()
+    val modifier = Modifier
     val state = latestFragmentViewModel.state.observeAsState()
     val categoryState = drinkCategoryViewModel.state.observeAsState()
     val popularState = popularFragmentViewModel.state.observeAsState()
@@ -55,26 +63,7 @@ fun HomeScreen(
     Column(modifier = Modifier
         .verticalScroll(rememberScrollState())
         .padding(16.dp)){
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(categoryState.value!!.categories){ category ->
-                PombeCategoryChip(
-                    setSelected = { name, selected ->
-                        run {
-                            drinkCategoryViewModel.setSelectedCategory(
-                                name,
-                                selected
-                            )
-                        }
-                    },
-                    selected = categoryState.value!!.selectedCategory == category.name,
-                    category = category.name
-                ) {
-
-                }
-            }
-        }
+        ObserveCategoryPombeScreenState(categoryState.value, drinkCategoryViewModel, modifier, scope)
         Spacer(modifier = Modifier.height(8.dp))
         TitleItem("Latest",
             viewAll = {
@@ -86,7 +75,7 @@ fun HomeScreen(
             }
         )
         Spacer(modifier = Modifier.height(5.dp))
-        ObserveLatestPombeScreenState(state.value!!, categoryState, onItemClick, searchViewModel)
+        ObserveLatestPombeScreenState(state.value!!, categoryState, onItemClick, searchViewModel, modifier)
         Spacer(modifier = Modifier.height(10.dp))
         TitleItem("Popular",
             viewAll = {
@@ -99,12 +88,12 @@ fun HomeScreen(
         )
         Spacer(modifier = Modifier.height(5.dp))
         if (popularState.value!!.loading){
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(15.dp)
-            )
-            // LoadingLatestPombeListShimmer(imageHeight = 220.dp)
+//            LinearProgressIndicator(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(15.dp)
+//            )
+            PopularCardItemPlaceHolder(modifier)
         } else {
             popularState.value!!.drinks.forEach {drink ->
                 if (categoryState.value!!.selectedCategory == "All"){
@@ -118,19 +107,65 @@ fun HomeScreen(
 }
 
 @Composable
+fun ObserveCategoryPombeScreenState(
+    value: DrinkCategoryViewState?,
+    drinkCategoryViewModel: DrinkCategoryViewModel,
+    modifier: Modifier,
+    scope: CoroutineScope
+) {
+    if (value!!.loading){
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            items(5) {
+                PombeCategoryChipPlaceHolder(
+                    modifier.placeholder(
+                        visible = true,
+                        color = Color.Gray,
+                        // optional, defaults to RectangleShape
+                        shape = RoundedCornerShape(20.dp),
+                    )
+                )
+            }
+        }
+    } else {
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            items(value.categories){ category ->
+                    PombeCategoryChip(
+                        setSelected = { name, selected ->
+                            run {
+                                drinkCategoryViewModel.setSelectedCategory(
+                                    name,
+                                    selected
+                                )
+                            }
+                        },
+                        selected = value.selectedCategory == category.name,
+                        category = category.name,
+                        scope,
+                    ) {
+
+                    }
+                }
+            }
+        }
+}
+
+@Composable
 fun ObserveLatestPombeScreenState(
     value: LatestDrinkViewState,
     categoryState: State<DrinkCategoryViewState?>,
     onItemClick: (String) -> Unit,
-    searchViewModel: SearchViewModel
+    searchViewModel: SearchViewModel,
+    modifier: Modifier
 ) {
     if (value.loading){
-        LinearProgressIndicator(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(15.dp)
-        )
-    // LoadingLatestPombeListShimmer(imageHeight = 220.dp)
+//        LinearProgressIndicator(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(15.dp)
+//        )
+        LatestCardPlaceHolder(modifier)
     } else {
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),

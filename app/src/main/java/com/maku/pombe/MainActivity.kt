@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.maku.pombe.latestfeature.LatestDrinkEvent
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.popularfeature.presentation.PopularDrinkEvent
@@ -15,6 +16,7 @@ class MainActivity : ComponentActivity() {
     private val latestFragmentViewModel: LatestFragmentViewModel by viewModels()
     private val popularFragmentViewModel: PopularFragmentViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_Pombe)
         super.onCreate(savedInstanceState)
         setContent {
             PombeApp()

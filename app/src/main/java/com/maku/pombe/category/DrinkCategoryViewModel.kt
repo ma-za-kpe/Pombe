@@ -46,14 +46,10 @@ class DrinkCategoryViewModel @Inject constructor(
             .addTo(compositeDisposable)
     }
 
-    private fun onNewCategoryList(it: List<CategoryModel>?) {
-        val catDrinks = it?.map { uiDrinkCategory.mapToView(it) }
-        val currentList = state.value!!.categories
-        Logger.d("categories list $currentList")
-        val newCats = catDrinks!!.subtract(currentList)
-        val updatedList = currentList + newCats
-
-        _state.value = state.value!!.copy(categories = updatedList)
+    private fun onNewCategoryList(it: List<CategoryModel>) {
+        _state.value = state.value!!.copy(loading = true)
+        val catDrinks = it.map { uiDrinkCategory.mapToView(it) }
+        _state.value = state.value!!.copy(loading = false, categories = catDrinks)
     }
 
     private fun onFailure(failure: Throwable) {

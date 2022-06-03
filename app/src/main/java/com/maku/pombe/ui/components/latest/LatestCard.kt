@@ -1,19 +1,31 @@
 package com.maku.pombe.ui.components.latest
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.maku.logging.Logger
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.google.accompanist.placeholder.placeholder
+import com.maku.pombe.R
 import com.maku.pombe.common.presentation.model.latest.UILatestDrink
 import com.maku.pombe.searchfeature.presentation.SearchViewModel
 import com.maku.pombe.ui.components.common.CardBottom
@@ -55,7 +67,7 @@ fun LatestCard(drink: UILatestDrink,
                         .clickable {
                             onItemClick(drink.id)
                             searchViewModel.updateSearchWidgetState(newValue = "NOBAR")
-                                   },
+                        },
                     topEnd = 20.dp ,
                     topStart = 20.dp,
                     bottomEnd = 0.dp,
@@ -97,3 +109,39 @@ fun LatestCard(drink: UILatestDrink,
             }
     }
 }
+
+@Composable
+fun LatestCardPlaceHolder(
+    modifier: Modifier
+) {
+    Column() {
+        Row(
+            modifier
+                .fillMaxWidth()
+                .height(220.dp)
+                .placeholder(
+                    visible = true,
+                    color = Color.Gray,
+                    // optional, defaults to RectangleShape
+                    shape = RoundedCornerShape(20.dp),
+                ),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Top,)
+        { }
+        Spacer(modifier = Modifier.height(5.dp))
+        Row(
+            modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .placeholder(
+                visible = true,
+            color = Color.Gray,
+            // optional, defaults to RectangleShape
+            shape = RoundedCornerShape(20.dp),
+        ),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Top,)
+        { }
+    }
+}
+

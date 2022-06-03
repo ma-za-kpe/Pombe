@@ -159,6 +159,12 @@ dependencies {
     // Utils
     implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp_version"
 
+    // SplashScreen compat library
+    implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
+
+    // place holder
+    implementation "com.google.accompanist:accompanist-placeholder:$placeholder_version"
+
     // Testing Dependencies
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"

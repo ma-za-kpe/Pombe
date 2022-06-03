@@ -9,6 +9,7 @@ import com.maku.pombe.searchfeature.presentation.SearchViewState
 // this is the class that stores the current state of your View.
 data class DrinkCategoryViewState(
     val selected: Boolean = false,
+    val loading: Boolean = true,
     val selectedCategory: String = "All",
     val categories: List<UIDrinkCategory> = emptyList(),
     val failure: Event<Throwable>? = null

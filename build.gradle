@@ -34,6 +34,7 @@ buildscript {
         material_version = "1.5.0"
         timber_version = "5.0.1"
         threetenabp_version = "1.2.4"
+        placeholder_version = "0.24.9-beta"
     }
 
     repositories {

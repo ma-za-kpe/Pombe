@@ -20,7 +20,8 @@ fun CardBottom(modifier: Modifier = Modifier, favoriteDrink: () -> Unit, drink: 
         Row(
             modifier.fillMaxWidth().padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Top,) {
+            verticalAlignment = Alignment.Top,)
+        {
             Column {
                 Text(
                     text = drink.name,
