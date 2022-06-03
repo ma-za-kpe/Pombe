@@ -22,6 +22,7 @@ class MainActivity : ComponentActivity() {
             PombeApp()
         }
 
+        // TODO: find a better way of doing this: something like app start up and a side effect
         initData(latestFragmentViewModel, popularFragmentViewModel)
     }
 
