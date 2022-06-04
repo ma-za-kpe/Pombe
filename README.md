@@ -9,8 +9,7 @@ with different technologies and collaborate wth other awesome android devs.
 
 To try out this app, you need to use
 [Android Studio BumbleBee](https://developer.android.com/studio).
-You can clone this repository or import the project from Android Studio following the steps
-[here](https://github.com/ma-za-kpe/Pombe).
+You can clone this repository, build and run it.
 
 ### Status: 🚧 In progress 🚧
 
@@ -32,10 +31,10 @@ data layer, presentation layers, and early stages of jetpack compose UI.
 ## Architecture
 - The app has a screaming architecture and is packaged by layered features.
 - Each feature has a domain and presentation layer. In each presentation layer, youll find a [Viewtate][viewstate], [Event][event] and [ViewModel][viewmodel] file.
-- In the domain layer, we have modeled the domain according to feature. As for this particularapp, we have actually reused some data classes, since the the [Pojos][pojos] are the same accross cartain features.
+- In the domain layer, we have modeled the domain according to feature. As for this particular app, we have actually reused some data classes, since the the [Pojos][pojos] are the same accross cartain features.
 - Special feature like the filter chips fetch data from the [RoomDB][roomdb], which comes auto populated with the different categories. This is so because creating an api end point for the using [Retrofi][retrofit] is redundant and creates technical debt.
 - The app is built in a Redux-style, where each UI 'screen' / feature has its own [ViewModel][viewmodel], which depends on a feature view state.
-- Each [ViewModel][viewmodel] is responsible for subscribing to any data streams, in this case the the use-cases, required for the view, as well as exposing functions which allow the UI to send events.
+- Each (ViewModel)[viewmodel] is responsible for subscribing to any data streams, in this case the the use-cases, required for the view, as well as exposing functions which allow the UI to send events.
 
 ## Data
 
