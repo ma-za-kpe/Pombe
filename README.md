@@ -48,6 +48,10 @@ The [`DrinkRepository`][drinkrepository] class is responsible for handling the d
  - The parsed entities are then added to the local data stores: [`RoomCache`][roomcache], for storage in the local [Room][room] [`PombeDatabase`][db] database.
 
 ## Contributions
+- Fork, clone the app.
+  - create a local.properties file
+  - add apiKey = <YOUR_API_KEY> in the file
+  - build and run the app.
 - There are 3 main branches.
   - Master ->
   - beta -> for purposes of QA testing
