@@ -24,6 +24,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.maku.logging.Logger
@@ -39,7 +40,8 @@ private const val COLUMN_COUNT = 2
 private val GRID_SPACING = 8.dp
 
 @Composable
-fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewModel = viewModel()) {
+fun SearchScreen(navController: NavHostController) {
+    val searchViewModel = hiltViewModel<SearchViewModel>()
     prepareForSearch(searchViewModel)
     val state = searchViewModel.state.observeAsState()
     // TODO: handle atleast 2 events

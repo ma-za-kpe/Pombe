@@ -10,36 +10,22 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.maku.pombe.R
-import com.maku.pombe.category.DrinkCategoryViewModel
-import com.maku.pombe.latestfeature.LatestFragmentViewModel
-import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
-import com.maku.pombe.searchfeature.presentation.SearchViewModel
 
 fun NavGraphBuilder.addBottomMainGraph(
     navController: NavHostController,
     onItemClick: (String, NavBackStackEntry) -> Unit,
     ) {
     composable(BottomMainScreens.HomeScreen.route) { from ->
-        val latestFragmentViewModel = hiltViewModel<LatestFragmentViewModel>()
-        val  popularFragmentViewModel = hiltViewModel<PopularFragmentViewModel>()
-        val  drinkCategoryViewModel = hiltViewModel<DrinkCategoryViewModel>()
-        val searchViewModel = hiltViewModel<SearchViewModel>()
-
         HomeScreen(navController,
             onItemClick = { id -> run {
                 onItemClick(id, from)
             }
-          },
-            latestFragmentViewModel = latestFragmentViewModel,
-            popularFragmentViewModel = popularFragmentViewModel,
-            drinkCategoryViewModel = drinkCategoryViewModel,
-            searchViewModel = searchViewModel
+          }
         )
     }
 
