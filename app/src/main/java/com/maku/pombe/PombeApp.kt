@@ -132,7 +132,6 @@ private fun NavGraphBuilder.pombeNavGraph(
     }
     composable(MainDestinations.SEARCH.title) { SearchScreen(navController) }
 
-    // URLEncoder.encode(YOUR_URL, StandardCharsets.UTF_8.toString())
     composable(
         "${MainDestinations.DRINK_DETAIL_ROUTE.title}/{${MainDestinations.DRINK_ID_KEY.title}}",
         arguments = listOf(navArgument(MainDestinations.DRINK_ID_KEY.title) { type = NavType.StringType })
