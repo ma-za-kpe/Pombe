@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
@@ -31,10 +32,8 @@ fun PombeApp() {
 }
 
 @Composable
-fun AppContent(
-    searchViewModel: SearchViewModel = viewModel(),
-) {
-
+fun AppContent() {
+    val searchViewModel = hiltViewModel<SearchViewModel>()
     val modifier = Modifier
 
     val searchWidgetState by searchViewModel.state.observeAsState()

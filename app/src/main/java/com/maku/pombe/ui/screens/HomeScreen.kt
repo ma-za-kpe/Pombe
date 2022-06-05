@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.placeholder.placeholder
 import com.maku.pombe.category.DrinkCategoryViewModel
@@ -46,12 +47,15 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    latestFragmentViewModel: LatestFragmentViewModel,
-    popularFragmentViewModel: PopularFragmentViewModel,
-    drinkCategoryViewModel: DrinkCategoryViewModel,
     onItemClick: (String) -> Unit,
-    searchViewModel: SearchViewModel
 ) {
+
+    // vms
+    val latestFragmentViewModel = hiltViewModel<LatestFragmentViewModel>()
+    val popularFragmentViewModel = hiltViewModel<PopularFragmentViewModel>()
+    val drinkCategoryViewModel = hiltViewModel<DrinkCategoryViewModel>()
+    val searchViewModel = hiltViewModel<SearchViewModel>()
+
     val context = LocalContext.current
     val appState = rememberPombeAppState()
     val scope = rememberCoroutineScope()
