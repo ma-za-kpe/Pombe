@@ -160,11 +160,6 @@ fun ObserveLatestPombeScreenState(
     modifier: Modifier
 ) {
     if (value.loading){
-//        LinearProgressIndicator(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(15.dp)
-//        )
         LatestCardPlaceHolder(modifier)
     } else {
         LazyRow(
