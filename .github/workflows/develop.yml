@@ -2,13 +2,15 @@ name: Android CI
 
 on:
   pull_request:
-    branches: [beta]
+    branches: [develop]
 jobs:
   unit_tests:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
 
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
       - name: Unit tests
         run: ./gradlew test
 
