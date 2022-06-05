@@ -50,7 +50,7 @@ The [`DrinkRepository`][drinkrepository] class is responsible for handling the d
 ## Contributions
 - Fork, clone the app.
   - create a local.properties file
-  - add API_KEY = <YOUR_API_KEY> in the file
+  - add apiKey = <YOUR_API_KEY> in the file
   - build and run the app.
 - There are 3 main branches.
   - Master ->
