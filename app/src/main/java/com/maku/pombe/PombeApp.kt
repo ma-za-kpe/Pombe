@@ -13,7 +13,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.maku.logging.Logger
 import com.maku.pombe.searchfeature.presentation.SearchEvent
 import com.maku.pombe.searchfeature.presentation.SearchViewModel
 import com.maku.pombe.ui.MainDestinations
@@ -133,14 +132,13 @@ private fun NavGraphBuilder.pombeNavGraph(
     }
     composable(MainDestinations.SEARCH.title) { SearchScreen(navController) }
 
-    // URLEncoder.encode(YOUR_URL, StandardCharsets.UTF_8.toString())
     composable(
         "${MainDestinations.DRINK_DETAIL_ROUTE.title}/{${MainDestinations.DRINK_ID_KEY.title}}",
         arguments = listOf(navArgument(MainDestinations.DRINK_ID_KEY.title) { type = NavType.StringType })
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val drinkId = arguments.getString(MainDestinations.DRINK_ID_KEY.title)
-        DrinkDetail(drinkId.toString())
+        DrinkDetail(drinkId.toString(), upPress)
     }
 }
 
