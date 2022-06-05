@@ -9,8 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Create Local Properties file
+        run: touch local.properties
+
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
+
       - name: Unit tests
         run: ./gradlew test
 
