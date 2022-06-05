@@ -13,7 +13,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.maku.logging.Logger
 import com.maku.pombe.searchfeature.presentation.SearchEvent
 import com.maku.pombe.searchfeature.presentation.SearchViewModel
 import com.maku.pombe.ui.MainDestinations
@@ -140,7 +139,7 @@ private fun NavGraphBuilder.pombeNavGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val drinkId = arguments.getString(MainDestinations.DRINK_ID_KEY.title)
-        DrinkDetail(drinkId.toString())
+        DrinkDetail(drinkId.toString(), upPress)
     }
 }
 
