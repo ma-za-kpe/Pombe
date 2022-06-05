@@ -47,6 +47,14 @@ The [`DrinkRepository`][drinkrepository] class is responsible for handling the d
  - Each cocktail is fetched using [OkHttp][okhttp], and then parsed using [Gson][gson].
  - The parsed entities are then added to the local data stores: [`RoomCache`][roomcache], for storage in the local [Room][room] [`PombeDatabase`][db] database.
 
+## Contributions
+- There are 3 main branches.
+  - Master ->
+  - beta -> for purposes of QA testing
+  - develop -> for collaboration /development purposes
+- Please create your issue/feature branch from the develope branch. 
+- Make PR's to the develope branch
+
 ## License
 ```
 MIT License
