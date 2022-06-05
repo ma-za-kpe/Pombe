@@ -8,12 +8,12 @@ def localProperties = new Properties()
 localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
-    compileSdk 32
+    compileSdkVersion 32
 
     defaultConfig {
         applicationId "com.maku.pombe"
-        minSdk 23
-        targetSdk 32
+        minSdkVersion 26
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
 
