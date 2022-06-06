@@ -38,9 +38,12 @@ import timber.log.Timber
 
 
 object Logger {
-    private val logger by lazy {
-        TimberLogging()
-    }
+//    private val logger by lazy {
+//        TimberLogging()
+//    }
+
+    private val logger = TimberLogging()
+
 
     fun init() {
         Timber.plant(logger)
