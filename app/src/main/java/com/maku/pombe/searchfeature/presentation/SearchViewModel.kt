@@ -39,8 +39,8 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun updateSearchWidgetState(newValue: String) {
-        _state.value = state.value!!.copy( topAppBarSearch = newValue)
+    fun updateTopBarWidgetState(newValue: String) {
+        _state.value = state.value!!.copy( topAppBarState = newValue)
     }
 
 
