@@ -60,6 +60,7 @@ The [`DrinkRepository`][drinkrepository] class is responsible for handling the d
 - Before pushing, run the following in your terminal and they must both succeed;
   - gradlew test
   - gradlew connectedAndroidTest
+  - Always pul latest changes before attempting to make a PR
 - Please create your issue/feature branch from the develope branch. 
 - Make PR's to the develope branch
 
