@@ -10,7 +10,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -36,52 +35,66 @@ fun AppContent() {
     val searchViewModel = hiltViewModel<SearchViewModel>()
     val modifier = Modifier
 
-    val searchWidgetState by searchViewModel.state.observeAsState()
+    // val searchWidgetState by searchViewModel.state.observeAsState()
+    // Pass this state down, such that we can get top abb bar state from here and remove it from the
+    // pombe app state
     val searchTextState by searchViewModel.state.observeAsState()
 
     val appState = rememberPombeAppState()
+
+    com.maku.logging.Logger.d("top bar state pombe app ${appState.searchViewModel}")
     Crossfade(targetState = MainRouter.currentScreen) { screenState: MutableState<BottomMainScreens> ->
         Scaffold(
             topBar = {
                 MainAppBar(
-                    searchWidgetState = searchWidgetState!!.topAppBarSearch,
+                    searchWidgetState = searchViewModel.state.value!!.topAppBarState,
                     searchTextState = searchTextState!!.searchWidgetText,
                     onTextChange = {
                         searchViewModel.updateSearchTextState(newValue = it)
                         searchViewModel.onEvent(SearchEvent.QueryInput(it))
                     },
                     onCloseClicked = {
-                        searchViewModel.updateSearchWidgetState(newValue = "CLOSED")
-                        searchViewModel.updateSearchTextState(newValue = "")
-                        // go back to main screen
-                        appState.upPress()
+                        appState.coroutineScope.launch {
+                            searchViewModel.updateTopBarWidgetState(newValue = "CLOSED")
+                            searchViewModel.updateSearchTextState(newValue = "")
+                            // go back to main screen
+                            appState.upPress()
+                        }
                     },
                     onSearchClicked = {
-                        searchViewModel.onEvent(SearchEvent.QueryInput(it))
+                        appState.coroutineScope.launch {
+                            searchViewModel.onEvent(SearchEvent.QueryInput(it))
+                        }
                     },
                     onIconClicked = {
-                        if (it == "search"){
-                            // got to search screen
-                            appState.navController.navigate("search")
-                            searchViewModel.updateSearchWidgetState(newValue = "OPENED")
-                        } else {
-                            // like this drink item
+                        appState.coroutineScope.launch {
+                            if (it == "search"){
+                                // got to search screen
+                                appState.navController.navigate("search")
+                                searchViewModel.updateTopBarWidgetState(newValue = "OPENED")
+                            } else {
+                                // like this drink item
+                            }
                         }
                     },
                     screenState.value.route,
                     appState,
                     goBack = {
-                        searchViewModel.updateSearchWidgetState(newValue = "CLOSED")
-                        appState.upPress()
+                        appState.coroutineScope.launch {
+                            searchViewModel.updateTopBarWidgetState(newValue = "CLOSED")
+                            appState.upPress()
+                        }
                     },
                     onLeadingIconClicked = {
-                        if (it == "search"){
-                            // open drawer because we are in the home screen
-                            appState.coroutineScope.launch { appState.scaffoldState.drawerState.open() }
-                        } else {
-                            // go back
-                            searchViewModel.updateSearchWidgetState(newValue = "CLOSED")
-                            appState.upPress()
+                        appState.coroutineScope.launch {
+                            if (it == "search"){
+                                // open drawer because we are in the home screen
+                                appState.coroutineScope.launch { appState.scaffoldState.drawerState.open() }
+                            } else {
+                                // go back
+                                searchViewModel.updateTopBarWidgetState(newValue = "CLOSED")
+                                appState.upPress()
+                            }
                         }
                     }
                 )
@@ -106,7 +119,7 @@ fun AppContent() {
             NavHost(
                 navController = appState.navController,
                 startDestination = MainDestinations.MAIN_ROUTE.title,
-                modifier = modifier.padding(innerPadding)
+                modifier = modifier.padding(innerPadding),
             ) {
                 pombeNavGraph(
                     appState.navController,
@@ -121,8 +134,7 @@ fun AppContent() {
 private fun NavGraphBuilder.pombeNavGraph(
     navController: NavHostController,
     upPress: () -> Unit,
-    onItemClick: (String, NavBackStackEntry) -> Unit,
-    ) {
+    onItemClick: (String, NavBackStackEntry) -> Unit, ) {
     navigation(
         route = MainDestinations.MAIN_ROUTE.title,
         startDestination = BottomMainScreens.HomeScreen.route

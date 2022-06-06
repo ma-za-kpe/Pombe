@@ -6,7 +6,7 @@ import com.maku.pombe.common.presentation.model.latest.UILatestDrink
 // each method copies the original state into a new one associated with the methods name
 data class SearchViewState(
     val searchWidgetText: String = "",
-    val topAppBarSearch: String = "CLOSED",
+    val topAppBarState: String = "CLOSED",
     val noSearchQuery: Boolean = true,
     val searchResults: List<UILatestDrink> = emptyList(),
     val failure: Event<Throwable>? = null
@@ -15,7 +15,7 @@ data class SearchViewState(
     fun UpdateTopAppBarToSearchable(): SearchViewState {
         return copy(
             searchWidgetText = "",
-            topAppBarSearch = "CLOSED"
+            topAppBarState = "CLOSED"
         )
     }
 

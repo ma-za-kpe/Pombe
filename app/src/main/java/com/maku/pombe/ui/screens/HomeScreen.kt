@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +34,7 @@ import com.maku.pombe.latestfeature.LatestDrinkViewState
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
 import com.maku.pombe.searchfeature.presentation.SearchViewModel
+import com.maku.pombe.ui.PombeAppState
 import com.maku.pombe.ui.components.latest.LatestCard
 import com.maku.pombe.ui.components.latest.LatestCardPlaceHolder
 import com.maku.pombe.ui.components.popular.PopularCardItem
@@ -54,10 +54,8 @@ fun HomeScreen(
     val latestFragmentViewModel = hiltViewModel<LatestFragmentViewModel>()
     val popularFragmentViewModel = hiltViewModel<PopularFragmentViewModel>()
     val drinkCategoryViewModel = hiltViewModel<DrinkCategoryViewModel>()
-    val searchViewModel = hiltViewModel<SearchViewModel>()
 
     val context = LocalContext.current
-    val appState = rememberPombeAppState()
     val scope = rememberCoroutineScope()
     val modifier = Modifier
     val state = latestFragmentViewModel.state.observeAsState()
@@ -79,7 +77,7 @@ fun HomeScreen(
             }
         )
         Spacer(modifier = Modifier.height(5.dp))
-        ObserveLatestPombeScreenState(state.value!!, categoryState, onItemClick, searchViewModel, modifier)
+        ObserveLatestPombeScreenState(state.value!!, categoryState, onItemClick, modifier)
         Spacer(modifier = Modifier.height(10.dp))
         TitleItem("Popular",
             viewAll = {
@@ -160,9 +158,9 @@ fun ObserveLatestPombeScreenState(
     value: LatestDrinkViewState,
     categoryState: State<DrinkCategoryViewState?>,
     onItemClick: (String) -> Unit,
-    searchViewModel: SearchViewModel,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
+
     if (value.loading){
         LatestCardPlaceHolder(modifier)
     } else {
@@ -175,7 +173,6 @@ fun ObserveLatestPombeScreenState(
                         drink = drink,
                         favoriteDrink = { /*TODO*/ },
                         onItemClick = onItemClick,
-                        searchViewModel = searchViewModel
                     )
                 } else if(categoryState.value!!.selectedCategory == drink.category){
                     // if empty, handle that e.g show text or sth
@@ -183,7 +180,6 @@ fun ObserveLatestPombeScreenState(
                         drink = drink,
                         favoriteDrink = { /*TODO*/ },
                         onItemClick = onItemClick,
-                        searchViewModel = searchViewModel
                     )
                 }
 
