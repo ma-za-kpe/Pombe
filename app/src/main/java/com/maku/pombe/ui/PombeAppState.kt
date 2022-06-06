@@ -1,16 +1,15 @@
 package com.maku.pombe.ui
 
 import android.content.res.Resources
-import android.graphics.drawable.Icon
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination
@@ -19,10 +18,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.maku.logging.Logger
-import com.maku.pombe.R
+import com.maku.pombe.searchfeature.presentation.SearchViewModel
 import com.maku.pombe.ui.screens.BottomMainScreens
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+
 /**
  * code source from https://github.com/android/compose-samples/tree/main/Jetsnack sample app
  * */
@@ -45,13 +44,14 @@ enum class  MainDestinations(
  */
 @Composable
 fun rememberPombeAppState(
+    searchViewModel: SearchViewModel = hiltViewModel(), // find better way to handle this
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     navController: NavHostController = rememberNavController(),
     resources: Resources = resources(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ) =
-    remember(scaffoldState, navController, resources, coroutineScope) {
-        PombeAppState(scaffoldState, navController, resources, coroutineScope)
+    remember(scaffoldState, navController, resources, coroutineScope, searchViewModel.state.value?.topAppBarState) {
+        PombeAppState(scaffoldState, navController, resources, coroutineScope, searchViewModel)
     }
 
 /**
@@ -63,7 +63,10 @@ class PombeAppState(
     val navController: NavHostController,
     private val resources: Resources,
     val coroutineScope: CoroutineScope,
+    val searchViewModel: SearchViewModel,
 ) {
+
+
     // ----------------------------------------------------------
     // TopBar state source of truth
     // ----------------------------------------------------------
@@ -77,7 +80,10 @@ class PombeAppState(
         leadIconDesc: Int,
         trailingIcon: ImageVector,
         trailingIconDesc: Int,
-        onLeadingIconClicked: () -> Unit
+        onLeadingIconClicked: () -> Unit,
+        background: Color,
+        contentColor: Color,
+        elevation: Dp
     ) {
 //  coroutineScope.launch { scaffoldState.drawerState.open() }
         TopAppBar(
@@ -101,7 +107,10 @@ class PombeAppState(
                         contentDescription = stringResource(id = trailingIconDesc)
                     )
                 }
-            }
+            },
+            backgroundColor = background,
+            contentColor = contentColor,
+            elevation = elevation
         )
     }
 
@@ -126,6 +135,8 @@ class PombeAppState(
         get() = navController.currentDestination?.route
 
     fun upPress() {
+        // set top bar state to closed
+        searchViewModel.updateTopBarWidgetState("CLOSED")
         navController.navigateUp()
     }
 
@@ -146,6 +157,8 @@ class PombeAppState(
     fun navigateToDrinkDetail(drinkId: String, from: NavBackStackEntry) {
         // In order to discard duplicated navigation events, we check the Lifecycle
         if (from.lifecycleIsResumed()) {
+            // TODO: remove this state update from here, and use only in calling screens or we can pass in the state variable for the other screen and use a when statement to determine which screen to navigate to and which top app bar to show
+            searchViewModel.updateTopBarWidgetState(newValue = "DETAIL")
             navController.navigate("${MainDestinations.DRINK_DETAIL_ROUTE.title}/$drinkId")
         }
     }

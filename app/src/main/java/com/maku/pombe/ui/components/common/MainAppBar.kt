@@ -1,11 +1,13 @@
 package com.maku.pombe.ui.components.common
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
 import com.maku.pombe.R
 import com.maku.pombe.ui.PombeAppState
 import com.maku.pombe.ui.screens.SearchAppBar
@@ -23,6 +25,7 @@ fun MainAppBar(
     goBack: () -> Unit,
     onLeadingIconClicked: (String) -> Unit
 ) {
+    val color = MaterialTheme.colors
     when (searchWidgetState) {
         "CLOSED" -> {
             appState.TopAppBar(
@@ -32,7 +35,10 @@ fun MainAppBar(
                 R.string.account,
                 Icons.Filled.Search,
                 R.string.search_cocktail,
-                onLeadingIconClicked = {onLeadingIconClicked("search")}
+                onLeadingIconClicked = {onLeadingIconClicked("search")},
+                background = color.primary,
+                contentColor = color.onPrimary,
+                elevation = 1.dp
             )
         }
         "OPENED" -> {
@@ -41,10 +47,10 @@ fun MainAppBar(
                 onTextChange = onTextChange,
                 onCloseClicked = onCloseClicked,
                 onSearchClicked = onSearchClicked,
-                goBack = goBack
+                goBack = goBack,
             )
         }
-        "NOBAR" -> {
+        "DETAIL" -> {
             appState.TopAppBar(
                 onIconClicked = {onIconClicked("detail")} ,
                 title = "",
@@ -52,7 +58,10 @@ fun MainAppBar(
                 R.string.account,
                 Icons.Outlined.FavoriteBorder,
                 R.string.fav_icon,
-                onLeadingIconClicked = {onLeadingIconClicked("detail")}
+                onLeadingIconClicked = {onLeadingIconClicked("detail")},
+                background = color.background,
+                contentColor = color.onBackground,
+                elevation = 0.dp
             )
         }
     }
