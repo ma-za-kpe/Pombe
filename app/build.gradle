@@ -70,6 +70,7 @@ android {
 
 dependencies {
 
+    def nav_version = "2.4.2"
     implementation("io.coil-kt:coil-compose:2.0.0-rc03")
 
     // Concurrency
@@ -79,9 +80,7 @@ dependencies {
 
     // Kotlin + coroutines
     implementation "androidx.work:work-runtime-ktx:$work_version"
-
     implementation 'com.google.code.gson:gson:2.8.9'
-
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_ktx"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$livedata_ktx"
@@ -89,25 +88,30 @@ dependencies {
 
     // Support Libraries
     implementation "androidx.appcompat:appcompat:$appcompat_version"
+
     // implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
 
+    //dependency for logging
     implementation project(":logging")
 
-    // Network
+    // dependency for retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
+    //implementation for  okHttp
     implementation "com.squareup.okhttp3:okhttp:$okHttp_version"
-
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttp_version"
 
-    // Cache
+    // dependency for room batabase storage
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    //dependency for jetpack compose features
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
@@ -115,17 +119,15 @@ dependencies {
     implementation 'androidx.activity:activity-compose:1.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+
+    //Default Implementation
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0"
     implementation "androidx.navigation:navigation-compose:2.5.0-beta01"
     implementation 'androidx.compose.runtime:runtime-livedata:1.2.0-alpha08'
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
-
     implementation "com.google.accompanist:accompanist-pager:0.24.7-alpha"
 
-    kapt "androidx.room:room-compiler:$room_version"
-
-    testImplementation "androidx.room:room-testing:$room_version"
 
     // multi dimensional array (Grid)
     implementation "org.jetbrains.kotlinx:multik-api:0.1.1"
@@ -141,33 +143,34 @@ dependencies {
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
-    // UI
+    // Dependency for Ui components in UI
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
-
     implementation "com.google.android.material:material:$material_version"
-
-    def nav_version = "2.4.2"
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
-    // Navigation
+    // dependency for Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
-    // Utils
+    // dependency for utils implementation
     implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp_version"
 
-    // SplashScreen compat library
+    // dependency for SplashScreen compat library
     implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
 
-    // place holder
+    // dependency for place holder
     implementation "com.google.accompanist:accompanist-placeholder:$placeholder_version"
 
-    // Testing Dependencies
+    // Dependencies for testing
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+
+    //For compose dependencies
+    debugImplementation "androidx.compose.ui:ui-tooling:1.1.1"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.1.1"
 }
