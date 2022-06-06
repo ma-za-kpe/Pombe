@@ -13,5 +13,9 @@ android {
 dependencies {
     // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "com.jakewharton.timber:timber:$timber_version"
+
+    // Testing Dependencies
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
 }
 

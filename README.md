@@ -47,7 +47,8 @@ The [`DrinkRepository`][drinkrepository] class is responsible for handling the d
  - Each cocktail is fetched using [OkHttp][okhttp], and then parsed using [Gson][gson].
  - The parsed entities are then added to the local data stores: [`RoomCache`][roomcache], for storage in the local [Room][room] [`PombeDatabase`][db] database.
 
-## Contributions
+## Contributions (document coming shortly)
+- Get API key here: https://www.thecocktaildb.com/api.php
 - Fork, clone the app.
   - create a local.properties file
   - add apiKey = <YOUR_API_KEY> in the file
