@@ -32,7 +32,7 @@ android {
                         "room.expandProjection":"true"]
             }
         }
-        buildConfigField "String", "API_KEY",localProperties["apiKey"]
+        buildConfigField "String", "API_KEY",localProperties['apiKey']
         vectorDrawables {
             useSupportLibrary true
         }
