@@ -134,7 +134,8 @@ fun AppContent() {
 private fun NavGraphBuilder.pombeNavGraph(
     navController: NavHostController,
     upPress: () -> Unit,
-    onItemClick: (String, NavBackStackEntry) -> Unit, ) {
+    onItemClick: (String, NavBackStackEntry) -> Unit,
+) {
     navigation(
         route = MainDestinations.MAIN_ROUTE.title,
         startDestination = BottomMainScreens.HomeScreen.route

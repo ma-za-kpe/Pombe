@@ -14,6 +14,7 @@ interface Cache {
     suspend fun storePopularDrinks(drinks: List<CachedPopular>)
 
     fun getLatestDrinks(): Flowable<List<CachedLatest>>
+    fun loadSingleLatestDrink(id: String): Flowable<CachedLatest>
     suspend fun storeLatestDrinks(drinks: List<CachedLatest>)
 
     fun getAllCategory(): Flowable<List<CategoryDbModel>>
