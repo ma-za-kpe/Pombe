@@ -2,9 +2,10 @@ package com.maku.pombe.ui.screens
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -14,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -27,15 +27,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.google.accompanist.placeholder.placeholder
-import com.maku.logging.Logger
 import com.maku.pombe.R
+import com.maku.pombe.common.domain.model.shared.Ingredients
 import com.maku.pombe.latestfeature.LatestDrinkEvent
 import com.maku.pombe.latestfeature.LatestDrinkViewState
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
@@ -65,6 +63,8 @@ fun DrinkDetail(state: State<LatestDrinkViewState?>) {
 fun Body(scroll: ScrollState, state: State<LatestDrinkViewState?>) {
   val context = LocalContext.current
   val drink = state.value!!.drinkById
+  val tags: List<String> = drink.strTags.split(",").map { it.trim() }
+
   Column(
       modifier = Modifier.verticalScroll(scroll)
     ) {
@@ -76,7 +76,7 @@ fun Body(scroll: ScrollState, state: State<LatestDrinkViewState?>) {
             .padding(horizontal = 4.dp)
 
         ) {
-          val (image, name) = createRefs()
+          val (image, name, tag, mi) = createRefs()
           AsyncImage(
             model = ImageRequest.Builder(context)
               .data(drink.photo)
@@ -110,7 +110,91 @@ fun Body(scroll: ScrollState, state: State<LatestDrinkViewState?>) {
             overflow = TextOverflow.Ellipsis,
             maxLines = 1
           )
+            LazyRow(
+              Modifier.constrainAs(tag) {
+                top.linkTo(name.bottom,8.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                width = Dimension.wrapContent
+              }
+            ) {
+              item {
+                Text(
+                  text = "TAGS: ",
+                  style = MaterialTheme.typography.subtitle1,
+                )
+              }
+              items(tags){
+                if (it.isNotEmpty()){
+                  TagsChip(it)
+                } else {
+                  Text(
+                    text = "No TAGS AVAILABLE ",
+                    style = MaterialTheme.typography.subtitle1,
+                  )
+                }
+              }
+            }
+//          MeasureIngredients(
+//            Modifier.constrainAs(mi) {
+//              top.linkTo(tag.bottom,8.dp)
+//              start.linkTo(parent.start)
+//              end.linkTo(parent.end)
+//              width = Dimension.wrapContent
+//            },
+//            drink.details.ingredients
+//          )
         }
+      }
+    }
+  }
+}
+
+@Composable
+fun TagsChip(tag: String) {
+  val color = MaterialTheme.colors
+  Surface(
+    modifier = Modifier.padding(end = 8.dp)
+      .clip(RoundedCornerShape(20.dp)),
+    elevation = 8.dp,
+    shape = MaterialTheme.shapes.small,
+    color = color.primary,
+  ) {
+    Box{
+      Text(
+        text = tag,
+        style = MaterialTheme.typography.caption,
+        maxLines = 1,
+        modifier = Modifier
+          .padding(
+            horizontal = 20.dp,
+            vertical = 6.dp),
+        color = Color.White
+      )
+    }
+  }
+}
+
+@Composable
+fun MeasureIngredients(modifier: Modifier, ingredients: List<Ingredients>) {
+  LazyColumn() {
+    item {
+      Text(
+        text = "Ingredients",
+        style = MaterialTheme.typography.subtitle1,
+      )
+    }
+    items(ingredients){
+      if (it.toString().isNotEmpty()){
+        Text(
+          text = it.toString(),
+          style = MaterialTheme.typography.subtitle1,
+        )
+      } else {
+        Text(
+          text = "No Ingredients AVAILABLE ",
+          style = MaterialTheme.typography.subtitle1,
+        )
       }
     }
   }

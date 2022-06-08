@@ -7,7 +7,7 @@ import com.maku.pombe.common.presentation.model.UiDrinks
 data class UILatestDrink(
     override val id: String,
     override val name: String,
-    override val alcoholic: String?,
+    override val alcoholic: String,
     override val category: String,
     override val photo: String,
 ) : UiDrinks
@@ -15,10 +15,10 @@ data class UILatestDrink(
 data class UILatestDrinkDetails(
     override val id: String,
     override val name: String,
-    override val alcoholic: String?,
+    override val alcoholic: String,
     override val category: String,
     override val photo: String,
-    override val strCreativeCommonsConfirmed: String?,
+    override val strCreativeCommonsConfirmed: String,
     override val strDrink: String,
     override val strDrinkAlternate: String,
     override val strDrinkThumb: String,
