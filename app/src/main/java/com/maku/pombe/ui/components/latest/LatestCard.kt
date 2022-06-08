@@ -29,7 +29,6 @@ fun LatestCard(
 ) {
     val colors = MaterialTheme.colors
     val context = LocalContext.current
-    val appState = rememberPombeAppState()
 
     val modifier = Modifier
         Card(

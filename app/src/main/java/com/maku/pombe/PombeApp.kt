@@ -42,7 +42,6 @@ fun AppContent() {
 
     val appState = rememberPombeAppState()
 
-    com.maku.logging.Logger.d("top bar state pombe app ${appState.searchViewModel}")
     Crossfade(targetState = MainRouter.currentScreen) { screenState: MutableState<BottomMainScreens> ->
         Scaffold(
             topBar = {
@@ -134,7 +133,8 @@ fun AppContent() {
 private fun NavGraphBuilder.pombeNavGraph(
     navController: NavHostController,
     upPress: () -> Unit,
-    onItemClick: (String, NavBackStackEntry) -> Unit, ) {
+    onItemClick: (String, NavBackStackEntry) -> Unit,
+) {
     navigation(
         route = MainDestinations.MAIN_ROUTE.title,
         startDestination = BottomMainScreens.HomeScreen.route
@@ -149,7 +149,7 @@ private fun NavGraphBuilder.pombeNavGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val drinkId = arguments.getString(MainDestinations.DRINK_ID_KEY.title)
-        DrinkDetail(drinkId.toString(), upPress)
+        DrinkDetailScreen(drinkId.toString(), upPress)
     }
 }
 

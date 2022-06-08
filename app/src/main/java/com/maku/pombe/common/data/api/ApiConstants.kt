@@ -7,5 +7,6 @@ object ApiConstants {
 }
 
 object ApiParameters{
-  const val KEY = BuildConfig.API_KEY
+  @JvmField
+  val KEY = BuildConfig.API_KEY
 }

@@ -85,6 +85,10 @@ class PombeRepository @Inject constructor(
         cache.storeLatestDrinks(latestPombe)
     }
 
+    override fun loadSingleLatestDrink(id: String): Flowable<CachedLatest> {
+        return cache.loadSingleLatestDrink(id)
+    }
+
     override fun getAllCategory(): Flowable<List<CategoryModel>> {
         return cache.getAllCategory()
             .distinctUntilChanged() //  This is important because it ensures only events with new
