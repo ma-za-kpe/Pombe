@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b3d64a68cdaa650f6424bf7104aa5447",
+    "identityHash": "8687cf40c7ca1183e394e1453a98884e",
     "entities": [
       {
         "tableName": "popular",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idDrink` TEXT NOT NULL, `dateModified` TEXT NOT NULL, `strAlcoholic` TEXT NOT NULL, `strCategory` TEXT NOT NULL, `strCreativeCommonsConfirmed` TEXT NOT NULL, `strDrink` TEXT NOT NULL, `strDrinkAlternate` TEXT NOT NULL, `strDrinkThumb` TEXT NOT NULL, `strGlass` TEXT NOT NULL, `strIBA` TEXT NOT NULL, `strImageAttribution` TEXT NOT NULL, `strImageSource` TEXT NOT NULL, `strIngredient1` TEXT NOT NULL, `strIngredient10` TEXT NOT NULL, `strIngredient11` TEXT NOT NULL, `strIngredient12` TEXT NOT NULL, `strIngredient13` TEXT NOT NULL, `strIngredient14` TEXT NOT NULL, `strIngredient15` TEXT NOT NULL, `strIngredient2` TEXT NOT NULL, `strIngredient3` TEXT NOT NULL, `strIngredient4` TEXT NOT NULL, `strIngredient5` TEXT NOT NULL, `strIngredient6` TEXT NOT NULL, `strIngredient7` TEXT NOT NULL, `strIngredient8` TEXT NOT NULL, `strIngredient9` TEXT NOT NULL, `strInstructions` TEXT NOT NULL, `strInstructionsDE` TEXT NOT NULL, `strInstructionsES` TEXT NOT NULL, `strInstructionsFR` TEXT NOT NULL, `strInstructionsIT` TEXT NOT NULL, `strInstructionsZHHANS` TEXT NOT NULL, `strInstructionsZHHANT` TEXT NOT NULL, `strMeasure1` TEXT NOT NULL, `strMeasure10` TEXT NOT NULL, `strMeasure11` TEXT NOT NULL, `strMeasure12` TEXT NOT NULL, `strMeasure13` TEXT NOT NULL, `strMeasure14` TEXT NOT NULL, `strMeasure15` TEXT NOT NULL, `strMeasure2` TEXT NOT NULL, `strMeasure3` TEXT NOT NULL, `strMeasure4` TEXT NOT NULL, `strMeasure5` TEXT NOT NULL, `strMeasure6` TEXT NOT NULL, `strMeasure7` TEXT NOT NULL, `strMeasure8` TEXT NOT NULL, `strMeasure9` TEXT NOT NULL, `strTags` TEXT NOT NULL, `strVideo` TEXT NOT NULL, PRIMARY KEY(`idDrink`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idDrink` TEXT NOT NULL, `dateModified` TEXT NOT NULL, `strAlcoholic` TEXT NOT NULL, `strCategory` TEXT NOT NULL, `strCreativeCommonsConfirmed` TEXT NOT NULL, `strDrink` TEXT NOT NULL, `strDrinkAlternate` TEXT NOT NULL, `strDrinkThumb` TEXT NOT NULL, `strGlass` TEXT NOT NULL, `strIBA` TEXT NOT NULL, `strImageAttribution` TEXT NOT NULL, `strImageSource` TEXT NOT NULL, `ingredients` TEXT NOT NULL, `instructions` TEXT NOT NULL, `measures` TEXT NOT NULL, `strTags` TEXT NOT NULL, `strVideo` TEXT NOT NULL, PRIMARY KEY(`idDrink`))",
         "fields": [
           {
             "fieldPath": "idDrink",
@@ -81,224 +81,20 @@
             "notNull": true
           },
           {
-            "fieldPath": "strIngredient1",
-            "columnName": "strIngredient1",
+            "fieldPath": "ingredients",
+            "columnName": "ingredients",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "strIngredient10",
-            "columnName": "strIngredient10",
+            "fieldPath": "instructions",
+            "columnName": "instructions",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "strIngredient11",
-            "columnName": "strIngredient11",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient12",
-            "columnName": "strIngredient12",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient13",
-            "columnName": "strIngredient13",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient14",
-            "columnName": "strIngredient14",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient15",
-            "columnName": "strIngredient15",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient2",
-            "columnName": "strIngredient2",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient3",
-            "columnName": "strIngredient3",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient4",
-            "columnName": "strIngredient4",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient5",
-            "columnName": "strIngredient5",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient6",
-            "columnName": "strIngredient6",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient7",
-            "columnName": "strIngredient7",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient8",
-            "columnName": "strIngredient8",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient9",
-            "columnName": "strIngredient9",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructions",
-            "columnName": "strInstructions",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsDE",
-            "columnName": "strInstructionsDE",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsES",
-            "columnName": "strInstructionsES",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsFR",
-            "columnName": "strInstructionsFR",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsIT",
-            "columnName": "strInstructionsIT",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsZHHANS",
-            "columnName": "strInstructionsZHHANS",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsZHHANT",
-            "columnName": "strInstructionsZHHANT",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure1",
-            "columnName": "strMeasure1",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure10",
-            "columnName": "strMeasure10",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure11",
-            "columnName": "strMeasure11",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure12",
-            "columnName": "strMeasure12",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure13",
-            "columnName": "strMeasure13",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure14",
-            "columnName": "strMeasure14",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure15",
-            "columnName": "strMeasure15",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure2",
-            "columnName": "strMeasure2",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure3",
-            "columnName": "strMeasure3",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure4",
-            "columnName": "strMeasure4",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure5",
-            "columnName": "strMeasure5",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure6",
-            "columnName": "strMeasure6",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure7",
-            "columnName": "strMeasure7",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure8",
-            "columnName": "strMeasure8",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure9",
-            "columnName": "strMeasure9",
+            "fieldPath": "measures",
+            "columnName": "measures",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -326,7 +122,7 @@
       },
       {
         "tableName": "latest",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idDrink` TEXT NOT NULL, `dateModified` TEXT NOT NULL, `strAlcoholic` TEXT NOT NULL, `strCategory` TEXT NOT NULL, `strCreativeCommonsConfirmed` TEXT NOT NULL, `strDrink` TEXT NOT NULL, `strDrinkAlternate` TEXT NOT NULL, `strDrinkThumb` TEXT NOT NULL, `strGlass` TEXT NOT NULL, `strIBA` TEXT NOT NULL, `strImageAttribution` TEXT NOT NULL, `strImageSource` TEXT NOT NULL, `strIngredient1` TEXT NOT NULL, `strIngredient10` TEXT NOT NULL, `strIngredient11` TEXT NOT NULL, `strIngredient12` TEXT NOT NULL, `strIngredient13` TEXT NOT NULL, `strIngredient14` TEXT NOT NULL, `strIngredient15` TEXT NOT NULL, `strIngredient2` TEXT NOT NULL, `strIngredient3` TEXT NOT NULL, `strIngredient4` TEXT NOT NULL, `strIngredient5` TEXT NOT NULL, `strIngredient6` TEXT NOT NULL, `strIngredient7` TEXT NOT NULL, `strIngredient8` TEXT NOT NULL, `strIngredient9` TEXT NOT NULL, `strInstructions` TEXT NOT NULL, `strInstructionsDE` TEXT NOT NULL, `strInstructionsES` TEXT NOT NULL, `strInstructionsFR` TEXT NOT NULL, `strInstructionsIT` TEXT NOT NULL, `strInstructionsZHHANS` TEXT NOT NULL, `strInstructionsZHHANT` TEXT NOT NULL, `strMeasure1` TEXT NOT NULL, `strMeasure10` TEXT NOT NULL, `strMeasure11` TEXT NOT NULL, `strMeasure12` TEXT NOT NULL, `strMeasure13` TEXT NOT NULL, `strMeasure14` TEXT NOT NULL, `strMeasure15` TEXT NOT NULL, `strMeasure2` TEXT NOT NULL, `strMeasure3` TEXT NOT NULL, `strMeasure4` TEXT NOT NULL, `strMeasure5` TEXT NOT NULL, `strMeasure6` TEXT NOT NULL, `strMeasure7` TEXT NOT NULL, `strMeasure8` TEXT NOT NULL, `strMeasure9` TEXT NOT NULL, `strTags` TEXT NOT NULL, `strVideo` TEXT NOT NULL, PRIMARY KEY(`idDrink`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idDrink` TEXT NOT NULL, `dateModified` TEXT NOT NULL, `strAlcoholic` TEXT NOT NULL, `strCategory` TEXT NOT NULL, `strCreativeCommonsConfirmed` TEXT NOT NULL, `strDrink` TEXT NOT NULL, `strDrinkAlternate` TEXT NOT NULL, `strDrinkThumb` TEXT NOT NULL, `strGlass` TEXT NOT NULL, `strIBA` TEXT NOT NULL, `strImageAttribution` TEXT NOT NULL, `strImageSource` TEXT NOT NULL, `ingredients` TEXT NOT NULL, `instructions` TEXT NOT NULL, `measures` TEXT NOT NULL, `strTags` TEXT NOT NULL, `strVideo` TEXT NOT NULL, PRIMARY KEY(`idDrink`))",
         "fields": [
           {
             "fieldPath": "idDrink",
@@ -401,224 +197,20 @@
             "notNull": true
           },
           {
-            "fieldPath": "strIngredient1",
-            "columnName": "strIngredient1",
+            "fieldPath": "ingredients",
+            "columnName": "ingredients",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "strIngredient10",
-            "columnName": "strIngredient10",
+            "fieldPath": "instructions",
+            "columnName": "instructions",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "strIngredient11",
-            "columnName": "strIngredient11",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient12",
-            "columnName": "strIngredient12",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient13",
-            "columnName": "strIngredient13",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient14",
-            "columnName": "strIngredient14",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient15",
-            "columnName": "strIngredient15",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient2",
-            "columnName": "strIngredient2",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient3",
-            "columnName": "strIngredient3",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient4",
-            "columnName": "strIngredient4",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient5",
-            "columnName": "strIngredient5",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient6",
-            "columnName": "strIngredient6",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient7",
-            "columnName": "strIngredient7",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient8",
-            "columnName": "strIngredient8",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strIngredient9",
-            "columnName": "strIngredient9",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructions",
-            "columnName": "strInstructions",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsDE",
-            "columnName": "strInstructionsDE",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsES",
-            "columnName": "strInstructionsES",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsFR",
-            "columnName": "strInstructionsFR",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsIT",
-            "columnName": "strInstructionsIT",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsZHHANS",
-            "columnName": "strInstructionsZHHANS",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strInstructionsZHHANT",
-            "columnName": "strInstructionsZHHANT",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure1",
-            "columnName": "strMeasure1",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure10",
-            "columnName": "strMeasure10",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure11",
-            "columnName": "strMeasure11",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure12",
-            "columnName": "strMeasure12",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure13",
-            "columnName": "strMeasure13",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure14",
-            "columnName": "strMeasure14",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure15",
-            "columnName": "strMeasure15",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure2",
-            "columnName": "strMeasure2",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure3",
-            "columnName": "strMeasure3",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure4",
-            "columnName": "strMeasure4",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure5",
-            "columnName": "strMeasure5",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure6",
-            "columnName": "strMeasure6",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure7",
-            "columnName": "strMeasure7",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure8",
-            "columnName": "strMeasure8",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "strMeasure9",
-            "columnName": "strMeasure9",
+            "fieldPath": "measures",
+            "columnName": "measures",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -674,7 +266,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b3d64a68cdaa650f6424bf7104aa5447')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8687cf40c7ca1183e394e1453a98884e')"
     ]
   }
 }

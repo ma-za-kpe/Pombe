@@ -5,14 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maku.logging.Logger
+import com.maku.pombe.common.data.cache.model.cachedLatest.CachedLatest
 import com.maku.pombe.common.domain.model.NetworkException
 import com.maku.pombe.common.domain.model.NetworkUnavailableException
 import com.maku.pombe.common.domain.model.NoDrinksException
 import com.maku.pombe.common.domain.model.latest.LatestDrink
+import com.maku.pombe.common.domain.model.shared.Details
+import com.maku.pombe.common.domain.model.shared.Ingredients
 import com.maku.pombe.common.presentation.Event
+import com.maku.pombe.common.presentation.model.latest.UILatestDrinkDetails
+import com.maku.pombe.common.presentation.model.mappers.UiLatestDrinkDetailsMapper
 import com.maku.pombe.common.presentation.model.mappers.UiLatestDrinkMapper
-import com.maku.pombe.common.utils.DispatchersProvider
 import com.maku.pombe.common.utils.createExceptionHandler
+import com.maku.pombe.latestfeature.domain.usecases.GetLatestDrinkById
 import com.maku.pombe.latestfeature.domain.usecases.GetLatestDrinks
 import com.maku.pombe.latestfeature.domain.usecases.RequestLatestDrinksList
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,9 +30,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LatestFragmentViewModel @Inject constructor(
+    private val getLatestDrinkById: GetLatestDrinkById,
     private val getLatestDrinks: GetLatestDrinks,
     private val requestLatestDrinksList: RequestLatestDrinksList,
     private val uiLatestDrinkMapper: UiLatestDrinkMapper,
+    private val uiLatestDrinkDetailsMapper: UiLatestDrinkDetailsMapper,
     private val compositeDisposable: CompositeDisposable
 ): ViewModel() {
 
@@ -50,7 +57,6 @@ class LatestFragmentViewModel @Inject constructor(
 
     private fun onNewPombeList(drink: List<LatestDrink>) {
         _state.value = state.value!!.copy( loading = true)
-        Logger.d("vm onNewPombeList: ${drink.size}")
 
             val latestDrinks = drink.map { uiLatestDrinkMapper.mapToView(it) }
             // TODO: add updates at value while inserting into room db
@@ -65,11 +71,30 @@ class LatestFragmentViewModel @Inject constructor(
             _state.value = state.value!!.copy( loading = false, drinks = updatedList)
     }
 
-    fun onEvent(event: LatestDrinkEvent) {
+    fun onEvent(event: LatestDrinkEvent, id: String = "") { // id is optional
         when(event) {
             is LatestDrinkEvent.RequestLatestDrinksList ->
                 loadLatestDrinks()
+
+            is LatestDrinkEvent.RequestLatestDrinkById ->
+                loadLatestDrinkById(id)
         }
+    }
+
+    private fun loadLatestDrinkById(id: String) {
+        getLatestDrinkById(id)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { onDrinkById(it) },
+                { onFailure(it) }
+            )
+            .addTo(compositeDisposable)
+    }
+
+    private fun onDrinkById(drink: CachedLatest?) {
+        _state.value = state.value!!.copy( loading = true)
+        val drinkById =  uiLatestDrinkDetailsMapper.mapToView(drink!!)
+        _state.value = state.value!!.copy( loading = false, drinkById = drinkById)
     }
 
     private fun loadLatestDrinks() {
@@ -79,7 +104,6 @@ class LatestFragmentViewModel @Inject constructor(
     }
 
     private fun loadDrinks() {
-        Logger.d("vm loadDrinks:")
 
         _state.value = state.value!!.copy( loading = true)
         val errorMessage = "Failed to fetch pombes"

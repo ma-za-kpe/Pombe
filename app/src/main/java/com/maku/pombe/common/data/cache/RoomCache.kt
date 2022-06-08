@@ -30,6 +30,10 @@ class RoomCache @Inject constructor(
         return latestDao.getAllLatestDrinks()
     }
 
+    override fun loadSingleLatestDrink(id: String): Flowable<CachedLatest> {
+        return latestDao.loadSingleLatestDrink(id)
+    }
+
     override suspend fun storeLatestDrinks(drinks: List<CachedLatest>) {
         return latestDao.insertLatestDrinks(drinks)
     }

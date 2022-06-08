@@ -6,7 +6,6 @@ import com.maku.pombe.common.domain.model.shared.Details
 import com.maku.pombe.common.domain.model.shared.Ingredients
 import com.maku.pombe.common.domain.model.shared.Instructions
 import com.maku.pombe.common.domain.model.shared.Measures
-import com.maku.pombe.common.utils.DateTimeUtils
 import javax.inject.Inject
 
 class ApiLatestDrinkMapper @Inject constructor(
@@ -47,7 +46,7 @@ class ApiLatestDrinkMapper @Inject constructor(
                 apiEntity.strIngredient9,
                 apiEntity.strIngredient10,
                 apiEntity.strIngredient11,
-                apiEntity.strIngredient12, 
+                apiEntity.strIngredient12,
                 apiEntity.strIngredient13,
                 apiEntity.strIngredient14,
                 apiEntity.strIngredient15
@@ -98,23 +97,25 @@ class ApiLatestDrinkMapper @Inject constructor(
         strMeasure13: String?,
         strMeasure14: String?,
         strMeasure15: String?
-    ): Measures {
-        return Measures(
-            strMeasure1 = strMeasure1.orEmpty(),
-            strMeasure2 = strMeasure2.orEmpty(),
-            strMeasure3 = strMeasure3.orEmpty(),
-            strMeasure4 = strMeasure4.orEmpty(),
-            strMeasure5 = strMeasure5.orEmpty(),
-            strMeasure6 = strMeasure6.orEmpty(),
-            strMeasure7 = strMeasure7.orEmpty(),
-            strMeasure8 = strMeasure8.orEmpty(),
-            strMeasure9 = strMeasure9.orEmpty(),
-            strMeasure10 = strMeasure10.orEmpty(),
-            strMeasure11 = strMeasure11.orEmpty(),
-            strMeasure12 = strMeasure12.orEmpty(),
-            strMeasure13 = strMeasure13.orEmpty(),
-            strMeasure14 = strMeasure14.orEmpty(),
-            strMeasure15 = strMeasure15.orEmpty(),
+    ): List<Measures> {
+        return listOf(
+            Measures(
+                strMeasure1 = strMeasure1.orEmpty(),
+                strMeasure2 = strMeasure2.orEmpty(),
+                strMeasure3 = strMeasure3.orEmpty(),
+                strMeasure4 = strMeasure4.orEmpty(),
+                strMeasure5 = strMeasure5.orEmpty(),
+                strMeasure6 = strMeasure6.orEmpty(),
+                strMeasure7 = strMeasure7.orEmpty(),
+                strMeasure8 = strMeasure8.orEmpty(),
+                strMeasure9 = strMeasure9.orEmpty(),
+                strMeasure10 = strMeasure10.orEmpty(),
+                strMeasure11 = strMeasure11.orEmpty(),
+                strMeasure12 = strMeasure12.orEmpty(),
+                strMeasure13 = strMeasure13.orEmpty(),
+                strMeasure14 = strMeasure14.orEmpty(),
+                strMeasure15 = strMeasure15.orEmpty(),
+            )
         )
     }
 
@@ -126,15 +127,17 @@ class ApiLatestDrinkMapper @Inject constructor(
         strInstructionsIT: String?,
         strInstructionsZHHANS: String?,
         strInstructionsZHHANT: String?
-    ): Instructions {
-        return Instructions(
-            strInstructions = strInstructions.orEmpty(),
-            strInstructionsDE = strInstructionsDE.orEmpty(),
-            strInstructionsES = strInstructionsES.orEmpty(),
-            strInstructionsFR = strInstructionsFR.orEmpty(),
-            strInstructionsIT = strInstructionsIT.orEmpty(),
-            strInstructionsZHHANS = strInstructionsZHHANS.orEmpty(),
-            strInstructionsZHHANT = strInstructionsZHHANT.orEmpty()
+    ): List<Instructions> {
+        return listOf(
+            Instructions(
+                strInstructions = strInstructions.orEmpty(),
+                strInstructionsDE = strInstructionsDE.orEmpty(),
+                strInstructionsES = strInstructionsES.orEmpty(),
+                strInstructionsFR = strInstructionsFR.orEmpty(),
+                strInstructionsIT = strInstructionsIT.orEmpty(),
+                strInstructionsZHHANS = strInstructionsZHHANS.orEmpty(),
+                strInstructionsZHHANT = strInstructionsZHHANT.orEmpty()
+            )
         )
     }
 
@@ -154,24 +157,26 @@ class ApiLatestDrinkMapper @Inject constructor(
         strIngredient13: String?,
         strIngredient14: String?,
         strIngredient15: String?
-    ): Ingredients {
-        return Ingredients(
-            strIngredient1 = strIngredient1.orEmpty(),
-            strIngredient2 = strIngredient2.orEmpty(),
-            strIngredient3 = strIngredient3.orEmpty(),
-            strIngredient4 = strIngredient4.orEmpty(),
-            strIngredient5 = strIngredient5.orEmpty(),
-            strIngredient6 = strIngredient6.toString(),
-            strIngredient7 = strIngredient7.toString(),
-            strIngredient8 = strIngredient8.toString(),
-            strIngredient9 = strIngredient9.orEmpty(),
-            strIngredient10 = strIngredient10.orEmpty(),
-            strIngredient11 = strIngredient11.orEmpty(),
-            strIngredient12 = strIngredient12.orEmpty(),
-            strIngredient13 = strIngredient13.orEmpty(),
-            strIngredient14 = strIngredient14.orEmpty(),
-            strIngredient15= strIngredient15.orEmpty()
-            
+    ): List<Ingredients> {
+        return listOf(
+            Ingredients(
+                strIngredient1 = strIngredient1.orEmpty(),
+                strIngredient2 = strIngredient2.orEmpty(),
+                strIngredient3 = strIngredient3.orEmpty(),
+                strIngredient4 = strIngredient4.orEmpty(),
+                strIngredient5 = strIngredient5.orEmpty(),
+                strIngredient6 = strIngredient6.toString(),
+                strIngredient7 = strIngredient7.toString(),
+                strIngredient8 = strIngredient8.toString(),
+                strIngredient9 = strIngredient9.orEmpty(),
+                strIngredient10 = strIngredient10.orEmpty(),
+                strIngredient11 = strIngredient11.orEmpty(),
+                strIngredient12 = strIngredient12.orEmpty(),
+                strIngredient13 = strIngredient13.orEmpty(),
+                strIngredient14 = strIngredient14.orEmpty(),
+                strIngredient15= strIngredient15.orEmpty()
+
+            )
         )
     }
 

@@ -15,7 +15,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.maku.pombe.R
-import com.maku.pombe.ui.PombeAppState
+import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.ui.rememberPombeAppState
 
 fun NavGraphBuilder.addBottomMainGraph(
@@ -23,14 +23,13 @@ fun NavGraphBuilder.addBottomMainGraph(
     onItemClick: (String, NavBackStackEntry) -> Unit,
 ) {
     composable(BottomMainScreens.HomeScreen.route) { from ->
-        val appState = rememberPombeAppState()
-
         HomeScreen(navController) { id ->
             run {
                 // set state, then navigate
                 onItemClick(id, from)
             }
         }
+
     }
 
     composable(BottomMainScreens.FavoritesScreen.route) {

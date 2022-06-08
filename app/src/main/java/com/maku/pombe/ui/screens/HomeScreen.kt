@@ -33,15 +33,12 @@ import com.maku.pombe.category.DrinkCategoryViewState
 import com.maku.pombe.latestfeature.LatestDrinkViewState
 import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.popularfeature.presentation.PopularFragmentViewModel
-import com.maku.pombe.searchfeature.presentation.SearchViewModel
-import com.maku.pombe.ui.PombeAppState
 import com.maku.pombe.ui.components.latest.LatestCard
 import com.maku.pombe.ui.components.latest.LatestCardPlaceHolder
 import com.maku.pombe.ui.components.popular.PopularCardItem
 import com.maku.pombe.ui.components.popular.PopularCardItemPlaceHolder
 import com.maku.pombe.ui.components.search.PombeCategoryChip
 import com.maku.pombe.ui.components.search.PombeCategoryChipPlaceHolder
-import com.maku.pombe.ui.rememberPombeAppState
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
