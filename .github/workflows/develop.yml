@@ -14,7 +14,7 @@ jobs:
           API_KEY: ${{ secrets.API_KEY }}
         run: |
           touch local.properties
-          echo apiKey= $API_KEY >> local.properties
+          echo apiKey= "$API_KEY" >> local.properties
 
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
