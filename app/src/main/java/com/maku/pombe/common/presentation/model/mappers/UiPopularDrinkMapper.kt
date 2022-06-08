@@ -15,4 +15,3 @@ class UiPopularDrinkMapper @Inject constructor(): UiMapper<PopularDrink, UIPopul
     )
   }
 }
-

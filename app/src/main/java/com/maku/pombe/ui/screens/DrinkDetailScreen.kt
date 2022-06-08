@@ -64,7 +64,6 @@ fun Body(scroll: ScrollState, state: State<LatestDrinkViewState?>) {
   val context = LocalContext.current
   val drink = state.value!!.drinkById
   val tags: List<String> = drink.strTags.split(",").map { it.trim() }
-
   Column(
       modifier = Modifier.verticalScroll(scroll)
     ) {
@@ -76,7 +75,7 @@ fun Body(scroll: ScrollState, state: State<LatestDrinkViewState?>) {
             .padding(horizontal = 4.dp)
 
         ) {
-          val (image, name, tag, mi) = createRefs()
+          val (image, name, tag) = createRefs()
           AsyncImage(
             model = ImageRequest.Builder(context)
               .data(drink.photo)
@@ -94,7 +93,6 @@ fun Body(scroll: ScrollState, state: State<LatestDrinkViewState?>) {
               }
               .clip(RoundedCornerShape(20.dp)),
           )
-
           Text(
             text = drink.name,
             Modifier.constrainAs(name) {
@@ -148,6 +146,7 @@ fun Body(scroll: ScrollState, state: State<LatestDrinkViewState?>) {
       }
     }
   }
+
 }
 
 @Composable
