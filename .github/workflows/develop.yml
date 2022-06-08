@@ -12,7 +12,7 @@ jobs:
       - name: Create Local Properties file
         run: |
           touch local.properties
-          echo apiKey="1" >> local.properties
+          echo apiKey = 1 >> local.properties
 
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
