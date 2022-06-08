@@ -1,5 +1,6 @@
 package com.maku.pombe.ui.components.search
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
@@ -36,7 +37,8 @@ fun PombeCategoryChip(
         elevation = 8.dp,
         shape = MaterialTheme.shapes.small,
         color = if (selected) Color(0xFFFFA500) else color.primary,
-    ) {
+        border = if (selected) BorderStroke(1.dp, MaterialTheme.colors.secondary) else BorderStroke(1.dp, MaterialTheme.colors.primary),
+        ) {
         Box(
             modifier = Modifier
                 .toggleable(

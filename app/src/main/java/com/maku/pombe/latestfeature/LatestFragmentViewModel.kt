@@ -57,7 +57,6 @@ class LatestFragmentViewModel @Inject constructor(
 
     private fun onNewPombeList(drink: List<LatestDrink>) {
         _state.value = state.value!!.copy( loading = true)
-        Logger.d("vm onNewPombeList: ${drink.size}")
 
             val latestDrinks = drink.map { uiLatestDrinkMapper.mapToView(it) }
             // TODO: add updates at value while inserting into room db
@@ -73,8 +72,6 @@ class LatestFragmentViewModel @Inject constructor(
     }
 
     fun onEvent(event: LatestDrinkEvent, id: String = "") { // id is optional
-        Logger.d("by id id ${id}")
-
         when(event) {
             is LatestDrinkEvent.RequestLatestDrinksList ->
                 loadLatestDrinks()
@@ -97,21 +94,7 @@ class LatestFragmentViewModel @Inject constructor(
     private fun onDrinkById(drink: CachedLatest?) {
         _state.value = state.value!!.copy( loading = true)
         val drinkById =  uiLatestDrinkDetailsMapper.mapToView(drink!!)
-        Logger.d("by id ${drinkById.details.ingredients}")
-        //_state.value = state.value!!.copy( loading = false, drinkById = drinkById)
-
-        _state.value = state.value!!.copy( loading = false, drinkById = UILatestDrinkDetails(
-            drink.idDrink,
-            drink.strDrink,
-            drink.strAlcoholic,
-            drink.strCategory,
-            drink.strDrinkThumb,
-            Details(
-               drink.ingredients,
-               drink.instructions,
-               drink.measures
-            )
-        ))
+        _state.value = state.value!!.copy( loading = false, drinkById = drinkById)
     }
 
     private fun loadLatestDrinks() {
@@ -121,7 +104,6 @@ class LatestFragmentViewModel @Inject constructor(
     }
 
     private fun loadDrinks() {
-        Logger.d("vm loadDrinks:")
 
         _state.value = state.value!!.copy( loading = true)
         val errorMessage = "Failed to fetch pombes"

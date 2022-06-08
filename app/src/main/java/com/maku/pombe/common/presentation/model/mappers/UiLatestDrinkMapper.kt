@@ -31,11 +31,21 @@ class UiLatestDrinkDetailsMapper @Inject constructor(): UiMapper<CachedLatest, U
       alcoholic = input.strAlcoholic,
       category = input.strCategory,
       photo = input.strDrinkThumb,
-      details = Details(
-        input.ingredients,
-        input.instructions,
-        input.measures
-      )
+     strCreativeCommonsConfirmed = input.strCreativeCommonsConfirmed,
+     strDrink = input.strDrink,
+     strDrinkAlternate = input.strDrinkAlternate,
+     strDrinkThumb = input.strDrinkThumb,
+     strGlass = input.strGlass,
+     strIBA = input.strIBA,
+     strImageAttribution = input.strImageAttribution,
+     strImageSource = input.strImageSource,
+     strTags = input.strTags,
+     strVideo = input.strVideo,
+    details = Details(
+      input.ingredients,
+      input.instructions,
+      input.measures
+    ),
     )
   }
 }

@@ -13,12 +13,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.placeholder.placeholder
-import com.maku.logging.Logger
 import com.maku.pombe.common.presentation.model.latest.UILatestDrink
-import com.maku.pombe.latestfeature.LatestDrinkEvent
-import com.maku.pombe.latestfeature.LatestFragmentViewModel
 import com.maku.pombe.ui.components.common.CardBottom
 import com.maku.pombe.ui.components.common.CardImage
 import com.maku.pombe.ui.components.common.CategoryCard
@@ -33,8 +29,7 @@ fun LatestCard(
 ) {
     val colors = MaterialTheme.colors
     val context = LocalContext.current
-    val appState = rememberPombeAppState()
-    val latestFragmentViewModel = hiltViewModel<LatestFragmentViewModel>()
+
     val modifier = Modifier
         Card(
             elevation = 4.dp,
@@ -60,8 +55,6 @@ fun LatestCard(
                         }
                         .clickable {
                             onItemClick(drink.id)
-                            // TODO: find better way to send event to the vm
-                            latestFragmentViewModel.onEvent(LatestDrinkEvent.RequestLatestDrinkById, drink.id)
                         },
                     topEnd = 20.dp ,
                     topStart = 20.dp,
