@@ -10,6 +10,8 @@ data class LatestDrinkViewState(
     val loading: Boolean = true,
     val drinkById: UILatestDrinkDetails = UILatestDrinkDetails(
         "","","", "","",
+        "","","", "","",
+        "","","", "","",
         Details(emptyList(), emptyList(), emptyList())
     ),
     val drinks: List<UILatestDrink> = emptyList(),

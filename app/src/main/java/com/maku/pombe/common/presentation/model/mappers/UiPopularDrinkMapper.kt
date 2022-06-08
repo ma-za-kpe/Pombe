@@ -12,7 +12,7 @@ class UiPopularDrinkMapper @Inject constructor(): UiMapper<PopularDrink, UIPopul
     return UIPopularDrink(
         id = input.idDrink,
         name = input.strDrink,
-        alcoholic = input.strAlcoholic,
+        alcoholic = input.strAlcoholic.toString(),
         category = input.strCategory,
         photo = input.strDrinkThumb,
     )
@@ -27,10 +27,21 @@ class UiPopularDrinkDetailsMapper @Inject constructor(): UiMapper<CachedPopular,
       alcoholic = input.strAlcoholic,
       category = input.strCategory,
       photo = input.strDrinkThumb,
+      strCreativeCommonsConfirmed = input.strCreativeCommonsConfirmed,
+      strDrink = input.strDrink,
+      strDrinkAlternate = input.strDrinkAlternate,
+      strDrinkThumb = input.strDrinkThumb,
+      strGlass = input.strGlass,
+      strIBA = input.strIBA,
+      strImageAttribution = input.strImageAttribution,
+      strImageSource = input.strImageSource,
+      strTags = input.strTags,
+      strVideo = input.strVideo,
       details = Details(
         input.ingredients,
         input.instructions,
         input.measures
+      ), 
       )
     )
   }
