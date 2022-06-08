@@ -170,7 +170,21 @@ fun Body(scroll: ScrollState, state: State<LatestDrinkViewState?>) {
 //            },
 //            drink.details.ingredients
 //          )
-
+          Text(
+            text = drink.name,
+            Modifier.constrainAs(name) {
+              top.linkTo(image.bottom,8.dp)
+              start.linkTo(image.start)
+              end.linkTo(image.end)
+              width = Dimension.wrapContent
+            },
+            style = MaterialTheme.typography.h4,
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            textAlign= TextAlign.Start,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
+          )
         }
       }
     }

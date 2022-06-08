@@ -41,7 +41,7 @@ class UiPopularDrinkDetailsMapper @Inject constructor(): UiMapper<CachedPopular,
         input.ingredients,
         input.instructions,
         input.measures
-      ),
+      ), 
       )
     )
   }

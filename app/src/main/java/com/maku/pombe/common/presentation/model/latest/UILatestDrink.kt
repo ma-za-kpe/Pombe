@@ -36,3 +36,4 @@ data class UILatestDrinkDetails(
 ) : UiDrinkDetails
 
 
+

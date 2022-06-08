@@ -20,6 +20,14 @@ interface UiDrinkDetails{
     val alcoholic: String?
     val category: String
     val photo: String
+}
+
+interface UiDrinkDetails{
+    val id: String
+    val name: String
+    val alcoholic: String?
+    val category: String
+    val photo: String
     val strCreativeCommonsConfirmed: String?
     val strDrink: String
     val strDrinkAlternate: String
