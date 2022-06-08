@@ -17,6 +17,10 @@ interface UiDrinkDetails{
     val category: String
     val photo: String
     val strCreativeCommonsConfirmed: String
+    val alcoholic: String?
+    val category: String
+    val photo: String
+    val strCreativeCommonsConfirmed: String?
     val strDrink: String
     val strDrinkAlternate: String
     val strDrinkThumb: String
