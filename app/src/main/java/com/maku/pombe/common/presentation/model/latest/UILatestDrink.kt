@@ -19,10 +19,6 @@ data class UILatestDrinkDetails(
     override val category: String,
     override val photo: String,
     override val strCreativeCommonsConfirmed: String,
-    override val alcoholic: String?,
-    override val category: String,
-    override val photo: String,
-    override val strCreativeCommonsConfirmed: String?,
     override val strDrink: String,
     override val strDrinkAlternate: String,
     override val strDrinkThumb: String,
@@ -34,5 +30,6 @@ data class UILatestDrinkDetails(
     override val strVideo: String,
     override val details: Details
 ) : UiDrinkDetails
+
 
 
