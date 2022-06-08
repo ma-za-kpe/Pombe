@@ -28,7 +28,5 @@ data class UIPopularDrinkDetails(
     override val strImageSource: String,
     override val strTags: String,
     override val strVideo: String,
-    override val alcoholic: String?,
-    override val category: String,
-    override val photo: String,
-): UiDrinks
+    override val details: Details
+) : UiDrinkDetails
