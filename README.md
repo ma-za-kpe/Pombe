@@ -1,7 +1,7 @@
 # Pombe App
 ![Pombe Video](./docs/vid.gif)
 
-Play store link coming soon. [Playstore]()
+Play store link coming soon. [Playstore](https://play.google.com/store/apps/details?id=com.maku.pombez)
 
 The previous version of the pombe app can be downloaded here [Playstore](https://play.google.com/store/apps/details?id=com.maku.pombe).
 
