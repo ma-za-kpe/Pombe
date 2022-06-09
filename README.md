@@ -1,6 +1,8 @@
 # Pombe App
 ![Pombe Video](./docs/vid.gif)
 
+Play store link coming soon. [Playstore]()
+
 The previous version of the pombe app can be downloaded here [Playstore](https://play.google.com/store/apps/details?id=com.maku.pombe).
 
 Pombe is a sample cocktail app, built with [Jetpack Compose][compose]. The goal of the app is to
