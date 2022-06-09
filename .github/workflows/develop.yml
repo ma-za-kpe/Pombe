@@ -10,9 +10,11 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Create Local Properties file
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
         run: |
           touch local.properties
-          echo apiKey="xxxxx" >> local.properties
+          echo apiKey= "$API_KEY" >> local.properties
 
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
