@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
+
 def localProperties = new Properties()
 localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
@@ -11,7 +12,7 @@ android {
     compileSdkVersion 32
 
     defaultConfig {
-        applicationId "com.maku.pombe"
+        applicationId "com.maku.pombez"
         minSdkVersion 26
         targetSdkVersion 32
         versionCode 1
