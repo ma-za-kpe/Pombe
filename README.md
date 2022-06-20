@@ -91,3 +91,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+ [event]:
+ [viewmodel]: https://developer.android.com/topic/libraries/architecture/viewmodel
+ [compose]: https://developer.android.com/jetpack/compose
+ [palette]: https://developer.android.com/reference/kotlin/androidx/palette/graphics/package-summary
+ [room]: https://developer.android.com/topic/libraries/architecture/room
+ [viewmodel]: https://developer.android.com/topic/libraries/architecture/viewmodel
+ [okhttp]: https://square.github.io/okhttp/
+ [coil]: https://coil-kt.github.io/coil/
+
