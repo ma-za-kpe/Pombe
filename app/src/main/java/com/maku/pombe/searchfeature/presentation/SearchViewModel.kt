@@ -12,6 +12,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.BehaviorSubject
+import java.util.logging.Logger
 import javax.inject.Inject
 
 @HiltViewModel
@@ -103,6 +104,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onFailure(throwable: Throwable) {
+        com.maku.logging.Logger.d("search error ${throwable.stackTrace}")
         _state.value = state.value!!.updateToHasFailure(throwable)
     }
 

@@ -1,6 +1,8 @@
 # Pombe App
 ![Pombe Video](./docs/vid.gif)
 
+Play store link coming soon. [Playstore](https://play.google.com/store/apps/details?id=com.maku.pombez)
+
 The previous version of the pombe app can be downloaded here [Playstore](https://play.google.com/store/apps/details?id=com.maku.pombe).
 
 Pombe is a sample cocktail app, built with [Jetpack Compose][compose]. The goal of the app is to
@@ -89,3 +91,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+ [event]:
+ [viewmodel]: https://developer.android.com/topic/libraries/architecture/viewmodel
+ [compose]: https://developer.android.com/jetpack/compose
+ [palette]: https://developer.android.com/reference/kotlin/androidx/palette/graphics/package-summary
+ [room]: https://developer.android.com/topic/libraries/architecture/room
+ [viewmodel]: https://developer.android.com/topic/libraries/architecture/viewmodel
+ [okhttp]: https://square.github.io/okhttp/
+ [coil]: https://coil-kt.github.io/coil/
+

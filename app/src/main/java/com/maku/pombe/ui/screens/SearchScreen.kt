@@ -40,10 +40,10 @@ private const val COLUMN_COUNT = 2
 private val GRID_SPACING = 8.dp
 
 @Composable
-fun SearchScreen(navController: NavHostController) {
-    val searchViewModel = hiltViewModel<SearchViewModel>()
+fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewModel) {
     prepareForSearch(searchViewModel)
     val state = searchViewModel.state.observeAsState()
+    Logger.d("search error screen ${state.value}")
     // TODO: handle atleast 2 events
     Surface(modifier = Modifier
         .padding(16.dp)) {
@@ -79,7 +79,7 @@ private fun HandleFailures(failure: Event<Throwable>?) {
 @Composable
 fun ObservePopularPombeGridScreenState(value: SearchViewState?) {
     if (value!!.noSearchQuery){
-        Text(text ="")
+        Text(text ="enter search query")
     } else {
         LazyVerticalGrid(
             columns = GridCells.Fixed(COLUMN_COUNT),
