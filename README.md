@@ -65,7 +65,7 @@ The [`DrinkRepository`][drinkrepository] class is responsible for handling the d
   - gradlew connectedAndroidTest
   - Always pul latest changes before attempting to make a PR
 - Please create your issue/feature branch from the develope branch. 
-- Make PR's to the develope branch
+- Make PR's to the develope branch. To effectively make PR's, please read this document [A guide to making neat PR's](https://github.com/oppia/oppia-android/wiki/Guidance-on-submitting-a-PR)
 
 ## License
 ```
