@@ -1,5 +1,6 @@
 # Contributing
 Thank you for taking the time to contribute to Pombe!
+Its important that you read this document, before making any PR's [A guide to making neat PR's](https://github.com/oppia/oppia-android/wiki/Guidance-on-submitting-a-PR)
 
 To contribute to the Pombe repository, you may find an existing issue or create a new issue. Afterwards, use the [Contribution Guidelines](#contribution-guidelines) to help get started on your contribution.
 
