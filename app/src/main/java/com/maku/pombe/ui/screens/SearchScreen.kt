@@ -41,7 +41,6 @@ private val GRID_SPACING = 8.dp
 
 @Composable
 fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewModel) {
-    // val searchViewModel = hiltViewModel<SearchViewModel>()
     prepareForSearch(searchViewModel)
     val state = searchViewModel.state.observeAsState()
     Logger.d("search error screen ${state.value}")
