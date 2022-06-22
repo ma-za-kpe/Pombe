@@ -124,6 +124,7 @@ fun AppContent() {
                     appState.navController,
                     upPress = appState::upPress,
                     onItemClick = appState::navigateToDrinkDetail,
+                    searchViewModel
                 )
             }
         }
@@ -134,6 +135,7 @@ private fun NavGraphBuilder.pombeNavGraph(
     navController: NavHostController,
     upPress: () -> Unit,
     onItemClick: (String, NavBackStackEntry) -> Unit,
+    searchViewModel: SearchViewModel,
 ) {
     navigation(
         route = MainDestinations.MAIN_ROUTE.title,
@@ -141,7 +143,7 @@ private fun NavGraphBuilder.pombeNavGraph(
     ) {
         addBottomMainGraph(navController, onItemClick)
     }
-    composable(MainDestinations.SEARCH.title) { SearchScreen(navController) }
+    composable(MainDestinations.SEARCH.title) { SearchScreen(navController, searchViewModel) }
 
     composable(
         "${MainDestinations.DRINK_DETAIL_ROUTE.title}/{${MainDestinations.DRINK_ID_KEY.title}}",
