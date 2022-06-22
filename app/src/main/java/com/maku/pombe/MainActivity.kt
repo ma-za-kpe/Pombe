@@ -23,6 +23,8 @@ class MainActivity : ComponentActivity() {
             PombeApp()
         }
 
+        println("13"+5+3)
+
         // TODO: find a better way of doing this: something like app start up and a side effect
         initData(latestFragmentViewModel, popularFragmentViewModel)
     }
